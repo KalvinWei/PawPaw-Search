@@ -1,0 +1,20 @@
+{
+  "name": "pawshome",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "scripts": {
+    "start": "node -r esm ./src/server.js",
+    "server": "npm run start",
+    "production": "cross-env NODE_ENV=production node -r esm ./src/server.js"
+  },
+  "author": "Group26",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "esm": "^3.2.25"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
+  }
+}
