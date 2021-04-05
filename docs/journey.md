@@ -11,4 +11,4 @@ Journey is a team diary to record what will be done and what has been done each 
 - [ ] define **pages**(static), **modules**(dynamic)  
      as per MUST-HAVE and SHOULD-HAVE features  - Kalvin, ?
 - [ ] design database schemas, and fabricate some data inside - ?
-- [ ] define APIs - ?,?
+- [ ] define APIs - Roy,?
