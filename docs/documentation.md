@@ -18,13 +18,38 @@ use the following details to connect to access **pawshomeDB** on Atlas( a mongoD
 - username: group26  
 - password: MITCS732
 ### Schemas
-users(...)  
-posts(...)
-
+- users (...)
+- posts (...)
 
 ***
-## Pages  
-Page and module design go here.
+## Pages & modules
+Page and module design go here.  
+```
+.
+|- Index.html
+|   |- Banner.js
+|   |   |- NavLinks.js
+|   |   |- UserLogin.js
+|   |       |- CreateAccount.js
+|   |- Dashboard.js
+|   |   |- MapView.js
+|   |- NewestPosts.js
+|       |- PostCard.js
+|- Posts.html
+|   |- SearchPosts.js
+|   |- Posts.js
+|      |- PostCard.js
+|- UserPage.html
+|   |- Profile.js
+|   |  |- MyPosts.js
+
+
+
+
+
+```
+
+
 
 ***
 ## API  
