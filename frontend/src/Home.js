@@ -1,11 +1,15 @@
-
+import Banner from './Banner/Banner'
+import Dashboard from './Dashboard/Dashboard'
+import NewestPosts from "./NewestPosts/NewestPosts";
 
 function Home() {
-  return (
-    <div>
-      <h1>Welcome to Paws Home!</h1>
-    </div>
-  );
+    return (
+        <div>
+            <Banner/>
+            <Dashboard/>
+            <NewestPosts/>
+        </div>
+    );
 }
 
 export default Home;
