@@ -5,6 +5,9 @@ Roy Li (zli786)
 Zhi Cui  
 Riffat Nourin
 
+## Project Kanban
+[on Trello](https://trello.com/b/Z21kdnrB/pawpaw-search)  
+[on Github Project](https://github.com/csdoris/Group-26-Cerise-Crab/projects/1)
 ## Project features
 Paws Home, a web service dedicated to lost pet searching.
 
