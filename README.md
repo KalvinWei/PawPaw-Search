@@ -3,7 +3,7 @@
 Kalvin Wei  
 Roy Li (zli786)  
 Zhi Cui
-Riffat Nourin
+
 
 ## Project features
 Paws Home, a web service dedicated to lost pet searching.
