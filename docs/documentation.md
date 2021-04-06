@@ -52,8 +52,9 @@ use the following details to connect to access **pawshomeDB** on Atlas( a mongoD
 - posts (...)
 
 ***
-## API - backend
+## API - backend  
 APIs, in server-side, defines (1) to which router a request goes  (2) how a router responds to client-side requests.  
+[More frequently modified version on Google Docs](https://docs.google.com/document/d/1NIykaM0rt8LgUMsJjzYl1RrtKgz9JzDZKKAjppfOePk/edit?usp=sharing)
 
 \#|fetch url|receive|send|description
 ---|---|---|---|---
@@ -69,8 +70,9 @@ B8|GET /posts/search |criteria, perPage, offset|posts, pageTotal|return perNum o
 
 ***
 ## Pages & Modules - frontend  
-Static Pages and dynamic modules, in the client-side, defines (1) the structure of web pages (2) where to route requests in client-side (3) request data from servers.
+Static Pages and dynamic modules, in the client-side, defines (1) the structure of web pages (2) where to route requests in client-side (3) request data from servers.   
+[More frequently modified version on Google Docs](https://docs.google.com/document/d/1NIykaM0rt8LgUMsJjzYl1RrtKgz9JzDZKKAjppfOePk/edit?usp=sharing)
 
 \#|http request url|module|receive|send|description
 ---|---|---|---|---|---
-F1|/, /index|index.js|
+F1|/, /index|index.js| | |
