@@ -55,16 +55,22 @@ use the following details to connect to access **pawshomeDB** on Atlas( a mongoD
 ## API - backend
 APIs, in server-side, defines (1) to which router a request goes  (2) how a router responds to client-side requests.  
 
-\#|request|receive|send|description
+\#|fetch url|receive|send|description
 ---|---|---|---|---
 B1|POST /session|username, password|isValidUser, user| validate username and password.
 B2|POST /user/new|user|isFailed, user|create new user
-B3|PUT /user/:id/update/|user|isFailed, user|update user profile
-B4|GET /posts/newest| |newestPosts|return a list of past 24 hours posts
-B5|GET /dashboard| |dashboard|the returned "dashboard" is a collection of statistics of this website
-
+B3|GET /user/:username|userID|user|get full user information of a user
+B4|PUT /user/:username/update/|user|isFailed, user|update user profile
+B5|GET /posts/newest| |newestPosts|return a list of past 24 hours posts
+B6|GET /dashboard| |dashboard|the returned "dashboard" is a collection of statistics of this website
+B7|GET /posts/ |perPage, offset|posts, pageTotal|return perNum posts from given offset, and the page count
+B8|GET /posts/search |criteria, perPage, offset|posts, pageTotal|return perNum of posts meeting the criteria from given offset, and the page count
 
 
 ***
 ## Pages & Modules - frontend  
 Static Pages and dynamic modules, in the client-side, defines (1) the structure of web pages (2) where to route requests in client-side (3) request data from servers.
+
+\#|http request url|module|receive|send|description
+---|---|---|---|---|---
+F1|/, /index|index.js|
