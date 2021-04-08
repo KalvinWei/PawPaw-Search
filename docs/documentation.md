@@ -44,9 +44,10 @@ Directories, files and their function.
 ***
 ## Database  
 use the following details to connect to access **pawshomeDB** on Atlas( a mongoDB instance on cloud).  
-- connection string: mongodb+srv://group26:<password>@cs732.pgo4d.mongodb.net/test
-- username: group26  
-- password: MITCS732
+- Compass connection string: mongodb+srv://group26:<password>@cs732.pgo4d.mongodb.net/test
+  - username: group26  
+  - password: MITCS732  
+- Application connection string: mongodb+srv://group26:MITCS732@cs732.pgo4d.mongodb.net/PawsHome?retryWrites=true&w=majority
 ### Schemas
 - users (...)
 - posts (...)
@@ -60,8 +61,8 @@ APIs, in server-side, defines (1) to which router a request goes  (2) how a rout
 ---|---|---|---|---
 B1|POST /session|username, password|isValidUser, user| validate username and password.
 B2|POST /user/new|user|isFailed, user|create new user
-B3|GET /user/:username|userID|user|get full user information of a user
-B4|PUT /user/:username/update/|user|isFailed, user|update user profile
+B3|GET /user/:username|username|user|get full user information of a user
+B4|PUT /user/:username|user|isFailed, user|update user profile
 B5|GET /posts/newest| |newestPosts|return a list of past 24 hours posts
 B6|GET /dashboard| |dashboard|the returned "dashboard" is a collection of statistics of this website
 B7|GET /posts/ |perPage, offset|posts, pageTotal|return perNum posts from given offset, and the page count

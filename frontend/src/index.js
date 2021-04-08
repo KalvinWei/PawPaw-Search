@@ -1,10 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Home from './Home';
+import PawsHome from './PawsHome';
+import {AppContextProvider} from "./ContextProvider";
 
 ReactDOM.render(
   <React.StrictMode>
-    <Home />
+    <AppContextProvider>
+    <PawsHome />
+    </AppContextProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
