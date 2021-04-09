@@ -21,7 +21,7 @@ export default function Banner() {
                 <div><Link to={`${url}/login`}>log in</Link><Link to={`${url}/sign-up`}>sign up</Link></div>}
             <Switch>
                 <Route path={`${path}/login`}>
-
+                    
                 </Route>
             </Switch>
             <Switch>
