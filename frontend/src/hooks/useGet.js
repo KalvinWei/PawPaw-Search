@@ -8,7 +8,7 @@ import axios from 'axios';
 export default function useGet() {
 
     const [ctxData, setCtxData] = useState(null);
-    setCtxData({...ctxData,searchIn:"allPosts",searchCriteria:{},  searchPosts:[],myPosts:[]})
+
     //TODO you can append global state variable here.
 
     function authenticateUser(username, password) {
@@ -22,7 +22,7 @@ export default function useGet() {
     }
 
     function getNewestPosts(interval) {
-        return axios.get('/posts/newest', {
+        axios.get('/posts/newest', {
             params: {interval: interval}
         })
             .then(res => {
@@ -34,22 +34,20 @@ export default function useGet() {
     }
 
     //this hook is to refresh data in MyPosts or in PostPlaza.
-    useEffect(()=> {
-         axios.get('/posts', {
-            params: {
-                criteria: (ctxData.searchIn == "allPosts") ? {start:"/* now() - 48hours*/",end:"/* now()*/"}
-                : ctxData.searchCriteria
-            }
-        })
-            .then(res => {
-                if(ctxData.searchIn =="allPosts") setCtxData({...ctxData, searchPosts: res.data})
-                else setCtxData({...ctxData, myPosts:res.data})
+    function fetchPosts(_for,) {
+        useEffect(() => {
+            axios.get('/posts', {
+                params: {
+                    criteria: (ctxData.searchIn == "allPosts") ? {start: "/* now() - 48hours*/", end: "/* now()*/"}
+                        : ctxData.searchCriteria
+                }
             })
-    }, [ctxData.searchCriteria, ctxData.searchIn])
-
-    function setSearchLocale(searchIn){
-        setCtxData({...ctxData,searchIn:searchIn})
+                .then(res => {
+                    if (ctxData.searchIn == "allPosts") setCtxData({...ctxData, searchPosts: res.data})
+                    else setCtxData({...ctxData, myPosts: res.data})
+                })
+        }, [ctxData.searchCriteria, ctxData.searchIn])
     }
 
-    return {ctxData,  authenticateUser, getNewestPosts, setSearchLocale};
+    return {ctxData, authenticateUser, getNewestPosts, setSearchLocale};
 }

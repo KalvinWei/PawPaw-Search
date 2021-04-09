@@ -4,8 +4,8 @@ import {AppContext} from "../../ContextProvider";
 
 export default function Banner(){
 
-    const {data} = useContext(AppContext)
-    const {isValidUser, user} = data.userAuth
+    const {sessionData} = useContext(AppContext)
+    const {isValidUser, user} = sessionData.userAuth
 
     return (
     <div className="banner">
