@@ -11,8 +11,13 @@ user.post('/new',(req,res)=>{
     //TODO API-B2
 })
 
-user.get('/user/:username',(req,res)=>{
+user.get('/:username',(req,res)=>{
     //TODO API-B3
+})
+
+user.get('/:username/posts/mine',(req,res)=>{
+    const username = req.params.username;
+    return getPostsCreatedBy(username);
 })
 
 export default user;

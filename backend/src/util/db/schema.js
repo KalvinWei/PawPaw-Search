@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 
 const Schema = mongoose.Schema;
 
+//TODO - User
 const UserSchema = new Schema(
     {
         name: String,
@@ -15,4 +16,13 @@ const UserSchema = new Schema(
 
 const User = mongoose.model('loginUser', UserSchema);
 
+
+//TODO - Post
+
+
+
+
+
+
+//TODO - export all
 export {User};

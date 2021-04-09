@@ -26,21 +26,16 @@ async function main() {
     console.log('Disconnected from database!');
 }
 
-// async function clearDatabase() {
-//     const articlesDeleted = await Article.deleteMany({});
-//     console.log(`Cleared database (removed ${articlesDeleted.deletedCount} articles).`);
-// }
-
 async function addUser() {
-        const dbUser = await createUser({
+        const Bob = await createUser({
             username:'Bob123',
             name:'Bob Dylan',
             password:'111'
         });
-        console.log(`User '${dbUser.name}' added to database (_id = ${dbUser._id})`);
+        console.log(`User '${Bob.name}' added to database (_id = ${Bob._id})`);
 }
 
 async function clearDatabase() {
-    const result = await User.deleteMany({});
-    console.log(`Cleared database (removed ${result.deletedCount} users).`);
+    await User.deleteMany({});
+    console.log(`Cleared database.`);
 }
