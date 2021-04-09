@@ -5,7 +5,7 @@ const Schema = mongoose.Schema;
 //TODO: This schema is a dependency for PostSchema
 const PetTypeSchema = new Schema({
 
-    category:{ type: String, unique: true, required: true },
+    species:{ type: String, unique: true, required: true },
     breeds: String //One record has only one specific breed. Breeds are stored in different documents under this schema.
 
 });

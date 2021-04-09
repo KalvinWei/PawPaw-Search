@@ -24,8 +24,11 @@ async function main() {
     //Error will occur, if run it twice due to schema validation
 
     await addUser()
+    console.log("add one user!")
     await addPetTypes();
+    console.log("add all pet types")
     await addPost();
+    console.log("add a post")
 
     // Disconnect when complete
     await mongoose.disconnect();
@@ -56,6 +59,7 @@ async function addPost() {
     //Get user
     let aUser = await User.findOne();
     let aPetType = await PetType.findOne();
+    console.log("went here")
     if (aUser) {
         //Add first Post
         let firstPost = new Post(firstPost);
