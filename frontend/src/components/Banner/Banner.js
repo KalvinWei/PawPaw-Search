@@ -1,22 +1,34 @@
 import React, {useContext} from 'react';
 import {AppContext} from "../../ContextProvider";
+import {Link, NavLink, Route, Switch, useRouteMatch} from 'react-router-dom'
 
 
-export default function Banner(){
-
+export default function Banner() {
     const {userAuth} = useContext(AppContext)
     const {isValidUser, user} = userAuth
 
-    return (
-    <div className="banner">
-        <div><h1>Our logo here</h1></div>
-        <nav><ul>
-            <li>Post Plaza</li>
-            {isValidUser? <li>My page</li>: null}
-        </ul></nav>
+    const {url, path} = useRouteMatch()
 
-        {isValidUser ? <div><span>welcome! `{user.name}`</span></div> :
-            <div><a>log in</a><a>sign up</a></div>}
-    </div>
+
+    return (
+        <div className="banner">
+            <div><h1>Our logo here</h1></div>
+            <nav>
+                <NavLink to='\PostPlaza'>Post Plaza</NavLink>
+                {isValidUser ? <NavLink to='\MyPage'>My Page</NavLink> : null}
+            </nav>
+            {isValidUser ? <div><span>welcome! `{user.name}`</span></div> :
+                <div><Link to={`${url}/login`}>log in</Link><Link to={`${url}/sign-up`}>sign up</Link></div>}
+            <Switch>
+                <Route path={`${path}/login`}>
+
+                </Route>
+            </Switch>
+            <Switch>
+                <Route path={`${path}/sign-up`}>
+
+                </Route>
+            </Switch>
+        </div>
     );
 }
