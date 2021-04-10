@@ -38,7 +38,7 @@ export default function useGet() {
 
     //for login modal to send request for server to authenticate user.
     function authenticateUser(username, password) {
-        return axios.post(`/user/${username}`, {username: username, password: password})
+        return axios.post(`/session`, {username: username, password: password})
             .then(res => {
                 setUserAuth(res.data)
                 return res.data

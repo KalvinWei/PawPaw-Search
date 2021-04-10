@@ -1,26 +1,34 @@
 import Modal from "../Modal";
+import {AppContext} from "../../../ContextProvider";
+import React, {useContext} from 'react';
 
 export default function LoginDialog() {
+    const [username, setUsername] = useState('');
+    const [password,setPassword] = useState('');
+    const [flag, setFlag] = useState(true);
 
     //
-
+    const {authenticateUser} = useContext(AppContext)
     return (
         <Modal style={{ width: '50%', height: 'auto' }} dismissOnClickOutside={true} onCancel={()=> history.goBack()}>
-            <h2>Add article</h2>
-            <div className={styles.form}>
-                <div className={styles.formRow}>
-                    <label>Title:</label>
-                    <input type="text" value={title} onInput={e => setTitle(e.target.value)} />
+            <h2>Login</h2>
+            <div>
+                <div >
+                    <label >Username:</label>
+                    <input type="text" value={username} onInput={e => setUsername(e.target.value)} />
                 </div>
-                <div className={styles.formRow}>
-                    <label>Content:</label>
-                    <textarea rows={5} value={content} onInput={e => setContent(e.target.value)} />
+                <div >
+                    <label >Password:</label>
+                    <input type="password" value={password} onInput={e => setPassword(e.target.value)} />
                 </div>
-                <div className={styles.formRow} style={{ flexDirection: 'row-reverse' }}>
-                    <button
-                        style={{ flexBasis: '100px', flexGrow: 0 }}
-                        onClick={() => onAddArticle(title, content)}>
-                        Add
+                <div>
+                    {flag || <p>Username does not exist or wrong password!</p>}
+                </div>
+                <div>
+                    <button onClick={() => {
+                        setFlag(authenticateUser(username, password).isValidUser)
+                    }}>
+                        Log in
                     </button>
                 </div>
             </div>
