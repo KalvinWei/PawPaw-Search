@@ -1,6 +1,5 @@
 import React from 'react';
 import useGet from './hooks/useGet';
-import axios from 'axios';
 
 const AppContext = React.createContext({});
 
