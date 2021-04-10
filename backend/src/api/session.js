@@ -11,8 +11,10 @@ session.post('/', async (req,res)=>{
     //TODO API-B1
     const username = req.body.username;
     const password = req.body.password;
-    res.json(await authenticateUser(username,password));
-    // res.json({meg:"post success"})
+    const user = await authenticateUser(username,password)
+    const isValidUser = user ? true:false
+    res.json({isValidUser:isValidUser, user:user})
+
 })
 
 session.get('/',(req,res)=>{
