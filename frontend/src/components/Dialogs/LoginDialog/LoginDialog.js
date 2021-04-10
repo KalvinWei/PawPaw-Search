@@ -2,6 +2,7 @@ import Modal from "../Modal";
 
 export default function LoginDialog() {
 
+    //
 
     return (
         <Modal style={{ width: '50%', height: 'auto' }} dismissOnClickOutside={true} onCancel={()=> history.goBack()}>

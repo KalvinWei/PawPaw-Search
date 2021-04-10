@@ -38,7 +38,9 @@ async function main() {
 
 //TODO Following functions are used to initialise the real database.
 async function clearDatabase() {
-    await User.deleteMany({});
+    await Post.deleteMany();
+    await User.deleteMany();
+    await PetType.deleteMany();
     console.log(`Cleared database.`);
 }
 
@@ -59,16 +61,15 @@ async function addPost() {
     //Get user
     let aUser = await User.findOne();
     let aPetType = await PetType.findOne();
-    console.log("went here")
     if (aUser) {
         //Add first Post
-        let firstPost = new Post(firstPost);
-        firstPost.poster = aUser._id;
-        firstPost.petType = aPetType._id;
-        await firstPost.save();
+        let aPost = new Post( firstPost );
+        aPost.poster = aUser._id;
+        aPost.petType = aPetType._id;
+        await aPost.save();
 
         // Also add this pet to the user's posts
-        aUser.myPosts.push(firstPost._id);
+        aUser.myPosts.push(aPost._id);
         await aUser.save();
     }
 }

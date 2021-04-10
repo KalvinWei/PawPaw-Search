@@ -2,15 +2,19 @@
 import {PetSize,PetColor,PostStatus,PetGender} from "./schemas/PostSchema";
 
 const somePetTypes= [
-    {species:'Cat', breed:['Bengal','Birman','Cheetoh']},
-    {species:'Dog', breed:['Australian Shepherd','Boxer','Bulldog']},
-    {species:'Bird', breed:[]},
-    {species:'Rabbit', breed:[]},
-    {species:'Mouse', breed:[]},
-    {species:'Cattle', breed:[]},
-    {species:'Pig', breed:[]},
-    {species:'Goat', breed:[]},
-    {species:'Hen', breed:[]},
+    {species:'Cat', breed:'Bengal'},
+    {species:'Cat', breed:'Birman'},
+    {species:'Cat', breed:'Cheetoh'},
+    {species:'Dog', breed:'Australian Shepherd'},
+    {species:'Dog', breed:'Boxer'},
+    {species:'Dog', breed:'Bulldog'},
+    {species:'Bird', breed:""},
+    {species:'Rabbit', breed:""},
+    {species:'Mouse', breed:""},
+    {species:'Cattle', breed:""},
+    {species:'Pig', breed:""},
+    {species:'Goat', breed:""},
+    {species:'Hen', breed:""}
 ]
 
 const firstUser ={
@@ -43,7 +47,7 @@ const firstPost={
         latitude: '123.134',
         timestamp: '2021-02-28'
     }]
-    
+
 }
 
 export {

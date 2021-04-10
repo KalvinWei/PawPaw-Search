@@ -1,6 +1,7 @@
 import React, {useContext} from 'react';
 import {AppContext} from "../../ContextProvider";
 import {Link, NavLink, Route, Switch, useRouteMatch} from 'react-router-dom'
+import LoginDialog from "../Dialogs/LoginDialog/LoginDialog";
 
 
 export default function Banner() {
@@ -21,12 +22,12 @@ export default function Banner() {
                 <div><Link to={`${url}/login`}>log in</Link><Link to={`${url}/sign-up`}>sign up</Link></div>}
             <Switch>
                 <Route path={`${path}/login`}>
-                    
+                    <LoginDialog/>
                 </Route>
             </Switch>
             <Switch>
                 <Route path={`${path}/sign-up`}>
-
+                    <SignUpDialog/>
                 </Route>
             </Switch>
         </div>
