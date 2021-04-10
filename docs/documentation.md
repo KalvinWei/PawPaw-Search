@@ -26,7 +26,7 @@ Directories, files and their function.
 |   |   |- util                     [utility modules]
 |   |   |   |- db                   
 |   |   |       |- db-init.js       [set up DB connection]
-|   |   |       |- schema.js        [define db schemas]
+|   |   |       |- PostSchema.js        [define db schemas]
 |   |   |- server.js                [entry of backend logics]
 |   |- package.json                 [project dependency definitions and descriptions]
 |   |- package-lock.json            [lock dependencies to certain versions]

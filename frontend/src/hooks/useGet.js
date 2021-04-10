@@ -8,7 +8,7 @@ const [useSessionState, clear] = createPersistedState('PawsHomeSessionStorage',s
 export default function useGet() {
 
     //TODO session states here.
-    const [userAuth, setUserAuth] = useSessionState('userAuth',{isvalidUser:false,user:null})
+    const [userAuth, setUserAuth] = useSessionState('userAuth',{isvalidUser:false, user:null})
 
     //TODO normal global states here.
     const [myPosts, setMyPosts] = useState(()=>{
@@ -46,6 +46,6 @@ export default function useGet() {
             .catch(e => {})
     }
 
-    return {userAuth, myPosts, myWatchings,
+    return  {userAuth, myPosts, myWatchings,
         authenticateUser, setFresh};
 }

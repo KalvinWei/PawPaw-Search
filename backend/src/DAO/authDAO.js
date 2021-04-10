@@ -1,4 +1,4 @@
-import { User } from '../util/db/schema';
+import { User } from '../db/schemas/PostSchema';
 
 async function authenticateUser(username,password){
     // return await User.findOne({username:username})
