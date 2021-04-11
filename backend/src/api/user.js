@@ -7,8 +7,26 @@ const HTTP_NO_CONTENT = 204;
 
 const user = express.Router();
 
-user.post('/new',(req,res)=>{
+const userSchemaCopy = require('../db/schemas/UserSchema')
+
+user.post('../../frontend/src/components/Dialogs/SignUpDialog/SignUpDialog',(request ,response)=>{
     //TODO API-B2
+    const signedUpUser = new userSchemaCopy({
+        username: request.body.username,
+        email: request.body.email,
+        password: request.body.password,
+        firstName: request.body.firstName,
+        lastName: request.body.lastName,
+        phone: request.body.phone,
+        address: request.body.address
+    })
+    signedUpUser.save()
+        .then(data => {
+            response.json(data)
+        })
+        .catch(error =>{
+            response.json(error)
+        })
 })
 
 user.get('/:username',(req,res)=>{
