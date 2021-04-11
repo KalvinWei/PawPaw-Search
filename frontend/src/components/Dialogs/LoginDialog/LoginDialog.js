@@ -1,6 +1,10 @@
 import Modal from "../Modal";
 import {AppContext} from "../../../ContextProvider";
 import React, {useContext} from 'react';
+import {useState} from 'react';
+
+// TODO check username duplicate -> check if this should be implement in schema
+// TODO check pas
 
 export default function LoginDialog() {
     const [username, setUsername] = useState('');
