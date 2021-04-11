@@ -1,6 +1,7 @@
 import Modal from "../Modal";
 import {AppContext} from "../../../ContextProvider";
 import React, {useContext} from 'react';
+import {useState} from 'react';
 
 export default function LoginDialog() {
     const [username, setUsername] = useState('');
