@@ -5,7 +5,7 @@ const posts = express()
 
 posts.get('/',async (req,res) => {
     //TODO: API-B7
-    const {searchCriteria, countPerPage, pageOffset} = req.body
+    const {searchCriteria, countPerPage, pageOffset} = req.headers
     const posts = await getPostsFor(searchCriteria,countPerPage,pageOffset)
     res.send(posts)
 })
