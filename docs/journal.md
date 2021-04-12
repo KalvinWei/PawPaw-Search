@@ -17,11 +17,14 @@ Main tasks: (1) prototyping (2) majority of key logics (pages, modules).
 - [x] define APIs - Kalvin
 - [x] Google Map research - Roy
 ###### 7 Apr, Wed
-- [ ] define **pages**(static), **modules**(dynamic) as per MUST-HAVE and SHOULD-HAVE features  - Kalvin,Charlie,Roy
-- [ ] design database schemas, and fabricate some data inside - Roy, Riffat
+- [x] define **pages**(static), **modules**(dynamic) as per MUST-HAVE and SHOULD-HAVE features  - Kalvin,Charlie,Roy
+###### 9 Apr, Fri
+- [x] design database schemas, and fabricate some data inside - Riffat
 
 ## Week 3  
-Main tasks: (1) finish key logics (2) testing (3) styling. 
+Main tasks: (1) finish key logics (2) testing (3) styling.  
+###### 12 Apr, Mon
+- [x] fixed major APIs, test passed - Kalvin
 
 
 ## Week 4
