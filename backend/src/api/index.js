@@ -7,7 +7,7 @@ import dashboard from "./dashboard";
 const api = express.Router();
 api.use('/', session)
 api.use('/posts',posts)
-api.use('/user',user)
+api.use('/users',user)
 api.use('/dashboard',dashboard)
 
 export default api;
