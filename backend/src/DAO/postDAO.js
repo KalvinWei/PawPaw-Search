@@ -1,4 +1,4 @@
-import {Post, User} from "../db/schemas/PostSchema";
+import User from "../db/schemas/UserSchema";
 
 async function getPostsCreatedBy(username) {
     const user =

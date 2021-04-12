@@ -24,8 +24,6 @@ export default function Banner() {
                 <Route path={`${path}/login`}>
                     <LoginDialog/>
                 </Route>
-            </Switch>
-            <Switch>
                 <Route path={`${path}/sign-up`}>
                     <SignUpDialog/>
                 </Route>
