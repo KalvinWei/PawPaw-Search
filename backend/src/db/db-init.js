@@ -51,7 +51,7 @@ async function addUser() {
 }
 
 function addPetTypes(){
-    somePetTypes.map(async function (type){
+    somePetTypes.map(async type =>{
         let typeDoc = new PetType(type)
         await typeDoc.save();
     })
