@@ -87,6 +87,12 @@ const PostSchema = new Schema({
     {
     timestamps: {}
 });
+
+//some static methods
+PostSchema.statics.getOnePage = function(searchCriteria, countPerPage, pageOffset){
+    return this.find(searchCriteria).skip(countPerPage * pageOffset).limit(countPerPage)
+}
+
 // Object.assign(PostSchema.statics, PostStatus, PetSize, PetColor, PetGender);
 const Post = mongoose.model('Post', PostSchema);
 

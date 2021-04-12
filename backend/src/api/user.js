@@ -8,7 +8,7 @@ const HTTP_CREATED = 201;
 const HTTP_NOT_FOUND = 404;
 const HTTP_NO_CONTENT = 204;
 
-const user = express.Router();
+const user = express();
 
 //for signup modal
 user.post('/new', async (req, res) => {
@@ -44,22 +44,21 @@ user.post('/new', async (req, res) => {
 //for populating UserPage.js for a specified user(username).
 //NOTE: in the returned "user" object, posts are just foreign references, i.e. not populated.
 user.get('/:username', async (req, res) => {
-    //TODO API-B3
     const {username} = req.params
     const user = await getUserBy(username)
-    return user
+    res.send(user)
 })
 
 //this API is for populating posts created by the specified user
 user.get('/:username/posts/mine', async (req, res) => {
-    const username = req.params.username;
-    return getPostsCreatedBy(username);
+    const username = req.params.username
+    res.send(await getPostsCreatedBy(username))
 })
 
 //this API is for populating posts created by the specified user
 user.get('/:username/posts/watching', async (req, res) => {
-    const username = req.params.username;
-    return getPostsWatchedBy(username);
+    const username = req.params.username
+    res.send(await  getPostsWatchedBy(username))
 })
 
 export default user;

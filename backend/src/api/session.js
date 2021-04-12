@@ -5,7 +5,7 @@ const HTTP_CREATED = 201;
 const HTTP_NOT_FOUND = 404;
 const HTTP_NO_CONTENT = 204;
 
-const session = express.Router();
+const session = express();
 
 //API checked!
 session.post('/', async (req,res)=>{
