@@ -8,20 +8,28 @@ const [useSessionState, clear] = createPersistedState('PawsHomeSessionStorage',s
 export default function useGet() {
 
     //TODO session states here.
-    const [userAuth, setUserAuth] = useSessionState('userAuth',{isvalidUser:false, user:null})
+    const [userAuth, setUserAuth] = useSessionState('userAuth',{isValidUser:false, user:null})
 
     //TODO normal global states here.
-    const [myPosts, setMyPosts] = useState(()=>{
-        return axios.get(`/:${user.username}/posts/mine`)
-            .then(res=>{ return res.data; })
-            .catch(e=>{/*error handling*/})
-    })
 
-    const [myWatchings, setMyWatchings] = useState(()=>{
-        return axios.get(`/:${user.username}/posts/watching`)
-            .then(res=>{ return res.data; })
-            .catch(e=>{/*error handling*/})
-    })
+    async function fetchMyPosts(){
+        if(userAuth.isValidUser){
+            return await axios.get(`/:${user.username}/posts/mine`)
+                .then(res=>{ return res.data; })
+                .catch(e=>{/*error handling*/})
+        }
+        else return null;
+    }
+
+    async function fetchWatchingPosts(){
+        if(userAuth.isValidUser){
+            return await axios.get(`/:${user.username}/posts/watching`)
+                .then(res=>{ return res.data; })
+                .catch(e=>{/*error handling*/})
+        }
+        else return null;
+
+    }
 
     //to initiate and refresh Newest posts
     const [fresh, setFresh] = useState(true)
@@ -46,6 +54,6 @@ export default function useGet() {
             .catch(e => {})
     }
 
-    return  {userAuth, myPosts, myWatchings,
+    return  {userAuth, fetchMyPosts, fetchWatchingPosts,
         authenticateUser, setFresh};
 }

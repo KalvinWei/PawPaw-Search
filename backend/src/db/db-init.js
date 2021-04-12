@@ -38,9 +38,9 @@ async function main() {
 
 //TODO Following functions are used to initialise the real database.
 async function clearDatabase() {
-    await Post.deleteMany();
-    await User.deleteMany();
-    await PetType.deleteMany();
+    await Post.deleteMany({});
+    await User.deleteMany({});
+    await PetType.deleteMany({});
     console.log(`Cleared database.`);
 }
 
@@ -51,7 +51,7 @@ async function addUser() {
 }
 
 function addPetTypes(){
-    somePetTypes.map(async function (type){
+    somePetTypes.map(async type =>{
         let typeDoc = new PetType(type)
         await typeDoc.save();
     })

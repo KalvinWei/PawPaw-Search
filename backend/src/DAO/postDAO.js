@@ -1,4 +1,9 @@
-import {Post, User} from "../db/schemas/PostSchema";
+import User from "../db/schemas/UserSchema";
+import Post from "../db/schemas/PostSchema";
+
+async function getPostsFor(criteria, countPerPage,pageOffset){
+    return await Post.getOnePage(criteria,countPerPage,pageOffset)
+}
 
 async function getPostsCreatedBy(username) {
     const user =
@@ -10,8 +15,8 @@ async function getPostsCreatedBy(username) {
 async function getPostsWatchedBy(username) {
     const user =
         await User.findOne({username:username})
-            .populate('watchings')
-    return user.watchings;
+            .populate('myWatchings')
+    return user.myWatchings;
 }
 
-export {getPostsCreatedBy, getPostsWatchedBy}
+export {getPostsCreatedBy, getPostsWatchedBy,getPostsFor}
