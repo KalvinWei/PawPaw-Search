@@ -15,8 +15,8 @@ async function getPostsCreatedBy(username) {
 async function getPostsWatchedBy(username) {
     const user =
         await User.findOne({username:username})
-            .populate('watchings')
-    return user.watchings;
+            .populate('myWatchings')
+    return user.myWatchings;
 }
 
 export {getPostsCreatedBy, getPostsWatchedBy,getPostsFor}
