@@ -3,52 +3,66 @@ import axios from 'axios';
 import createPersistedState from "@plq/use-persisted-state";
 import sessionStorage from '@plq/use-persisted-state/lib/storages/session-storage';
 
-const [useSessionState, clearSession] = createPersistedState('PawsHomeSessionStorage',sessionStorage)
+const [useSessionState, clearSession] = createPersistedState('PawsHomeSessionStorage', sessionStorage)
 
 export default function useGet() {
 
     //TODO session states here.
-    const [loginUser, setLoginUser] = useSessionState("userInSession",null)
+    const [loginUser, setLoginUser] = useSessionState("userInSession", null)
 
     //TODO normal global states here.
-    const [dashBoard, setDashboard] = useState({})
 
-    async function fetchMyPosts(){
-        if(loginUser){
+    //to initiate dashboard
+    const [dashboard,setDashboard] = useState({})
+    useEffect(()=>{
+        async function fetchDashboard() {
+            return await axios.get('/dashboard')
+                .then(res => setDashboard(res.data))
+                .catch(e => console.log(e))
+        }
+        fetchDashboard()
+    },[])
+
+
+    //to initiate and refresh Newest posts
+    const [newestPosts, setNewestPosts] = useState([])
+    useEffect(()=>{
+        async function fetchNewest(){
+            await axios.get('/posts/newest/10', )
+                .then(res => setNewestPosts(res.data))
+                .catch(e=>null)
+        }
+        fetchNewest()
+    },[])
+
+
+    //fetch posts for UserPage.js
+    async function fetchMyPosts() {
+        if (loginUser) {
             return await axios.get(`/:${loginUser.username}/posts/mine`)
-                .then(res=>{ return res.data; })
-                .catch(e=>{/*error handling*/})
+                .then(res => {
+                    return res.data;
+                })
+                .catch(e => {/*error handling*/
+                })
         } else {
             return null;
         }
     }
 
-    async function fetchWatchingPosts(){
-        if(loginUser){
+    async function fetchWatchingPosts() {
+        if (loginUser) {
             return await axios.get(`/:${loginUser.username}/posts/watching`)
-                .then(res=>{ return res.data; })
-                .catch(e=>{/*error handling*/})
-        }
-        else {
+                .then(res => {
+                    return res.data;
+                })
+                .catch(e => {/*error handling*/
+                })
+        } else {
             return null;
         }
 
     }
-
-    //to initiate and refresh Newest posts
-    let fresh = true
-    const refreshNewest = () =>{ fresh = !fresh }
-    // useEffect(()=>{
-    //     axios.get('/posts/newest', {
-    //         params: {interval: 24}
-    //     })
-    //         .then(res => { setNewest(res.data) })
-    //         .catch(e => {console.log(e)})
-    // },[fresh])
-    const [newestPosts, setNewest] = useState(()=>{
-        refreshNewest()
-        return fresh
-    })
 
     //for login modal to send request for server to authenticate user.
     async function authenticateUser(username, password) {
@@ -58,27 +72,32 @@ export default function useGet() {
                 setLoginUser(user)
                 return user
             })
-            .catch(e => {console.log(e)})
+            .catch(e => {
+                console.log(e)
+            })
     }
 
     //for signup
-    async function signUpUser(user){
+    async function signUpUser(user) {
         console.log(user)
-        return await axios.post('users/new',user)
+        return await axios.post('users/new', user)
             .then(res => {
                 const dbUser = res.data
-                if(dbUser){
+                if (dbUser) {
                     setLoginUser(dbUser)
                 }
                 return dbUser
             })
-            .catch(e=>{console.log(e)})
+            .catch(e => {
+                console.log(e)
+            })
     }
 
-    return  {
+    return {
         //states
-        loginUser, newestPosts,dashBoard,
+        loginUser, newestPosts,dashboard,
         //functions
         clearSession, fetchMyPosts, fetchWatchingPosts,
-        signUpUser, authenticateUser};
+        signUpUser, authenticateUser
+    };
 }
