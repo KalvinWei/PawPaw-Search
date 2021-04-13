@@ -1,14 +1,14 @@
 import React from "react";
 import {Link} from "react-router-dom";
 
-function PostCard(post) {
+function PostCard({post}) {
     const lastSpot = post.trace[post.trace.length-1]
-
+    console.log(post)
     return (
         <div>
             <p>{post.status}</p>
             <div className="carousel">
-            {post.images.map(url=>
+            {post.petImages.map(url=>
                 <img key={url} src={url}/>
             )}
             </div>

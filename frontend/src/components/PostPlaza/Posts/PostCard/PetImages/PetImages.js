@@ -4,7 +4,7 @@ export default function PetImages({urls}){
     return (
         <div>
             {urls.map(src=>
-                <img src={src} />
+                <img key={src} src={src} />
             )}
         </div>
     )
