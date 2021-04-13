@@ -3,57 +3,82 @@ import axios from 'axios';
 import createPersistedState from "@plq/use-persisted-state";
 import sessionStorage from '@plq/use-persisted-state/lib/storages/session-storage';
 
-const [useSessionState, clear] = createPersistedState('PawsHomeSessionStorage',sessionStorage)
+const [useSessionState, clearSession] = createPersistedState('PawsHomeSessionStorage',sessionStorage)
 
 export default function useGet() {
 
     //TODO session states here.
-    const [userAuth, setUserAuth] = useSessionState('userAuth',{isValidUser:false, user:null})
+    const [loginUser, setLoginUser] = useSessionState("userInSession",null)
 
     //TODO normal global states here.
+    const [dashBoard, setDashboard] = useState({})
 
     async function fetchMyPosts(){
-        if(userAuth.isValidUser){
-            return await axios.get(`/:${user.username}/posts/mine`)
+        if(loginUser){
+            return await axios.get(`/:${loginUser.username}/posts/mine`)
                 .then(res=>{ return res.data; })
                 .catch(e=>{/*error handling*/})
+        } else {
+            return null;
         }
-        else return null;
     }
 
     async function fetchWatchingPosts(){
-        if(userAuth.isValidUser){
-            return await axios.get(`/:${user.username}/posts/watching`)
+        if(loginUser){
+            return await axios.get(`/:${loginUser.username}/posts/watching`)
                 .then(res=>{ return res.data; })
                 .catch(e=>{/*error handling*/})
         }
-        else return null;
+        else {
+            return null;
+        }
 
     }
 
     //to initiate and refresh Newest posts
-    const [fresh, setFresh] = useState(true)
-    const refreshNewest = () =>{ setFresh(!fresh) }
+    let fresh = true
+    const refreshNewest = () =>{ fresh = !fresh }
+    // useEffect(()=>{
+    //     axios.get('/posts/newest', {
+    //         params: {interval: 24}
+    //     })
+    //         .then(res => { setNewest(res.data) })
+    //         .catch(e => {console.log(e)})
+    // },[fresh])
     const [newestPosts, setNewest] = useState(()=>{
-        useEffect(()=>{
-            axios.get('/posts/newest', {
-                params: {interval: 24}
-            })
-                .then(res => { setNewest(res.data) })
-                .catch(e => {})
-        })
-    },[fresh])
+        refreshNewest()
+        return fresh
+    })
 
     //for login modal to send request for server to authenticate user.
-    function authenticateUser(username, password) {
-        return axios.post(`/user/${username}`, {username: username, password: password})
+    async function authenticateUser(username, password) {
+        return await axios.post(`/`, {"username": username, "password": password})
             .then(res => {
-                setUserAuth(res.data)
-                return res.data
+                const user = res.data
+                setLoginUser(user)
+                return user
             })
-            .catch(e => {})
+            .catch(e => {console.log(e)})
     }
 
-    return  {userAuth, fetchMyPosts, fetchWatchingPosts,
-        authenticateUser, setFresh};
+    //for signup
+    async function signUpUser(user){
+        console.log(user)
+        return await axios.post('users/new',user)
+            .then(res => {
+                const dbUser = res.data
+                if(dbUser){
+                    setLoginUser(dbUser)
+                }
+                return dbUser
+            })
+            .catch(e=>{console.log(e)})
+    }
+
+    return  {
+        //states
+        loginUser, newestPosts,dashBoard,
+        //functions
+        clearSession, fetchMyPosts, fetchWatchingPosts,
+        signUpUser, authenticateUser};
 }

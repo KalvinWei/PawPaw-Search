@@ -13,32 +13,13 @@ const user = express();
 //for signup modal
 user.post('/new', async (req, res) => {
     //TODO API-B2
-    const {username, password, email, firstName, lastName, phone, addrNo, street, city, postcode} = req.body
-    const newUser = {
-        username: username,
-        password: password,
-        email: email,
-        firstName: firstName,
-        lastName: lastName,
-        phone: phone,
-        address: {
-            number: addrNo,
-            street: street,
-            city: city,
-            postcode: postcode
-        }
+    const user = req.body
+    let newUser = null;
+    const isValidUsername = await validateUsername(user.username)
+    if (!isValidUsername) {
+        newUser = await createUser(user)
     }
-
-    const result = {isSuccessful: false, user: null}
-    if (!validateUsername(username)) {
-        const user = await createUser(newUser)
-        if (user) {
-            result.isSuccessful = true
-            result.user = user
-        }
-    }
-
-    res.send(result)
+    res.send(newUser)
 })
 
 //for populating UserPage.js for a specified user(username).

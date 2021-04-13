@@ -47,7 +47,7 @@ use the following details to connect to access **pawshomeDB** on Atlas( a mongoD
 - Compass connection string: mongodb+srv://group26:<password>@cs732.pgo4d.mongodb.net/test
   - username: group26  
   - password: MITCS732  
-- Application connection string: mongodb+srv://group26:MITCS732@cs732.pgo4d.mongodb.net/PawsHome?retryWrites=true&w=majority
+- Application connection string: mongodb+srv://group26:MITCS732@cs732.pgo4d.mongodb.net/App?retryWrites=true&w=majority
 ### Schemas
 - users (...)
 - posts (...)
@@ -60,7 +60,7 @@ APIs, in server-side, defines (1) to which router a request goes  (2) how a rout
 \#|availability|fetch url|receive|send|description
 ---|---|---|---|---|---
 B1|Yes|POST /|**body:** username, password|{isValidUser, user}| validate username and password.
-B2|Yes|POST /users/new|**body:** username, password, email, firstName, lastName, phone, addrNo, street, city, postcode|{isSuccessful, user}|if username occupied, isSuccessful=false, user=null
+B2|Yes|POST /users/new|**body:** user|{isSuccessful, user}|if username occupied, isSuccessful=false, user=null
 B3|Yes|GET /users/:username|**params:** username|user|get user information without posts of a user
 B4|No|PUT /users/:username|user|isFailed, user|update user profile
 B5|No|GET /posts/newest| |newestPosts|return a list of past 24 hours posts
