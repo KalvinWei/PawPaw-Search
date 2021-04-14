@@ -64,6 +64,24 @@ export default function useGet() {
 
     }
 
+    //for searching posts according to criteria
+    const [searchSetting, setSearch] = useState({
+        postType:"",
+        petType:{
+            species:"",
+            breed:""
+        },
+        petSize:"",
+        petGender:"",
+        petColor:"",
+        //use Geolocation API to fetch current user's location,
+        // and search in an area of the given radius
+        rangeRadius:0,
+        //use keyword to search in petName, collarTagDescription, comment
+        keyword:""
+    })
+
+
     //for login modal to send request for server to authenticate user.
     async function authenticateUser(username, password) {
         return await axios.post(`/`, {"username": username, "password": password})
@@ -95,9 +113,9 @@ export default function useGet() {
 
     return {
         //states
-        loginUser, newestPosts,dashboard,
+        loginUser, newestPosts,dashboard,searchSetting,
         //functions
-        clearSession, fetchMyPosts, fetchWatchingPosts,
+        clearSession, fetchMyPosts, fetchWatchingPosts, setSearch,
         signUpUser, authenticateUser
     };
 }
