@@ -24,7 +24,7 @@ function PostCard({post}) {
     const history = useHistory()
 
     function showDetail(){
-        history.push(`/posts/${post._id}`)
+        history.push({pathname:`/posts/${post._id}`,state:post})
     }
 
     const classes = useStyles();
@@ -33,9 +33,8 @@ function PostCard({post}) {
             <CardActionArea>
                 <CardMedia
                     className={classes.media}
-                    component={<PetImages urls={post.petImages}/>}
                     title={post.petName}
-                />
+                ><PetImages urls={post.petImages}/></CardMedia>
                 <CardContent>
                     <Typography gutterBottom variant="h5" component="h2">
                         {post.petName} is {post.status}

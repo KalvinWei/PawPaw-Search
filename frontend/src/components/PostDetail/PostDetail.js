@@ -1,24 +1,31 @@
 import React from 'react'
+import {useHistory, useParams} from 'react-router-dom'
 import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
 
 export default function PostDetail(){
+        const location = useHistory().location
+        const post = location.state
+        console.log(post)
     return(
         <div>
-            <li>`${post.id}`</li>
-            <PetImages urls={post.images}/>
-            <li>`${post.type}`</li>
-            <li>`${post.petName}`</li>
-            <li>`${post.petType}`</li>
-            <li>`${post.petBreed}`</li>
-            <li>`${post.color}`</li>
-            <li>`${post.microship}`</li>
-            <li>`${post.petGender}`</li>
-            <li>`${post.petDesexed}`</li>
-            <li>`${post.petSize}`</li>
-            <li>`${post.monthAge}`</li>
-            <li>`${post.ownerContact}`</li>
-            <li>`${post.description}`</li>
-            <li>`${post.vaccinated}`</li>
+            <li>{post._id}</li>
+            <PetImages urls={post.petImages}/>
+            <li>{post.petName}</li>
+            <li>{post.petType.species}</li>
+            <li>{post.petType.breed}</li>
+            <li>{post.petColor}</li>
+            <li>{post.petSize}</li>
+            <li>{post.petGender}</li>
+            <li>{post.isMicroshipped}</li>
+            <li>{post.microchipNumber}</li>
+            <li>{post.desexed}</li>
+            <li>{post.collarTagDescription}</li>
+            <li>{post.comment}</li>
+            <li>{post.status}</li>
+                <li>{post.trace.map(spot=>{
+                    <span>(${spot.latitude},${spot.longitude})</span>
+                })}</li>
+                <li>{post.createdAt}</li>
         </div>
         )
 }
