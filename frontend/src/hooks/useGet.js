@@ -25,6 +25,7 @@ export default function useGet() {
 
     //NOTE: the result of this function is an object {posts, pageTotal}
     async function fetchPostsBy(searchCriteria, countPerPage, pageOffset){
+        searchCriteria = JSON.stringify(searchCriteria)
         return await axios.get('posts/',{
             headers:{
                 searchCriteria, countPerPage, pageOffset

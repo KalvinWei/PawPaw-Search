@@ -6,7 +6,7 @@ import {Pagination} from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        flexGrow: 1,
+        flexGrow: 1
     },
     paper: {
         padding: theme.spacing(2),
@@ -22,9 +22,9 @@ export default function Posts({posts, pageTotal, page, onPageChange}){
     return (
         (!posts || posts.length ===0) ? <div><p>OOPS! NO AVAILABLE POSTS.</p></div> :
             <div className={classes.root}>
-                <Grid container spacing={3}>
+                <Grid container>
                         {posts.map(post =>
-                            <Grid item xs={12} key={post._id}>
+                            <Grid item xs={3} key={post._id}>
                             <PostCard post={post}/>
                             </Grid>
                         )}

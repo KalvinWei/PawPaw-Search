@@ -26,7 +26,11 @@ const useStyles = makeStyles((theme) => ({
         background:'none'
     },
     button:{
-        color:'orange'
+        color:'coral',
+        backgroundColor:'transparent',
+        '&:hover':{
+            backgroundColor:'primary'
+        }
     }
 }));
 
@@ -35,6 +39,7 @@ export default function PetImages({urls}) {
     const theme = useTheme();
     const [activeImg, setActiveImg] = React.useState(0);
     const maxImgs = urls.length;
+
 
     const handleNext = () => {
         setActiveImg((img) => img + 1);
@@ -48,8 +53,8 @@ export default function PetImages({urls}) {
         <div className={classes.root}>
             <img
                 className={classes.img}
-                src={urls[activeImg]}
-                alt={urls[activeImg]}
+                src={`${process.env.PUBLIC_URL}/assets/petImages/${urls[activeImg]}`}
+                alt={`${process.env.PUBLIC_URL}/assets/petImages/${urls[activeImg]}`}
             />
             <MobileStepper
                 variant="dots"
@@ -59,14 +64,12 @@ export default function PetImages({urls}) {
                 className={[classes.root, classes.stepper].join(' ')}
                 nextButton={
                     <Button size="small" className={classes.button} onClick={handleNext} disabled={activeImg === maxImgs - 1}>
-                        NEXT
                         {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
                     </Button>
                 }
                 backButton={
                     <Button size="small" className={classes.button} onClick={handleBack} disabled={activeImg === 0}>
                         {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-                        Back
                     </Button>
                 }
             />
