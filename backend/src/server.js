@@ -37,5 +37,6 @@ if (process.env.NODE_ENV === 'production') {
 
 // Start the DB running. Then, once it's connected, start the server.
 // connectToDatabase()
-mongoose.connect("mongodb://localhost:27017/PawsHome", {useNewUrlParser:true})
-    .then(() => app.listen(port, () => console.log(`App server listening on port ${port}!`)));
+const DB = "mongodb://localhost:27017/App"
+mongoose.connect(DB, {useNewUrlParser:true})
+    .then(() => app.listen(port, () => console.log(`App server listening on port ${port}, DB is ${DB}!`)));

@@ -79,8 +79,8 @@ const PostSchema = new Schema({
     },
     //This field needs more discussion and may be required to change
     trace: [{
-        longitude: String,
         latitude: String,
+        longitude: String,
         timestamp: Date
     }]
 },
@@ -89,8 +89,12 @@ const PostSchema = new Schema({
 });
 
 //some static methods
-PostSchema.statics.getOnePage = function(searchCriteria, countPerPage, pageOffset){
-    return this.find(searchCriteria).skip(countPerPage * pageOffset).limit(countPerPage)
+PostSchema.statics.getOnePage = async function(searchCriteria, countPerPage, pageOffset){
+    return await this.find(searchCriteria).skip(countPerPage * pageOffset).limit(countPerPage)
+}
+
+PostSchema.statics.getPageTotal = async function(searchCriteria, countPerPage){
+    return Math.ceil((await this.countDocuments(searchCriteria)) / countPerPage)
 }
 
 // Object.assign(PostSchema.statics, PostStatus, PetSize, PetColor, PetGender);

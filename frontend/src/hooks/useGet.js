@@ -1,14 +1,14 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import createPersistedState from "@plq/use-persisted-state";
-import sessionStorage from '@plq/use-persisted-state/lib/storages/session-storage';
+import localStorage from '@plq/use-persisted-state/lib/storages/local-storage';
 
-const [useSessionState, clearSession] = createPersistedState('PawsHomeSessionStorage', sessionStorage)
+const [useLocalStorage, clearLocalStorage] = createPersistedState('PawsHomeLocalStorage', localStorage)
 
 export default function useGet() {
 
     //TODO session states here.
-    const [loginUser, setLoginUser] = useSessionState("userInSession", null)
+    const [loginUser, setLoginUser] = useLocalStorage("userInSession", null)
 
     //TODO normal global states here.
 
@@ -23,46 +23,37 @@ export default function useGet() {
         fetchDashboard()
     },[])
 
-
-    //to initiate and refresh Newest posts
-    const [newestPosts, setNewestPosts] = useState([])
-    useEffect(()=>{
-        async function fetchNewest(){
-            await axios.get('/posts/newest/10', )
-                .then(res => setNewestPosts(res.data))
-                .catch(e=>null)
-        }
-        fetchNewest()
-    },[])
-
-
-    //fetch posts for UserPage.js
-    async function fetchMyPosts() {
-        if (loginUser) {
-            return await axios.get(`/:${loginUser.username}/posts/mine`)
-                .then(res => {
-                    return res.data;
-                })
-                .catch(e => {/*error handling*/
-                })
-        } else {
-            return null;
-        }
-    }
-
-    async function fetchWatchingPosts() {
-        if (loginUser) {
-            return await axios.get(`/:${loginUser.username}/posts/watching`)
-                .then(res => {
-                    return res.data;
-                })
-                .catch(e => {/*error handling*/
-                })
-        } else {
-            return null;
-        }
+    //NOTE: the result of this function is an object {posts, pageTotal}
+    async function fetchPostsBy(searchCriteria, countPerPage, pageOffset){
+        return await axios.get('posts/',{
+            headers:{
+                searchCriteria, countPerPage, pageOffset
+            }})
+                .then(res=>res.data)
+                .catch(e=>{console.log(e)})
 
     }
+
+    async function fetchPostsOf(countPerPage, pageOffset, postType){
+        return await axios.get(`/users/${loginUser.username}/posts/${postType}`,{
+            headers:{
+                countPerPage,pageOffset
+            }
+        })
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+    }
+
+    async function fetchNewestPosts(days,countPerPage, pageOffset){
+        return await axios.get('posts/newest',{
+            headers:{
+                days, countPerPage, pageOffset
+            }
+        })
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+    }
+
 
     //for login modal to send request for server to authenticate user.
     async function authenticateUser(username, password) {
@@ -93,11 +84,12 @@ export default function useGet() {
             })
     }
 
+
     return {
         //states
-        loginUser, newestPosts,dashboard,
+        loginUser, dashboard,
         //functions
-        clearSession, fetchMyPosts, fetchWatchingPosts,
+        clearSession: clearLocalStorage, fetchPostsBy, fetchNewestPosts, fetchPostsOf,
         signUpUser, authenticateUser
     };
 }

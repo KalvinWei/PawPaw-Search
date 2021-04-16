@@ -9,9 +9,11 @@ export default function Dashboard(){
         <div>
             <h1>Dashboard</h1>
             <table>
+                <tbody>
                 {dashboard && Object.keys(dashboard).map(key=>
                     <tr key={key}><td>{key}</td><td>{dashboard[key]}</td></tr>
                 )}
+                </tbody>
             </table>
         </div>
     );

@@ -1,5 +1,5 @@
 import express from 'express'
-import {getPostsCreatedBy, getPostsWatchedBy} from "../DAO/postDAO";
+import {getPostsOf} from "../DAO/postDAO";
 import {createUser, getUserBy} from "../DAO/userDAO";
 import {validateUsername} from "../DAO/authDAO";
 
@@ -32,14 +32,18 @@ user.get('/:username', async (req, res) => {
 
 //this API is for populating posts created by the specified user
 user.get('/:username/posts/mine', async (req, res) => {
+    const {countperpage, pageoffset} = req.headers
     const username = req.params.username
-    res.send(await getPostsCreatedBy(username))
+    const result = await getPostsOf(username, countperpage, pageoffset,'myPosts')
+    res.send(result)
 })
 
 //this API is for populating posts created by the specified user
 user.get('/:username/posts/watching', async (req, res) => {
+    const {countperpage, pageoffset} = req.headers
     const username = req.params.username
-    res.send(await  getPostsWatchedBy(username))
+    const result = await getPostsOf(username, countperpage, pageoffset, 'myWatchings')
+    res.send(result)
 })
 
 export default user;

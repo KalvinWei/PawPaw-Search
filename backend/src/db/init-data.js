@@ -5,9 +5,14 @@ const somePetTypes= [
     {species:'Cat', breed:'Bengal'},
     {species:'Cat', breed:'Birman'},
     {species:'Cat', breed:'Cheetoh'},
+    {species:'Cat', breed:'lihua'},
     {species:'Dog', breed:'Australian Shepherd'},
     {species:'Dog', breed:'Boxer'},
     {species:'Dog', breed:'Bulldog'},
+    {species:'Dog', breed:'Poodle'},
+    {species:'Dog', breed:'Akita'},
+    {species:'Dog', breed:'Husky'},
+    {species:'Dog', breed:'Golden Retriever'},
     {species:'Bird', breed:""},
     {species:'Rabbit', breed:""},
     {species:'Mouse', breed:""},
@@ -43,8 +48,8 @@ const firstPost={
     comment: 'Lost since last week',
     status: PostStatus.Lost,
     trace: [{
-        longitude: '123.133',
-        latitude: '123.134',
+        latitude: '-36.91958836319859,',
+        longitude: '174.71945677414823',
         timestamp: '2021-02-28'
     }]
 
