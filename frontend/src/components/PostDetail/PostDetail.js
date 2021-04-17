@@ -5,7 +5,6 @@ import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
 export default function PostDetail(){
         const location = useHistory().location
         const post = location.state
-        console.log(post)
     return(
         <div>
             <li>{post._id}</li>

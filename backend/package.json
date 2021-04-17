@@ -12,6 +12,7 @@
   "author": "Group26",
   "license": "ISC",
   "dependencies": {
+    "earth-distance-js": "^1.4.1",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "isodate": "^0.1.4",
