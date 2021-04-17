@@ -8,7 +8,7 @@ export default function StatPaper({figure, item}) {
                 <Typography align='center' color='secondary' variant="h4">
                     {figure}
                 </Typography>
-                <Typography align='center' color='grey' variant="button">
+                <Typography align='center' color='textSecondary' variant="button">
                     {item}
                 </Typography>
         </Grid>

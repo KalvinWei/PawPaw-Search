@@ -22,9 +22,9 @@ export default function Posts({posts, pageTotal, page, onPageChange}){
     return (
         (!posts || posts.length ===0) ? <div><p>OOPS! NO AVAILABLE POSTS.</p></div> :
             <div className={classes.root}>
-                <Grid container>
+                <Grid container spacing={2}>
                         {posts.map(post =>
-                            <Grid item xs={3} key={post._id}>
+                            <Grid item key={post._id}>
                             <PostCard post={post}/>
                             </Grid>
                         )}

@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
         background:'none'
     },
     button:{
-        color:'coral',
+        color:'pink',
         backgroundColor:'transparent',
         '&:hover':{
             backgroundColor:'primary'
