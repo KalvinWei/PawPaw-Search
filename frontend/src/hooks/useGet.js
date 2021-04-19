@@ -1,51 +1,96 @@
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import createPersistedState from "@plq/use-persisted-state";
-import sessionStorage from '@plq/use-persisted-state/lib/storages/session-storage';
+import localStorage from '@plq/use-persisted-state/lib/storages/local-storage';
 
-const [useSessionState, clear] = createPersistedState('PawsHomeSessionStorage',sessionStorage)
+const [useLocalStorage, clearLocalStorage] = createPersistedState('PawsHomeLocalStorage', localStorage)
 
 export default function useGet() {
 
     //TODO session states here.
-    const [userAuth, setUserAuth] = useSessionState('userAuth',{isvalidUser:false, user:null})
+    const [loginUser, setLoginUser] = useLocalStorage("userInSession", null)
 
     //TODO normal global states here.
-    const [myPosts, setMyPosts] = useState(()=>{
-        return axios.get(`/:${user.username}/posts/mine`)
-            .then(res=>{ return res.data; })
-            .catch(e=>{/*error handling*/})
-    })
 
-    const [myWatchings, setMyWatchings] = useState(()=>{
-        return axios.get(`/:${user.username}/posts/watching`)
-            .then(res=>{ return res.data; })
-            .catch(e=>{/*error handling*/})
-    })
+    //to initiate dashboard
+    const [dashboard,setDashboard] = useState({})
+    useEffect(()=>{
+        async function fetchDashboard() {
+            return await axios.get('/dashboard')
+                .then(res => setDashboard(res.data))
+                .catch(e => console.log(e))
+        }
+        fetchDashboard()
+    },[])
 
-    //to initiate and refresh Newest posts
-    const [fresh, setFresh] = useState(true)
-    const refreshNewest = () =>{ setFresh(!fresh) }
-    const [newestPosts, setNewest] = useState(()=>{
-        useEffect(()=>{
-            axios.get('/posts/newest', {
-                params: {interval: 24}
-            })
-                .then(res => { setNewest(res.data) })
-                .catch(e => {})
-        })
-    },[fresh])
+    //NOTE: the result of this function is an object {posts, pageTotal}
+    async function fetchPostsBy(searchCriteria, countPerPage, pageOffset){
+        searchCriteria = JSON.stringify(searchCriteria)
+        return await axios.get('posts/',{
+            headers:{
+                searchCriteria, countPerPage, pageOffset
+            }})
+                .then(res=>res.data)
+                .catch(e=>{console.log(e)})
 
-    //for login modal to send request for server to authenticate user.
-    function authenticateUser(username, password) {
-        return axios.post(`/session`, {username: username, password: password})
-            .then(res => {
-                setUserAuth(res.data)
-                return res.data
-            })
-            .catch(e => {})
     }
 
-    return  {userAuth, myPosts, myWatchings,
-        authenticateUser, setFresh};
+    async function fetchPostsOf(countPerPage, pageOffset, postType){
+        return await axios.get(`/users/${loginUser.username}/posts/${postType}`,{
+            headers:{
+                countPerPage,pageOffset
+            }
+        })
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+    }
+
+    async function fetchNewestPosts(days,countPerPage, pageOffset){
+        return await axios.get('posts/newest',{
+            headers:{
+                days, countPerPage, pageOffset
+            }
+        })
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+    }
+
+
+    //for login modal to send request for server to authenticate user.
+    async function authenticateUser(username, password) {
+        return await axios.post(`/`, {"username": username, "password": password})
+            .then(res => {
+                const user = res.data
+                setLoginUser(user)
+                return user
+            })
+            .catch(e => {
+                console.log(e)
+            })
+    }
+
+    //for signup
+    async function signUpUser(user) {
+        console.log(user)
+        return await axios.post('users/new', user)
+            .then(res => {
+                const dbUser = res.data
+                if (dbUser) {
+                    setLoginUser(dbUser)
+                }
+                return dbUser
+            })
+            .catch(e => {
+                console.log(e)
+            })
+    }
+
+
+    return {
+        //states
+        loginUser, dashboard,
+        //functions
+        clearSession: clearLocalStorage, fetchPostsBy, fetchNewestPosts, fetchPostsOf,
+        signUpUser, authenticateUser
+    };
 }

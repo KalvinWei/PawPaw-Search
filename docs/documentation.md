@@ -47,7 +47,7 @@ use the following details to connect to access **pawshomeDB** on Atlas( a mongoD
 - Compass connection string: mongodb+srv://group26:<password>@cs732.pgo4d.mongodb.net/test
   - username: group26  
   - password: MITCS732  
-- Application connection string: mongodb+srv://group26:MITCS732@cs732.pgo4d.mongodb.net/PawsHome?retryWrites=true&w=majority
+- Application connection string: mongodb+srv://group26:MITCS732@cs732.pgo4d.mongodb.net/App?retryWrites=true&w=majority
 ### Schemas
 - users (...)
 - posts (...)
@@ -57,17 +57,17 @@ use the following details to connect to access **pawshomeDB** on Atlas( a mongoD
 APIs, in server-side, defines (1) to which router a request goes  (2) how a router responds to client-side requests.  
 [More frequently modified version on Google Docs](https://docs.google.com/document/d/1NIykaM0rt8LgUMsJjzYl1RrtKgz9JzDZKKAjppfOePk/edit?usp=sharing)
 
-\#|fetch url|receive|send|description
----|---|---|---|---
-B1|POST /session|username, password|isValidUser, user| validate username and password.
-B2|POST /user/new|user|isFailed, user|create new user
-B3|GET /user/:username|username|user|get full user information of a user
-B4|PUT /user/:username|user|isFailed, user|update user profile
-B5|GET /posts/newest| |newestPosts|return a list of past 24 hours posts
-B6|GET /dashboard| |dashboard|the returned "dashboard" is a collection of statistics of this website
-B7|GET /posts/ |perPage, offset|posts, pageTotal|return perNum posts from given offset, and the page count
-B8|GET /posts/search |criteria, perPage, offset|posts, pageTotal|return perNum of posts meeting the criteria from given offset, and the page count
-
+\#|availability|fetch url|receive|send|description
+---|---|---|---|---|---
+B1|Yes|POST /|**body:** username, password|{isValidUser, user}| validate username and password.
+B2|Yes|POST /users/new|**body:** user|{isSuccessful, user}|if username occupied, isSuccessful=false, user=null
+B3|Yes|GET /users/:username|**params:** username|user|get user information without posts of a user
+B4|No|PUT /users/:username|user|isFailed, user|update user profile
+B5|No|GET /posts/newest| |newestPosts|return a list of past 24 hours posts
+B6|No|GET /dashboard| |dashboard|the returned "dashboard" is a collection of statistics of this website
+B7|Yes|GET /posts/ |**headers:** searchCriteria,countPerPage, pageOffset|posts, pageTotal|return perNum posts from given offset, and the page count
+B8|Yes|GET /:username/posts/mine |**params:** username|posts|posts created by the specified user
+B9|Yes|GET /:username/posts/watching |**params:** username|posts|posts watched by the specified user
 
 ***
 ## Pages & Modules - frontend  

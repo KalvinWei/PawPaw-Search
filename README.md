@@ -9,11 +9,11 @@ Riffat Nourin
 [on Trello](https://trello.com/b/Z21kdnrB/pawpaw-search)  
 [on Github Project](https://github.com/csdoris/Group-26-Cerise-Crab/projects/1)
 ## Project features
-Paws PawsHome, a web service dedicated to lost pet searching.
+Paws App, a web service dedicated to lost pet searching.
 
 **Must-have features:**
 - Account Management.
-- PawsHome Page. A dashboard shows the general operational data of this website. Newest Posts exhibits the newly added lost and found posts.
+- App Page. A dashboard shows the general operational data of this website. Newest Posts exhibits the newly added lost and found posts.
 - Post Plaza. All posts are displayed here. Users can search by keywords or some criteria.
 - My Post. Here, users manage the post related to themselves.
 - Matching Engine. This invisible component performs matching upon lost and found posts and produces hooks between them. Thus, users can see ordered matching posts under their posts.

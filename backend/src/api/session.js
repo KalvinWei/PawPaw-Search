@@ -5,20 +5,15 @@ const HTTP_CREATED = 201;
 const HTTP_NOT_FOUND = 404;
 const HTTP_NO_CONTENT = 204;
 
-const session = express.Router();
+const session = express();
 
+//API checked!
 session.post('/', async (req,res)=>{
     //TODO API-B1
-    const username = req.body.username;
-    const password = req.body.password;
+    const {username, password} = req.body
     const user = await authenticateUser(username,password)
-    const isValidUser = user ? true:false
-    res.json({isValidUser:isValidUser, user:user})
+    res.send(user)
 
-})
-
-session.get('/',(req,res)=>{
-    res.send("success")
 })
 
 export default session;

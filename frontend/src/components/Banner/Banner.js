@@ -1,35 +1,92 @@
 import React, {useContext} from 'react';
 import {AppContext} from "../../ContextProvider";
-import {Link, NavLink, Route, Switch, useRouteMatch} from 'react-router-dom'
+import {Link, NavLink, Route, Switch, useHistory, useLocation} from 'react-router-dom'
 import LoginDialog from "../Dialogs/LoginDialog/LoginDialog";
+import SignUpDialog from "../Dialogs/SignUpDialog/SignUpDialog";
+import {makeStyles} from '@material-ui/core/styles';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
+import PetsIcon from '@material-ui/icons/Pets'
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+    },
+    menuButton: {
+        marginRight: theme.spacing(2),
+    },
+    title: {
+        flexGrow: 1,
+        '& > *': {
+            margin: '0 20px'
+        }
+    },
+}));
 
 
 export default function Banner() {
-    const {userAuth} = useContext(AppContext)
-    const {isValidUser, user} = userAuth
+    const classes = useStyles();
+    const {loginUser, clearSession} = useContext(AppContext)
 
-    const {url, path} = useRouteMatch()
+    const history = useHistory()
 
+    const logout = () => {
+        clearSession()
+        history.push("/")
+    }
 
     return (
-        <div className="banner">
-            <div><h1>Our logo here</h1></div>
-            <nav>
-                <NavLink to='\PostPlaza'>Post Plaza</NavLink>
-                {isValidUser ? <NavLink to='\MyPage'>My Page</NavLink> : null}
-            </nav>
-            {isValidUser ? <div><span>welcome! `{user.name}`</span></div> :
-                <div><Link to={`${url}/login`}>log in</Link><Link to={`${url}/sign-up`}>sign up</Link></div>}
+        <div className={classes.root}>
+            <AppBar position="static">
+                <Toolbar>
+                    <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
+                        <PetsIcon />
+                    </IconButton>
+                    <Typography variant="h6" className={classes.title}>
+                        <span onClick={() => {
+                            history.push('/')
+                        }}>Home</span>
+                        <span onClick={() => {
+                            history.push('/PostPlaza')
+                        }}>Post Plaza</span>
+                        {loginUser &&
+                        <span onClick={() => {
+                            history.push('/MyPage')
+                        }}>My Page</span>
+                        }
+                    </Typography>
+                    {loginUser ?
+                        <div>
+                            <Typography variant='button'>
+                                <span>{loginUser.firstName + " " + loginUser.lastName}</span>
+                            </Typography> /
+                            <Button color='inherit' onClick={logout}>Log Out</Button>
+                        </div>
+                        :
+                        <div>
+                            <Button color='inherit' onClick={() => {
+                                history.push('/login')
+                            }}>Log In</Button>
+                            <Button  color='inherit' onClick={() => {
+                                history.push('/sign-up')
+                            }}>Sign Up</Button>
+                        </div>
+                    }
+                </Toolbar>
+            </AppBar>
             <Switch>
-                <Route path={`${path}/login`}>
+                <Route path={`/login`}>
                     <LoginDialog/>
                 </Route>
-            </Switch>
-            <Switch>
-                <Route path={`${path}/sign-up`}>
+                <Route path={`/sign-up`}>
                     <SignUpDialog/>
                 </Route>
             </Switch>
         </div>
+
     );
 }

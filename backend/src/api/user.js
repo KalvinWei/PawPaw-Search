@@ -1,41 +1,49 @@
 import express from 'express'
+import {getPostsOf} from "../DAO/postDAO";
+import {createUser, getUserBy} from "../DAO/userDAO";
+import {validateUsername} from "../DAO/authDAO";
 
 // const HTTP_OK = 200; // Not really needed; this is the default if you don't set something else.
 const HTTP_CREATED = 201;
 const HTTP_NOT_FOUND = 404;
 const HTTP_NO_CONTENT = 204;
 
-const user = express.Router();
+const user = express();
 
-const userSchemaCopy = require('../db/schemas/UserSchema')
-
-user.post('../../frontend/src/components/Dialogs/SignUpDialog/SignUpDialog',(request ,response)=>{
+//for signup modal
+user.post('/new', async (req, res) => {
     //TODO API-B2
-    const signedUpUser = new userSchemaCopy({
-        username: request.body.username,
-        email: request.body.email,
-        password: request.body.password,
-        firstName: request.body.firstName,
-        lastName: request.body.lastName,
-        phone: request.body.phone,
-        address: request.body.address
-    })
-    signedUpUser.save()
-        .then(data => {
-            response.json(data)
-        })
-        .catch(error =>{
-            response.json(error)
-        })
+    const user = req.body
+    let newUser = null;
+    const isValidUsername = await validateUsername(user.username)
+    if (!isValidUsername) {
+        newUser = await createUser(user)
+    }
+    res.send(newUser)
 })
 
-user.get('/:username',(req,res)=>{
-    //TODO API-B3
+//for populating UserPage.js for a specified user(username).
+//NOTE: in the returned "user" object, posts are just foreign references, i.e. not populated.
+user.get('/:username', async (req, res) => {
+    const {username} = req.params
+    const user = await getUserBy(username)
+    res.send(user)
 })
 
-user.get('/:username/posts/mine',(req,res)=>{
-    const username = req.params.username;
-    return getPostsCreatedBy(username);
+//this API is for populating posts created by the specified user
+user.get('/:username/posts/mine', async (req, res) => {
+    const {countperpage, pageoffset} = req.headers
+    const username = req.params.username
+    const result = await getPostsOf(username, countperpage, pageoffset,'myPosts')
+    res.send(result)
+})
+
+//this API is for populating posts created by the specified user
+user.get('/:username/posts/watching', async (req, res) => {
+    const {countperpage, pageoffset} = req.headers
+    const username = req.params.username
+    const result = await getPostsOf(username, countperpage, pageoffset, 'myWatchings')
+    res.send(result)
 })
 
 export default user;
