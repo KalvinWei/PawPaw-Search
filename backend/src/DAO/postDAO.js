@@ -1,6 +1,6 @@
 import User from "../db/schemas/UserSchema";
 import Post from "../db/schemas/PostSchema";
-import {sphericalCosines} from "earth-distance-js"
+// import {sphericalCosines} from "earth-distance-js"
 
 async function getPostsFor(criteria, countPerPage,pageOffset){
     //TODO: process criteria(searchSetting) to proper query object for mongoDB
