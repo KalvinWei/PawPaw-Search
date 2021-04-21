@@ -4,6 +4,7 @@ import {AppContext} from "../../ContextProvider";
 import SearchSetting from "./SearchSetting/SearchSetting";
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
+import PostsOnMap from "./PostsOnMap/PostsOnMap"
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -42,6 +43,9 @@ export default function PostPlaza() {
                     <SearchSetting onSubmitSearch={setSearch}/>
                 </Grid>
                 <Grid item>
+                    <div>
+                        <PostsOnMap />
+                    </div>
                     <Posts posts={posts} page={pageOffset + 1} onPageChange={handlePageChange} pageTotal={pageTotal}/>
                 </Grid>
             </Grid>
