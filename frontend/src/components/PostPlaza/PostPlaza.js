@@ -42,11 +42,16 @@ export default function PostPlaza() {
                 <Grid item>
                     <SearchSetting onSubmitSearch={setSearch}/>
                 </Grid>
-                <Grid item>
-                    <div style={{width:'100%'}}>
-                        <PostsOnMap posts={posts}/>
-                    </div>
-                    <Posts posts={posts} page={pageOffset + 1} onPageChange={handlePageChange} pageTotal={pageTotal}/>
+                <Grid item direction='column' container>
+                    <Grid item>
+                        <div>
+                            <PostsOnMap posts={posts}/>
+                        </div>
+                    </Grid>
+                    <Grid item>
+                        <Posts posts={posts} page={pageOffset + 1} onPageChange={handlePageChange} pageTotal={pageTotal}/>
+                    </Grid>
+
                 </Grid>
             </Grid>
         </div>

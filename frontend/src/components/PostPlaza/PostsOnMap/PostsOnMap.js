@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup} from "react-map-gl";
 import IconButton from '@material-ui/core/IconButton';
 import PetsIcon from '@material-ui/icons/Pets'
+import {useHistory} from "react-router-dom";
 
 
 export default function PostsOnMap({posts}) {
@@ -13,6 +14,19 @@ export default function PostsOnMap({posts}) {
         zoom: 10
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
+    const [hasPosts, setHasPosts] = useState(false)
+
+    const history = useHistory()
+
+    function showDetail() {
+        history.push({pathname: `/posts/${selectedPetPoint._id}`, state: selectedPetPoint})
+    }
+
+
+    useEffect(()=>{
+        if(posts) setHasPosts(true)
+    },[posts])
+
 
     useEffect(() => {
         const listener = e => {
@@ -29,7 +43,9 @@ export default function PostsOnMap({posts}) {
 
     console.log("-------------------inside map")
     console.log(posts)
-
+    function getLast(post){
+        return post.trace[post.trace.length - 1]
+    }
 
     return (
         <div>
@@ -41,46 +57,48 @@ export default function PostsOnMap({posts}) {
                     setViewport(viewport);
                 }}
             >
-                {posts && posts.map(post => {
-                    const landSpot = post.trace[post.trace.length - 1]
+                {hasPosts ? posts.map(post => {
+
                     return (
                         <Marker
-                            key={post._id}
-                            latitude={landSpot.latitude}
-                            longitude={landSpot.longitude}
-                        >
-                            {/*<IconButton edge="start"  color="inherit" aria-label="menu"*/}
-                            {/*            onClick={e => {*/}
-                            {/*                e.preventDefault();*/}
-                            {/*                setSelectedPetPoint(post);}}*/}
-                            {/*>*/}
-                            {/*    <PetsIcon />*/}
-                            {/*</IconButton>*/}
+                        key={post._id}
+                        latitude={parseFloat(getLast(post).latitude)}
+                        longitude={parseFloat(getLast(post).longitude)}
+                    >
                             <div>
-                                POST HERE
+                                <IconButton edge="start"  color="inherit" aria-label="menu"
+                                            onClick={e => {
+                                                e.preventDefault();
+                                                setSelectedPetPoint(post);}}
+                                >
+                                    <PetsIcon />
+                                </IconButton>
+
                             </div>
 
                         </Marker>
                     )}
-                )}
+                ): null}
 
-                {/*{selectedPetPoint ? (*/}
-                {/*    <Popup*/}
-                {/*        latitude={selectedPetPoint.landSpot.latitude}*/}
-                {/*        longitude={selectedPetPoint.landSpot.longitude}*/}
-                {/*        onClose={() => {*/}
-                {/*            setSelectedPetPoint(null);*/}
-                {/*        }}*/}
-                {/*    >*/}
-                {/*        <div>*/}
-                {/*            <h2>{selectedPetPoint.post.petName}</h2>*/}
-                {/*            <h1>{selectedPetPoint.post.status}</h1>*/}
-                {/*        </div>*/}
-                {/*    </Popup>*/}
-                {/*) : null}*/}
+
+                {selectedPetPoint ? (
+                    <Popup
+                        latitude={parseFloat(getLast(selectedPetPoint).latitude)}
+                        longitude={parseFloat(getLast(selectedPetPoint).longitude)}
+                        onClose={() => {
+                            setSelectedPetPoint(null);
+                        }}
+                    >
+                        <div>
+                            <h2>{selectedPetPoint.petName}</h2>
+                            <h1>{selectedPetPoint.status}</h1>
+                           // TODO: change <a/> to ... change UI.
+
+                            <a onClick={showDetail}>see detail</a>
+                        </div>
+                    </Popup>
+                ) : null}
             </ReactMapGL>
         </div>
     );
-
-
 }
