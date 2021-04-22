@@ -15,7 +15,6 @@ export default function PostsOnMap({posts}) {
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
     const [hasPosts, setHasPosts] = useState(false)
-
     const history = useHistory()
 
     function showDetail() {
@@ -23,9 +22,9 @@ export default function PostsOnMap({posts}) {
     }
 
 
-    useEffect(()=>{
-        if(posts) setHasPosts(true)
-    },[posts])
+    useEffect(() => {
+        if (posts) setHasPosts(true)
+    }, [posts])
 
 
     useEffect(() => {
@@ -41,9 +40,7 @@ export default function PostsOnMap({posts}) {
         };
     }, []);
 
-    console.log("-------------------inside map")
-    console.log(posts)
-    function getLast(post){
+    function getLast(post) {
         return post.trace[post.trace.length - 1]
     }
 
@@ -59,26 +56,26 @@ export default function PostsOnMap({posts}) {
             >
                 {hasPosts ? posts.map(post => {
 
-                    return (
-                        <Marker
-                        key={post._id}
-                        latitude={parseFloat(getLast(post).latitude)}
-                        longitude={parseFloat(getLast(post).longitude)}
-                    >
-                            <div>
-                                <IconButton edge="start"  color="inherit" aria-label="menu"
-                                            onClick={e => {
-                                                e.preventDefault();
-                                                setSelectedPetPoint(post);}}
-                                >
-                                    <PetsIcon />
-                                </IconButton>
-
-                            </div>
-
-                        </Marker>
-                    )}
-                ): null}
+                        return (
+                            <Marker
+                                key={post._id}
+                                latitude={parseFloat(getLast(post).latitude)}
+                                longitude={parseFloat(getLast(post).longitude)}
+                            >
+                                <div>
+                                    <IconButton edge="start" color="inherit" aria-label="menu"
+                                                onClick={e => {
+                                                    e.preventDefault();
+                                                    setSelectedPetPoint(post);
+                                                }}
+                                    >
+                                        <PetsIcon/>
+                                    </IconButton>
+                                </div>
+                            </Marker>
+                        )
+                    }
+                ) : null}
 
 
                 {selectedPetPoint ? (
@@ -92,9 +89,8 @@ export default function PostsOnMap({posts}) {
                         <div>
                             <h2>{selectedPetPoint.petName}</h2>
                             <h1>{selectedPetPoint.status}</h1>
-                           // TODO: change <a/> to ... change UI.
-
                             <a onClick={showDetail}>see detail</a>
+                            {/* TODO： change <a/> to ... change UI.*/}
                         </div>
                     </Popup>
                 ) : null}

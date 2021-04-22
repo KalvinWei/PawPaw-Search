@@ -52,9 +52,25 @@ const firstPost={
         longitude: '174.71945677414823',
         timestamp: '2021-02-28'
     }]
-
 }
 
+const secondPost= {
+    //poster to be added
+    petName: 'DouDou',
+    //petImages to be added
+    petColor: PetColor.Black,
+    petSize: PetSize.Small,
+    isMicrochipped: 'Yes',
+    petGender: PetGender.Male,
+    collarTagDescription: 'cute and strong dog',
+    comment: 'Lost since last week',
+    status: PostStatus.Lost,
+    trace: [{
+        latitude: '-36.8871',
+        longitude: '174.7475',
+        timestamp: '2021-02-28'
+    }]
+}
 export {
-    firstUser, somePetTypes, firstPost
+    firstUser, somePetTypes, firstPost,secondPost
 };
