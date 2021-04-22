@@ -8,25 +8,28 @@ export default function PostsOnMap({posts}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width: "1000px",
+        width: "100%",
         height: "500px",
         zoom: 10
     });
-    // const [selectedPetPoint, setSelectedPetPoint] = useState(null);
-    //
-    // useEffect(() => {
-    //     const listener = e => {
-    //         if (e.key === "Escape") {
-    //             setSelectedPetPoint(null);
-    //         }
-    //     };
-    //     window.addEventListener("keydown", listener);
-    //
-    //     return () => {
-    //         window.removeEventListener("keydown", listener);
-    //     };
-    // }, []);
-    //
+    const [selectedPetPoint, setSelectedPetPoint] = useState(null);
+
+    useEffect(() => {
+        const listener = e => {
+            if (e.key === "Escape") {
+                setSelectedPetPoint(null);
+            }
+        };
+        window.addEventListener("keydown", listener);
+
+        return () => {
+            window.removeEventListener("keydown", listener);
+        };
+    }, []);
+
+    console.log("-------------------inside map")
+    console.log(posts)
+
 
     return (
         <div>
@@ -38,30 +41,33 @@ export default function PostsOnMap({posts}) {
                     setViewport(viewport);
                 }}
             >
+                {posts && posts.map(post => {
+                    const landSpot = post.trace[post.trace.length - 1]
+                    return (
+                        <Marker
+                            key={post._id}
+                            latitude={landSpot.latitude}
+                            longitude={landSpot.longitude}
+                        >
+                            {/*<IconButton edge="start"  color="inherit" aria-label="menu"*/}
+                            {/*            onClick={e => {*/}
+                            {/*                e.preventDefault();*/}
+                            {/*                setSelectedPetPoint(post);}}*/}
+                            {/*>*/}
+                            {/*    <PetsIcon />*/}
+                            {/*</IconButton>*/}
+                            <div>
+                                POST HERE
+                            </div>
 
-                <Marker
-                    // key={post._id}
-                    latitude={-36.912300}
-                    longitude={174.739000}
-                >
-                    <IconButton edge="start"  color="inherit" aria-label="menu">
-                        <PetsIcon />
-                    </IconButton>
-
-                    {/*onClick={e => {*/}
-                    {/*e.preventDefault();*/}
-                    {/*setSelectedPetPoint(post);}}*/}
-                </Marker>
-
-                {/*{posts.map(post => (*/}
-
-                {/* */}
-                {/*))}*/}
+                        </Marker>
+                    )}
+                )}
 
                 {/*{selectedPetPoint ? (*/}
                 {/*    <Popup*/}
-                {/*        latitude={selectedPetPoint.trace.latitude}*/}
-                {/*        longitude={selectedPetPoint.trace.longitude}*/}
+                {/*        latitude={selectedPetPoint.landSpot.latitude}*/}
+                {/*        longitude={selectedPetPoint.landSpot.longitude}*/}
                 {/*        onClose={() => {*/}
                 {/*            setSelectedPetPoint(null);*/}
                 {/*        }}*/}

@@ -18,7 +18,6 @@ const useStyles = makeStyles((theme) => ({
 export default function Posts({posts, pageTotal, page, onPageChange}){
     //TODO: here should be a paginated div to show posts(which are <PostCard>s) meeting the search criteria.
     const classes = useStyles();
-
     return (
         (!posts || posts.length ===0) ? <div><p>OOPS! NO AVAILABLE POSTS.</p></div> :
             <div className={classes.root}>
