@@ -82,7 +82,8 @@ const PostSchema = new Schema({
         latitude: String,
         longitude: String,
         timestamp: Date
-    }]
+    }],
+    matches: [{type: Schema.Types.ObjectId, ref:'Post' }]
 },
     {
     timestamps: {}

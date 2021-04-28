@@ -35,7 +35,7 @@ export default function Posts({posts, pageTotal, page, onPageChange}){
                     page={page}
                     variant="outlined"
                     color="primary"
-                    onChange={onPageChange}/>}
+                    onChange={onPageChange} />}
 
             </div>
     )

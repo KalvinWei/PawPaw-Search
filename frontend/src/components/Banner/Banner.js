@@ -9,7 +9,6 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
 import PetsIcon from '@material-ui/icons/Pets'
 
 const useStyles = makeStyles((theme) => ({
@@ -38,6 +37,26 @@ export default function Banner() {
         clearSession()
         history.push("/")
     }
+
+    //for login dialog
+    const [loginOpen, setLoginOpen] = React.useState(false);
+    const openLogin = () => {
+        setLoginOpen(true);
+    };
+    const closeLogin = () => {
+        setLoginOpen(false);
+        history.goBack()
+    };
+
+    //for signup dialog
+    const [signupOpen, setSignupOpen] = React.useState(false);
+    const openSignup = () => {
+        setSignupOpen(true);
+    };
+    const closeSignup = () => {
+        setSignupOpen(false);
+        history.goBack()
+    };
 
     return (
         <div className={classes.root}>
@@ -70,9 +89,11 @@ export default function Banner() {
                         <div>
                             <Button color='inherit' onClick={() => {
                                 history.push('/login')
+                                openLogin()
                             }}>Log In</Button>
                             <Button  color='inherit' onClick={() => {
                                 history.push('/sign-up')
+                                openSignup()
                             }}>Sign Up</Button>
                         </div>
                     }
@@ -80,10 +101,10 @@ export default function Banner() {
             </AppBar>
             <Switch>
                 <Route path={`/login`}>
-                    <LoginDialog/>
+                    <LoginDialog open={loginOpen} onClose={closeLogin}/>
                 </Route>
                 <Route path={`/sign-up`}>
-                    <SignUpDialog/>
+                    <SignUpDialog open={signupOpen} onClose={closeSignup}/>
                 </Route>
             </Switch>
         </div>
