@@ -1,5 +1,7 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
+import IconButton from "@material-ui/core/IconButton";
+import PetsIcon from "@material-ui/icons/Pets";
 // import {useHistory} from "react-router-dom";
 
 const navControlStyle= {
@@ -32,8 +34,7 @@ export default function PostDetailOnMap({post}) {
                 mapStyle="mapbox://styles/zli786/cknqui4de047a18qrip6y1kib"
                 onViewportChange={viewport => {
                     setViewport(viewport);
-                }}
-            >
+                }}>
 
                 <NavigationControl style={navControlStyle} />
                 <ScaleControl maxWidth={100} unit="metric" style={scaleControlStyle} />
@@ -41,7 +42,6 @@ export default function PostDetailOnMap({post}) {
                     style={geolocateControlStyle}
                     positionOptions={{enableHighAccuracy: true}}
                     trackUserLocation={true}
-                    auto
                 />
             </ReactMapGL>
 

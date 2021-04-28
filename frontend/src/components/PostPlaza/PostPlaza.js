@@ -10,8 +10,12 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding:20
-    }
+    },
+    mapStyle :
+        { position:"static",top: 0, bottom: 0, width: "100%"}
 }));
+
+
 
 export default function PostPlaza() {
     const classes = useStyles()
@@ -44,7 +48,7 @@ export default function PostPlaza() {
                 </Grid>
                 <Grid item direction='column' container>
                     <Grid item>
-                        <div>
+                        <div className={classes.mapStyle}>
                             <PostsOnMap posts={posts}/>
                         </div>
                     </Grid>
