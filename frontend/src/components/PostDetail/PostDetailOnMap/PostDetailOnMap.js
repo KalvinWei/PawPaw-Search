@@ -30,9 +30,9 @@ export default function PostDetailOnMap({post}) {
 
     const classes = useStyles()
 
-    function SortTrace(){
+    function SortTrace(post){
         for (let i = 0; i < post.trace.length; i++) {
-
+            return post[i]
         }
     }
 

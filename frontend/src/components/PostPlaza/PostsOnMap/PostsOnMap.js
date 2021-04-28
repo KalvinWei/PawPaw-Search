@@ -36,7 +36,7 @@ export default function PostsOnMap({posts}) {
 
     function showDetail() {
         // TODO: cannot jump to the post details
-        history.push({pathname: `../posts/${selectedPetPoint._id}`, state: selectedPetPoint})
+        history.push({pathname: `./posts/${selectedPetPoint._id}`, state: selectedPetPoint})
     }
 
 
