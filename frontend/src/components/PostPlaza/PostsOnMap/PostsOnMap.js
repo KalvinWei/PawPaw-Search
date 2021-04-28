@@ -1,11 +1,16 @@
 import React, {useState, useEffect} from "react";
-import ReactMapGL, {Marker, Popup, NavigationControl} from "react-map-gl";
+import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl} from "react-map-gl";
 import IconButton from '@material-ui/core/IconButton';
 import PetsIcon from '@material-ui/icons/Pets'
 import {useHistory} from "react-router-dom";
+import Button from "@material-ui/core/Button";
 
 const navControlStyle= {
     right: 10,
+    top: 10
+};
+const scaleControlStyle= {
+    right: 50,
     top: 10
 };
 
@@ -22,7 +27,8 @@ export default function PostsOnMap({posts}) {
     const history = useHistory()
 
     function showDetail() {
-        history.push({pathname: `/posts/${selectedPetPoint._id}`, state: selectedPetPoint})
+        // TODO: cannot jump to the post details
+        history.push({pathname: `../posts/${selectedPetPoint._id}`, state: selectedPetPoint})
     }
 
 
@@ -91,14 +97,16 @@ export default function PostsOnMap({posts}) {
                         }}
                     >
                         <div>
-                            <h2>{selectedPetPoint.petName}</h2>
-                            <h1>{selectedPetPoint.status}</h1>
-                            <a onClick={showDetail}>see detail</a>
-                            {/* TODO： change <a/> to ... change UI.*/}
+                            <h2>Pet Name: {selectedPetPoint.petName}</h2>
+                            <h1 style={{color:"red"}}>{selectedPetPoint.status}</h1>
+                            <Button size="small" color="primary" onClick={showDetail}>
+                                see details
+                            </Button>
                         </div>
                     </Popup>
                 ) : null}
                 <NavigationControl style={navControlStyle} />
+                <ScaleControl maxWidth={100} unit="metric" style={scaleControlStyle} />
             </ReactMapGL>
         </div>
     );

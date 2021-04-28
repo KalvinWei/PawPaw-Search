@@ -1,6 +1,12 @@
 import React, {useState, useEffect} from "react";
-import ReactMapGL, {Marker, Popup} from "react-map-gl";
+import ReactMapGL, {Marker, Popup, NavigationControl} from "react-map-gl";
 // import {useHistory} from "react-router-dom";
+
+const navControlStyle= {
+    right: 10,
+    top: 10
+};
+
 
 export default function PostDetailOnMap({post}) {
     const [viewport, setViewport] = useState({
@@ -22,6 +28,7 @@ export default function PostDetailOnMap({post}) {
                 }}
             >
 
+                <NavigationControl style={navControlStyle} />
             </ReactMapGL>
 
         </div>
