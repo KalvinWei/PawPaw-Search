@@ -1,61 +1,10 @@
-import React, {useContext, useEffect, useState} from 'react'
-import {AppContext} from "../../ContextProvider";
+import React, {useContext, useState} from 'react'
 import Posts from "../PostPlaza/Posts/Posts";
-import Grid from "@material-ui/core/Grid";
-import {Card, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography} from "@material-ui/core";
-import {makeStyles} from "@material-ui/core/styles";
-import {Email, Person, PhoneAndroid, Room} from "@material-ui/icons";
-import Button from "@material-ui/core/Button";
-
-
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-        padding:20
-    }
-}));
+import {AppContext} from "../../ContextProvider";
 
 export default function UserPage(){
-    const classes  = useStyles()
-    const {loginUser, fetchPostsOf} = useContext(AppContext)
-    const user = loginUser
-    //TODO for testing
-    delete user.myPosts
-    delete user.myWatchings
-
-    //states for myPosts
-    const [myPosts, setMyPosts] = useState(null)
-    const [offSetMy, setOffsetMy] = useState(0)
-    const [pageTotalMy, setPageTotalMy] = useState(0)
-    useEffect(()=>{
-        async function fetchData(){
-            const {posts, pageTotal:pageCount} = await fetchPostsOf(20, offSetMy, 'mine')
-            setMyPosts(posts)
-            setPageTotalMy(pageCount)
-        }
-        fetchData()
-    },[offSetMy])
-    function handlePageChangeMy(pageIndex){
-        setOffsetMy(pageIndex-1)
-    }
-
-
-    //states for myWatchings
-    const [watchings, setWatchings] = useState(null)
-    const [offSetWatching, setOffsetWatching] = useState(0)
-    const [pageTotalWatching, setPageTotalWatching] = useState(0)
-    useEffect(()=>{
-        async function fetchData(){
-            const {posts, pageTotal:pageCount}  = await fetchPostsOf(20, offSetWatching,'watching')
-            setWatchings(posts)
-            setPageTotalWatching(pageCount)
-        }
-        fetchData()
-    }, [offSetWatching])
-    function handlePageChangeWatchings(pageIndex){
-        setOffsetWatching(pageIndex-1)
-    }
-
+    const {userAuth, myPosts, myWatchings} = useContext(AppContext)
+    const user = userAuth.user
 
     return (
         <Grid container direction='row' spacing={2} className={classes.root}>
@@ -72,7 +21,7 @@ export default function UserPage(){
                                 </tr>
                                 <tr>
                                     <td><Typography variant='body2' color='textSecondary'><Room/></Typography></td>
-                                    <td><Typography variant='body1' color='textPrimary'>{user.address.number} {user.address.street}, {user.address.city} {user.address.postcode}</Typography></td>
+                                    <td><Typography variant='body1' color='textPrimary'>{user.address.number} {user.address.street} {user.address.city} {user.address.postcode}</Typography></td>
                                 </tr>
                                 <tr>
                                     <td><Typography variant='body2' color='textSecondary'><Email/></Typography></td>

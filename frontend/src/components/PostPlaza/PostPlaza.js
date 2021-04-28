@@ -10,6 +10,14 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding:20
+    }
+}));
+
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        flexGrow: 1,
+        padding:20
     },
     mapStyle :
         { position:"static",top: 0, bottom: 0, width: "100%"}

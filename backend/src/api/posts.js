@@ -1,5 +1,5 @@
 import express from 'express'
-import {getPostsFor, getPostsSince} from "../DAO/postDAO";
+import {getPostsFor, getPostsSince, getMatchedPostsFor, getPostById} from "../DAO/postDAO";
 
 const posts = express()
 
@@ -16,10 +16,16 @@ posts.get('/newest/', async (req,res)=>{
     res.send(newestPosts)
 })
 
-posts.get('/posts/:id', async (req, res)  => {
+posts.get('/:id', async (req, res)  => {
     const {id} = req.params
     const post = await getPostById(id)
     res.send(post)
+})
+
+posts.get('/:id/matches', async (req,res) =>{
+    const {postid, countperpage,  pageoffset} = req.headers
+    const result = await getMatchedPostsFor(postid, countperpage, pageoffset)
+    res.send(result)
 })
 
 export default posts;

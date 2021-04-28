@@ -12,7 +12,7 @@ import {firstPost, firstUser, somePetTypes, secondPost} from "./init-data";
 main();
 
 async function main() {
-    await mongoose.connect('mongodb://localhost:27017/App', {
+    await mongoose.connect('mongodb+srv://group26:MITCS732@cs732.pgo4d.mongodb.net/App', {
         useNewUrlParser: true
     });
     console.log('Connected to database!');

@@ -1,6 +1,6 @@
 import User from "../db/schemas/UserSchema";
 import Post from "../db/schemas/PostSchema";
-// import {sphericalCosines} from "earth-distance-js"
+import {sphericalCosines} from "earth-distance-js"
 
 async function getPostsFor(criteria, countPerPage,pageOffset){
     //TODO: process criteria(searchSetting) to proper query object for mongoDB
@@ -9,7 +9,7 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
     //
     // }
     criteria = {}
-
+    delete criteria.status
     // status: "All",
     //     petBreed: "All",
     //     petSize: "All",
@@ -27,7 +27,7 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
     return {posts:onePagePosts, pageTotal}
 }
 
-async function getPostsOf(username, countperpage, pageoffset, field) {
+async function getPostsWatchedBy(username) {
     const user =
         await User.findOne({username:username})
             .populate(field)
@@ -45,6 +45,19 @@ async function getPostsSince(days, countPerPage, pageOffset){
     return await getPostsFor(criteria,countPerPage,pageOffset)
 }
 
+async function getMatchedPostsFor(postId, countPerPage, pageOffset){
+    const post =
+        await Post.findOne({_id:postId})
+            .populate('watches')
+    if(!post) return null
+
+    console.log(post)
+    const allWatches = post.watches
+    const pageTotal = Math.ceil(allWatches.length / countPerPage)
+    const posts = allWatches.slice(pageoffset * countperpage, pageoffset * countperpage + 1)
+    return {posts, pageTotal}
+}
+
 async function getPostById(id){
     const post =
         await Post.findOne({_id:id})
@@ -52,4 +65,4 @@ async function getPostById(id){
     return post
 }
 
-export {getPostsOf, getPostsFor, getPostsSince}
+export {getPostsOf, getPostsFor, getPostsSince, getMatchedPostsFor, getPostById}

@@ -3,122 +3,181 @@ import React from "react";
 import {useState, useContext} from 'react';
 import {AppContext} from "../../../ContextProvider";
 import {useHistory} from "react-router-dom";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import {FormHelperText} from "@material-ui/core";
 
+export default function SignUpDialog({open, onClose}) {
 
-export default function SignUpDialog() {
+        const {signUpUser, loginUser} = useContext(AppContext);
 
-    const {signUpUser, loginUser} = useContext(AppContext);
-    console.log(loginUser || "no user logged in")
+        const [user, setUser] = useState({
+            username: "",
+            password: "",
+            cfmPassword: "",
+            email: "",
+            firstName: "",
+            lastName: "",
+            phone: "",
+            address: {
+                number: "",
+                street: "",
+                city: "",
+                postcode: ""
+            }
+        })
+        const [isUsernameValid, setIsUsernameValid] = useState(true)
+        const [isPwdMatch, setIsPwdMath] = useState(true)
 
-    const [user, setUser] = useState({
-        username: "",
-        password: "",
-        cfmPassword: "",
-        email: "",
-        firstName: "",
-        lastName: "",
-        phone: "",
-        address: {
-            number: "",
-            street: "",
-            city: "",
-            postcode: ""
+        const history = useHistory()
+
+        // TODO CHECK username duplicate -> check if this should be implemented in schema
+        // TODO the format of phone number and email is correct or not -> 39/ week 4
+        // TODO check whether the confirm password matches with password
+        async function handleUserCreate() {
+            console.log(user)
+            if (user.password !== user.cfmPassword) {
+                setIsPwdMath(false)
+                return
+            }
+            const {cfmPassword, ...rest} = user
+            setUser(rest)
+            const dbUser = await signUpUser(user)
+            if (dbUser) {
+                history.goBack()
+            } else {
+                setIsUsernameValid(false)
+            }
         }
-    })
-    const [isUsernameValid, setIsUsernameValid] = useState(true)
-    const [isPwdMatch, setIsPwdMath] =  useState(true)
 
-    const history = useHistory()
-
-    // TODO CHECK username duplicate -> check if this should be implemented in schema
-    // TODO the format of phone number and email is correct or not -> 39/ week 4
-    // TODO check whether the confirm password matches with password
-    async function handleUserCreate() {
-        console.log(user)
-        if(user.password  !== user.cfmPassword){
-            setIsPwdMath(false)
-            return
-        }
-        const {cfmPassword,...rest} = user
-        setUser(rest)
-        const dbUser = await signUpUser(user)
-        if(dbUser){
-            history.goBack()
-        } else {
-            setIsUsernameValid(false)
-        }
-    }
-
-    function handleCancel() {
-        history.goBack()
-    }
-
-
-    return (
-        <Modal style={{width: '50%', height: 'auto'}} dismissOnClickOutside={true} onCancel={() => history.goBack()}>
-            <h2>Create An Account</h2>
+        return (
             <div>
-                <div>
-                    <label>First Name</label>
-                    <input type="text" value={user.firstName} onInput={e => setUser({...user, firstName:e.target.value})}/>
-                </div>
-                <div>
-                    <label>Last Name</label>
-                    <input type="text" value={user.lastName} onInput={e => setUser({...user, lastName:e.target.value})}/>
-                </div>
-                <div>
-                    <label>Email</label>
-                    <input type="text" value={user.email} onInput={e => setUser({...user, email:e.target.value})}/>
-                </div>
-                <div>
-                    <label>addr No.</label>
-                    <input type="text" value={user.address.number} onInput={e => setUser({...user, address:{number:e.target.value}})}/>
-                </div>
-                <div>
-                    <label>street</label>
-                    <input type="text" value={user.address.street} onInput={e => setUser({...user, address:{street:e.target.value}})}/>
-                </div>
-                <div>
-                    <label>city</label>
-                    <input type="text" value={user.address.city} onInput={e => setUser({...user, address:{city:e.target.value}})}/>
-                </div>
-                <div>
-                    <label>postcode</label>
-                    <input type="text" value={user.address.postcode} onInput={e => setUser({...user, address:{postcode:e.target.value}})}/>
-                </div>
-                <div>
-                    <label>Phone</label>
-                    <input type="text" value={user.phone} onInput={e => setUser({...user, phone:e.target.value})}/>
-                </div>
-                <div>
-                    <label>Username</label>
-                    <input type="text" value={user.username} onInput={e => setUser({...user, username:e.target.value})}/>
-                </div>
-                <div>
-                    <label>Password</label>
-                    <input type="password" value={user.password} onInput={e => setUser({...user, password:e.target.value})}/>
-                </div>
-                <div>
-                    <label>Confirm Password</label>
-                    <input type="password" value={user.cfmPassword} onInput={e => setUser({...user, cfmPassword:e.target.value})}/>
-                </div>
-                <div>
-                    {isUsernameValid || <p>{user.username} is in use. Try with another one.</p>}
-                    {isPwdMatch || <p>Passwords don't match with each other.</p>}
-                </div>
-                <div style={{flexDirection: 'row-reverse'}}>
-                    <button
-                        style={{flexBasis: '100px', flexGrow: 0}}
-                        onClick={handleUserCreate}>
-                        Creat
-                    </button>
-                    <button
-                        style={{flexBasis: '100px', flexGrow: 0}}
-                        onClick={handleCancel}>
-                        Cancel
-                    </button>
-                </div>
+                <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
+                    <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            Please input the fields to sign up!
+                        </DialogContentText>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Username"
+                            type="text"
+                            value={user.username}
+                            onChange={e => setUser({...user, username: e.target.value})}
+                            fullWidth
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="First Name"
+                            type="text"
+                            value={user.firstName}
+                            onChange={e => setUser({...user, firstName: e.target.value})}
+                            fullWidth
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="First Name"
+                            type="text"
+                            value={user.lastName}
+                            onChange={e => setUser({...user, lastName: e.target.value})}
+                            fullWidth
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Email"
+                            type="text"
+                            value={user.email}
+                            onChange={e => setUser({...user, email: e.target.value})}
+                            fullWidth
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Address Number"
+                            type="text"
+                            value={user.address.number}
+                            onChange={e => setUser({...user, address: {...user.address, number: e.target.value}})}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Street"
+                            type="text"
+                            value={user.address.street}
+                            onChange={e => setUser({...user, address: {...user.address, street: e.target.value}})}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="City"
+                            type="text"
+                            value={user.address.city}
+                            onChange={e => setUser({...user, address: {...user.address, city: e.target.value}})}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="State"
+                            type="text"
+                            value={user.address.postcode}
+                            onChange={e => setUser({...user, address: {...user.address, postcode: e.target.value}})}
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Phone Number"
+                            type="text"
+                            value={user.phone}
+                            onChange={e => setUser({...user, phone: e.target.value})}
+                            fullWidth
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Password"
+                            type="password"
+                            value={user.password}
+                            onChange={e => setUser({...user, password: e.target.value})}
+                            fullWidth
+                        />
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Confirm Password"
+                            type="password"
+                            value={user.cfmPassword}
+                            onChange={e => setUser({...user, cfmPassword: e.target.value})}
+                            fullWidth
+                        />
+                        <div>
+                            {isUsernameValid ||
+                            <FormHelperText style={{color: 'red', fontSize: 'large'}}>
+                                Username you input is in already use
+                            </FormHelperText>}
+                            {isPwdMatch ||
+                            <FormHelperText style={{color: 'red', fontSize: 'large'}}>
+                                The passwords you input don't match
+                            </FormHelperText>}
+                        </div>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={onClose} color="primary">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleUserCreate} color="primary">
+                            Sign up
+                        </Button>
+                    </DialogActions>
+                </Dialog>
             </div>
-        </Modal>
-    );
+        );
 }
