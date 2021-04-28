@@ -6,6 +6,7 @@ import {Card, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typo
 import {makeStyles} from "@material-ui/core/styles";
 import {Email, Person, PhoneAndroid, Room} from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
+import {Switch} from "react-router-dom";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +57,11 @@ export default function UserPage(){
         setOffsetWatching(pageIndex-1)
     }
 
+    //profile edit
+    function handleProfileEdit(){
+
+    }
+
 
     return (
         <Grid container direction='row' spacing={2} className={classes.root}>
@@ -86,7 +92,10 @@ export default function UserPage(){
                             </table>
                         </Grid>
                         <Grid item style={{alignSelf:'flex-end'}}>
-                            <Button size='small' color='primary' >Edit Profile</Button>
+                            <Button size='small' color='primary' onClick={handleProfileEdit}>Edit Profile</Button>
+                            <Switch>
+                                <Route path='/edit'/>
+                            </Switch>
                         </Grid>
                     </Grid>
                 </Paper>
