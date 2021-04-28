@@ -1,12 +1,19 @@
 import React, {useState, useEffect} from "react";
-import ReactMapGL, {Marker, Popup, NavigationControl} from "react-map-gl";
+import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
 // import {useHistory} from "react-router-dom";
 
 const navControlStyle= {
     right: 10,
     top: 10
 };
-
+const scaleControlStyle= {
+    right: 50,
+    top: 10
+};
+const geolocateControlStyle= {
+    right: 10,
+    bottom: 20
+};
 
 export default function PostDetailOnMap({post}) {
     const [viewport, setViewport] = useState({
@@ -29,6 +36,13 @@ export default function PostDetailOnMap({post}) {
             >
 
                 <NavigationControl style={navControlStyle} />
+                <ScaleControl maxWidth={100} unit="metric" style={scaleControlStyle} />
+                <GeolocateControl
+                    style={geolocateControlStyle}
+                    positionOptions={{enableHighAccuracy: true}}
+                    trackUserLocation={true}
+                    auto
+                />
             </ReactMapGL>
 
         </div>
