@@ -83,8 +83,22 @@ const secondPost = {
     trace: [{
         latitude: '-36.8871',
         longitude: '174.7475',
-        timestamp: '2021-02-28'
-    }]
+        timestamp: '2021-02-28',
+        comment: 'Lost here'
+    },
+        {
+            latitude: '-36.9227',
+            longitude: '174.7015',
+            timestamp: '2021-02-29',
+            comment:'Maybe I see him at the corner'
+        },
+        {
+            latitude: '-36.8680781',
+            longitude: '174.7634738',
+            timestamp: '2021-02-29',
+            comment:'I have seen the dog under a store . - from ABC'
+        }
+    ]
 }
 export {
     firstUser, somePetTypes, firstPost, secondPost

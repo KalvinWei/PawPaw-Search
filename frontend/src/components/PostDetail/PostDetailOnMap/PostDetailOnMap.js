@@ -35,7 +35,30 @@ export default function PostDetailOnMap({post}) {
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}>
+                {/*{*/}
+                {/*    post.map(post => {*/}
 
+                {/*            return (*/}
+                {/*                <Marker*/}
+                {/*                    key={post._id}*/}
+                {/*                    latitude={parseFloat(getLast(post).latitude)}*/}
+                {/*                    longitude={parseFloat(getLast(post).longitude)}*/}
+                {/*                >*/}
+                {/*                    <div>*/}
+                {/*                        <IconButton edge="start" color="inherit" aria-label="menu"*/}
+                {/*                                    onClick={e => {*/}
+                {/*                                        e.preventDefault();*/}
+                {/*                                        setSelectedPetPoint(post);*/}
+                {/*                                    }}*/}
+                {/*                        >*/}
+                {/*                            <PetsIcon/>*/}
+                {/*                        </IconButton>*/}
+                {/*                    </div>*/}
+                {/*                </Marker>*/}
+                {/*            )*/}
+                {/*        }*/}
+                {/*    )*/}
+                {/*}*/}
                 <NavigationControl style={navControlStyle} />
                 <ScaleControl maxWidth={100} unit="metric" style={scaleControlStyle} />
                 <GeolocateControl
