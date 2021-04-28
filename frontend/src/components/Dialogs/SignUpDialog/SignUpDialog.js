@@ -84,7 +84,7 @@ export default function SignUpDialog({open, onClose}) {
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="Last Name"
+                        label="First Name"
                         type="text"
                         value={user.lastName}
                         onChange={e => setUser({...user, lastName:e.target.value})}
