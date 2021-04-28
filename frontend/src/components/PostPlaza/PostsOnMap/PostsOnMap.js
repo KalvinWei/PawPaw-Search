@@ -4,22 +4,22 @@ import IconButton from '@material-ui/core/IconButton';
 import PetsIcon from '@material-ui/icons/Pets'
 import {useHistory} from "react-router-dom";
 import Button from "@material-ui/core/Button";
+import {makeStyles} from "@material-ui/core/styles";
 
-
-
-
-const navControlStyle = {
-    right: 10,
-    top: 10
-};
-const scaleControlStyle = {
-    right: 50,
-    top: 10
-};
-const geolocateControlStyle = {
-    right: 10,
-    bottom: 20
-};
+const useStyles = makeStyles((theme) => ({
+    navControlStyle: {
+        right: 10,
+        top: 10
+    },
+    scaleControlStyle: {
+        right: 50,
+        top: 10
+    },
+    geolocateControlStyle: {
+        right: 10,
+        bottom: 20
+    }
+}));
 
 export default function PostsOnMap({posts}) {
     const [viewport, setViewport] = useState({
@@ -32,6 +32,7 @@ export default function PostsOnMap({posts}) {
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
     const [hasPosts, setHasPosts] = useState(false)
     const history = useHistory()
+    const classes = useStyles()
 
     function showDetail() {
         // TODO: cannot jump to the post details
@@ -62,7 +63,7 @@ export default function PostsOnMap({posts}) {
     }
 
     return (
-        <div >
+        <div>
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
@@ -106,17 +107,17 @@ export default function PostsOnMap({posts}) {
                         <div>
                             <h1>Pet Name: {selectedPetPoint.petName}</h1>
                             <h2 style={{color: "red"}}>{selectedPetPoint.status}</h2>
-                            <h3 style={{fontSize:"10"}}>Comment: {getLast(selectedPetPoint).comment}</h3>
+                            <h3 style={{fontSize: "10"}}>Comment: {getLast(selectedPetPoint).comment}</h3>
                             <Button size="small" color="primary" onClick={showDetail}>
                                 see details
                             </Button>
                         </div>
                     </Popup>
                 ) : null}
-                <NavigationControl style={navControlStyle}/>
-                <ScaleControl maxWidth={100} unit="metric" style={scaleControlStyle}/>
+                <NavigationControl className={classes.navControlStyle} />
+                <ScaleControl maxWidth={100} unit="metric" className={classes.scaleControlStyle}/>
                 <GeolocateControl
-                    style={geolocateControlStyle}
+                    className={classes.geolocateControlStyle}
                     positionOptions={{enableHighAccuracy: true}}
                     trackUserLocation={true}
                 />

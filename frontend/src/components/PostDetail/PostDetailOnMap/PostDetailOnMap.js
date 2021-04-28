@@ -2,21 +2,22 @@ import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
 import IconButton from "@material-ui/core/IconButton";
 import PetsIcon from "@material-ui/icons/Pets";
-// import {useHistory} from "react-router-dom";
+import {makeStyles} from "@material-ui/core/styles";
 
-const navControlStyle= {
-    right: 10,
-    top: 10
-};
-const scaleControlStyle= {
-    right: 50,
-    top: 10
-};
-const geolocateControlStyle= {
-    right: 10,
-    bottom: 20
-};
-
+const useStyles = makeStyles((theme) => ({
+    navControlStyle: {
+        right: 10,
+        top: 10
+    },
+    scaleControlStyle: {
+        right: 50,
+        top: 10
+    },
+    geolocateControlStyle: {
+        right: 10,
+        bottom: 20
+    }
+}));
 export default function PostDetailOnMap({post}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
@@ -25,6 +26,15 @@ export default function PostDetailOnMap({post}) {
         height: "500px",
         zoom: 10
     });
+    const [selectedPetPoint, setSelectedPetPoint] = useState(null);
+
+    const classes = useStyles()
+
+    function SortTrace(){
+        for (let i = 0; i < post.trace.length; i++) {
+
+        }
+    }
 
     return (
         <div>
@@ -35,6 +45,7 @@ export default function PostDetailOnMap({post}) {
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}>
+
                 {/*{*/}
                 {/*    post.map(post => {*/}
 
@@ -59,10 +70,10 @@ export default function PostDetailOnMap({post}) {
                 {/*        }*/}
                 {/*    )*/}
                 {/*}*/}
-                <NavigationControl style={navControlStyle} />
-                <ScaleControl maxWidth={100} unit="metric" style={scaleControlStyle} />
+                <NavigationControl className={classes.navControlStyle} />
+                <ScaleControl maxWidth={100} unit="metric" className={classes.scaleControlStyle}/>
                 <GeolocateControl
-                    style={geolocateControlStyle}
+                    className={classes.geolocateControlStyle}
                     positionOptions={{enableHighAccuracy: true}}
                     trackUserLocation={true}
                 />
