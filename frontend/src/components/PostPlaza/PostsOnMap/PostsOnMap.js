@@ -1,16 +1,20 @@
 import React, {useState, useEffect} from "react";
-import ReactMapGL, {Marker, Popup} from "react-map-gl";
+import ReactMapGL, {Marker, Popup, NavigationControl} from "react-map-gl";
 import IconButton from '@material-ui/core/IconButton';
 import PetsIcon from '@material-ui/icons/Pets'
 import {useHistory} from "react-router-dom";
 
+const navControlStyle= {
+    right: 10,
+    top: 10
+};
 
 export default function PostsOnMap({posts}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width: "100%",
-        height: "500px",
+        width: "60%",
+        height: "450px",
         zoom: 10
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
@@ -94,6 +98,7 @@ export default function PostsOnMap({posts}) {
                         </div>
                     </Popup>
                 ) : null}
+                <NavigationControl style={navControlStyle} />
             </ReactMapGL>
         </div>
     );
