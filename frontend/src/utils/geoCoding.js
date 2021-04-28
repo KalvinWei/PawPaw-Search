@@ -1,6 +1,5 @@
 import axios from "axios";
 
-// const MY_KEY = 'AIzaSyBrYWP893Nq8UXHwpvX7LFlYKtEf2N2TQs'
 const MY_KEY  = ""
 export default async function fromLatLng(lat,lng){
 //     return await axios.get(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}

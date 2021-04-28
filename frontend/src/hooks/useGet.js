@@ -55,6 +55,16 @@ export default function useGet() {
             .catch(e=>console.log(e))
     }
 
+    async function fetchMatchedPosts(postID, countPerPage, pageOffset){
+        return await axios.get(`posts/${postID}/matches`),{
+            headers:{
+                postID, countPerPage, pageOffset
+            }
+        }
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+    }
+
 
     //for login modal to send request for server to authenticate user.
     async function authenticateUser(username, password) {
@@ -91,6 +101,6 @@ export default function useGet() {
         loginUser, dashboard,
         //functions
         clearSession: clearLocalStorage, fetchPostsBy, fetchNewestPosts, fetchPostsOf,
-        signUpUser, authenticateUser
+        signUpUser, authenticateUser, fetchMatchedPosts
     };
 }
