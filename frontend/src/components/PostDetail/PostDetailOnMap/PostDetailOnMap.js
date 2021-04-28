@@ -23,29 +23,24 @@ export default function PostDetailOnMap({post}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width: "70%",
+        width: "80%",
         height: "500px",
         zoom: 10
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
     const classes = useStyles()
 
-    // const [placeName, setPlaceName] = useState("")
-    // useEffect(()=>{
-    //     async function fetchPlace(){
-    //         const res = await fromLatLng(selectedPetPoint.latitude,selectedPetPoint.longitude)
-    //         setPlaceName(res.features.place_name)
-    //     }
-    //     fetchPlace()
-    // },[])
-    // useEffect(() => {
-    //     async function getAddress() {
-    //         const addr = await fromLatLng(lastSpot.latitude, lastSpot.longitude)
-    //         setAddress(addr)
-    //     }
-    //
-    //     getAddress()
-    // }, [])
+    const [placeName, setPlaceName] = useState("")
+    useEffect(()=>{
+        async function fetchPlace(){
+            if(selectedPetPoint) {
+                const res = await fromLatLng(selectedPetPoint.latitude,selectedPetPoint.longitude)
+                setPlaceName(res.features[0].place_name)
+            }
+
+        }
+        fetchPlace()
+    },[selectedPetPoint])
 
     return (
         <div>
@@ -68,7 +63,7 @@ export default function PostDetailOnMap({post}) {
                                     <div>
                                         <IconButton edge="start" color="inherit" aria-label="menu"
                                                     onClick={e => {
-                                                        e.preventDefault();
+                                                        // e.preventDefault();
                                                         setSelectedPetPoint(spot);
                                                     }}
                                         >
@@ -90,7 +85,7 @@ export default function PostDetailOnMap({post}) {
                         <div>
                             <h1>Trace No:{post.trace.indexOf(selectedPetPoint)+1}</h1>
                             <h3 style={{fontSize: "10"}}>Comment: {selectedPetPoint.comment}</h3>
-                            {/*<p>Address:{placeName}</p>*/}
+                            <p>Address:{placeName}</p>
                         </div>
                     </Popup>
                 ) : null}
