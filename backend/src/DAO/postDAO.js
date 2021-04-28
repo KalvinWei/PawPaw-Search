@@ -27,7 +27,7 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
     return {posts:onePagePosts, pageTotal}
 }
 
-async function getPostsWatchedBy(username) {
+async function getPostsOf(username, countperpage, pageoffset, field) {
     const user =
         await User.findOne({username:username})
             .populate(field)

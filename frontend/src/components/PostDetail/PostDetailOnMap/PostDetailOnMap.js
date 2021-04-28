@@ -30,14 +30,22 @@ export default function PostDetailOnMap({post}) {
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
     const classes = useStyles()
 
-    const [placeName, setPlaceName] = useState("")
-    useEffect(()=>{
-        async function fetchPlace(){
-            const res = await fromLatLng(selectedPetPoint.latitude,selectedPetPoint.longitude)
-            setPlaceName(res.features.place_name)
-        }
-        fetchPlace()
-    },[])
+    // const [placeName, setPlaceName] = useState("")
+    // useEffect(()=>{
+    //     async function fetchPlace(){
+    //         const res = await fromLatLng(selectedPetPoint.latitude,selectedPetPoint.longitude)
+    //         setPlaceName(res.features.place_name)
+    //     }
+    //     fetchPlace()
+    // },[])
+    // useEffect(() => {
+    //     async function getAddress() {
+    //         const addr = await fromLatLng(lastSpot.latitude, lastSpot.longitude)
+    //         setAddress(addr)
+    //     }
+    //
+    //     getAddress()
+    // }, [])
 
     return (
         <div>
@@ -82,7 +90,7 @@ export default function PostDetailOnMap({post}) {
                         <div>
                             <h1>Trace No:{post.trace.indexOf(selectedPetPoint)+1}</h1>
                             <h3 style={{fontSize: "10"}}>Comment: {selectedPetPoint.comment}</h3>
-                            <p>Address:{placeName}</p>
+                            {/*<p>Address:{placeName}</p>*/}
                         </div>
                     </Popup>
                 ) : null}
