@@ -25,7 +25,7 @@ export default function PostsOnMap({posts}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width: "60%",
+        width: "70%",
         height: "450px",
         zoom: 10
     });

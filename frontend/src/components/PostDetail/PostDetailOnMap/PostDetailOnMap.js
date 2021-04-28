@@ -3,6 +3,7 @@ import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateCon
 import IconButton from "@material-ui/core/IconButton";
 import PetsIcon from "@material-ui/icons/Pets";
 import {makeStyles} from "@material-ui/core/styles";
+import fromLatLng from "../../../utils/geoCoding";
 
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
@@ -22,19 +23,21 @@ export default function PostDetailOnMap({post}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width: "100%",
+        width: "70%",
         height: "500px",
         zoom: 10
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
-
     const classes = useStyles()
 
-    function SortTrace(post){
-        for (let i = 0; i < post.trace.length; i++) {
-            return post[i]
+    const [placeName, setPlaceName] = useState("")
+    useEffect(()=>{
+        async function fetchPlace(){
+            const res = await fromLatLng(selectedPetPoint.latitude,selectedPetPoint.longitude)
+            setPlaceName(res.features.place_name)
         }
-    }
+        fetchPlace()
+    },[])
 
     return (
         <div>
@@ -46,30 +49,43 @@ export default function PostDetailOnMap({post}) {
                     setViewport(viewport);
                 }}>
 
-                {/*{*/}
-                {/*    post.map(post => {*/}
+                {
+                    post.trace.map(spot =>
+                                <Marker
 
-                {/*            return (*/}
-                {/*                <Marker*/}
-                {/*                    key={post._id}*/}
-                {/*                    latitude={parseFloat(getLast(post).latitude)}*/}
-                {/*                    longitude={parseFloat(getLast(post).longitude)}*/}
-                {/*                >*/}
-                {/*                    <div>*/}
-                {/*                        <IconButton edge="start" color="inherit" aria-label="menu"*/}
-                {/*                                    onClick={e => {*/}
-                {/*                                        e.preventDefault();*/}
-                {/*                                        setSelectedPetPoint(post);*/}
-                {/*                                    }}*/}
-                {/*                        >*/}
-                {/*                            <PetsIcon/>*/}
-                {/*                        </IconButton>*/}
-                {/*                    </div>*/}
-                {/*                </Marker>*/}
-                {/*            )*/}
-                {/*        }*/}
-                {/*    )*/}
-                {/*}*/}
+                                    key={spot.longitude + " " + spot.latitude}
+                                    latitude={parseFloat(spot.latitude)}
+                                    longitude={parseFloat(spot.longitude)}
+                                >
+                                    <div>
+                                        <IconButton edge="start" color="inherit" aria-label="menu"
+                                                    onClick={e => {
+                                                        e.preventDefault();
+                                                        setSelectedPetPoint(spot);
+                                                    }}
+                                        >
+                                            {post.trace.indexOf(spot)+1}
+                                            <PetsIcon/>
+                                        </IconButton>
+                                    </div>
+                                </Marker>
+                            )
+                }
+                {selectedPetPoint ? (
+                    <Popup
+                        latitude={parseFloat(selectedPetPoint.latitude)}
+                        longitude={parseFloat(selectedPetPoint.longitude)}
+                        onClose={() => {
+                            setSelectedPetPoint(null);
+                        }}
+                    >
+                        <div>
+                            <h1>Trace No:{post.trace.indexOf(selectedPetPoint)+1}</h1>
+                            <h3 style={{fontSize: "10"}}>Comment: {selectedPetPoint.comment}</h3>
+                            <p>Address:{placeName}</p>
+                        </div>
+                    </Popup>
+                ) : null}
                 <NavigationControl className={classes.navControlStyle} />
                 <ScaleControl maxWidth={100} unit="metric" className={classes.scaleControlStyle}/>
                 <GeolocateControl
