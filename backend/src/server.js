@@ -42,11 +42,6 @@ if (process.env.NODE_ENV === 'production') {
 //     .then(() => app.listen(port, () => console.log(`App server listening on port ${port}, DB is ${DB}!`)));
 
 
-const MongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://group26:MITCS732@cs732.pgo4d.mongodb.net/App?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-    const collection = client.db("App").collection("post");
-    // perform actions on the collection object
-    client.close();
-});
+const DB = "mongodb+srv://group26:MITCS732@cs732.pgo4d.mongodb.net/App?retryWrites=true&w=majority"
+mongoose.connect(DB, {useNewUrlParser:true})
+    .then(() => app.listen(port, () => console.log(`App server listening on port ${port}, DB is ${DB}!`)));

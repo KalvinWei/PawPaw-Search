@@ -72,7 +72,7 @@ export default function UserPage(){
                                 </tr>
                                 <tr>
                                     <td><Typography variant='body2' color='textSecondary'><Room/></Typography></td>
-                                    <td><Typography variant='body1' color='textPrimary'>{user.address.number} {user.address.street}, {user.address.city} {user.address.postcode}</Typography></td>
+                                    <td><Typography variant='body1' color='textPrimary'>{user.address.number} {user.address.street} {user.address.city} {user.address.postcode}</Typography></td>
                                 </tr>
                                 <tr>
                                     <td><Typography variant='body2' color='textSecondary'><Email/></Typography></td>
