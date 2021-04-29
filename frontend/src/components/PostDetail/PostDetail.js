@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {useHistory, useParams} from 'react-router-dom'
 import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
+import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
 import {Grid, Typography} from "@material-ui/core";
@@ -50,6 +51,9 @@ export default function PostDetail() {
                     <span>(${spot.latitude},${spot.longitude})</span>
                 })}</li>
                 <li>{post.createdAt}</li>
+                <div>
+                    <PostDetailOnMap post={post}/>
+                </div>
             </Grid>
 
             {matches && <Grid>

@@ -39,7 +39,7 @@ function PostCard({post}) {
     useEffect(() => {
         async function getAddress() {
             const addr = await fromLatLng(lastSpot.latitude, lastSpot.longitude)
-            setAddress(addr)
+            setAddress(addr.features[0].place_name)
         }
 
         getAddress()

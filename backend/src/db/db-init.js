@@ -7,7 +7,7 @@ import mongoose from 'mongoose';
 import Post from "./schemas/PostSchema";
 import User from "./schemas/UserSchema";
 import PetType from "./schemas/PetTypeSchema";
-import {firstPost, firstUser, somePetTypes} from "./init-data";
+import {firstPost, firstUser, somePetTypes, secondPost} from "./init-data";
 
 main();
 
@@ -68,8 +68,14 @@ async function addPost() {
         aPost.petType = aPetType._id;
         await aPost.save();
 
+        let bPost = new Post( secondPost );
+        bPost.poster = aUser._id;
+        bPost.petType = aPetType._id;
+        await bPost.save();
+
         // Also add this pet to the user's posts
         aUser.myPosts.push(aPost._id);
+        aUser.myPosts.push(bPost._id);
         await aUser.save();
     }
 }
