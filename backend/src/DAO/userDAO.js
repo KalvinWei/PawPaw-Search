@@ -12,4 +12,12 @@ async function createUser(user) {
     return (await nUser.save())
 }
 
-export {createUser, getUserBy}
+async function updateUser(user){
+    const result = await User.updateOne({username:user.username}, {...user})
+    if(result.nModified === 0 || result.nMatched === 0){
+        return false
+    }
+    else return true
+}
+
+export {createUser, getUserBy, updateUser}

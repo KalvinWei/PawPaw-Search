@@ -1,4 +1,3 @@
-import UserSchema from "../db/schemas/UserSchema";
 import User from "../db/schemas/UserSchema";
 import Post from "../db/schemas/PostSchema";
 

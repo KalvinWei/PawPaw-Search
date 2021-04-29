@@ -58,8 +58,9 @@ export default function UserPage(){
     }
 
     //profile edit
-    function handleProfileEdit(){
-
+    const [openEdit, setOpenEdit] = useState(false)
+    function openEdit(){
+        setOpenEdit(true)
     }
 
 
@@ -92,10 +93,8 @@ export default function UserPage(){
                             </table>
                         </Grid>
                         <Grid item style={{alignSelf:'flex-end'}}>
-                            <Button size='small' color='primary' onClick={handleProfileEdit}>Edit Profile</Button>
-                            <Switch>
-                                <Route path='/edit'/>
-                            </Switch>
+                            <Button size='small' color='primary' onClick={openEdit}>Edit Profile</Button>
+
                         </Grid>
                     </Grid>
                 </Paper>
