@@ -73,7 +73,6 @@ export default function PostDetailOnMap({post}) {
                 {
                     post.trace.map(spot =>
                                 <Marker
-
                                     key={spot.longitude + " " + spot.latitude}
                                     latitude={parseFloat(spot.latitude)}
                                     longitude={parseFloat(spot.longitude)}
@@ -102,8 +101,8 @@ export default function PostDetailOnMap({post}) {
                     >
                         <div>
                             <h3>#{post.trace.indexOf(selectedPetPoint)+1}  {selectedPetPoint.timestamp}</h3>
+                            <p>Address: {placeName.split(/[ ,]+/)}</p>
                             <p>Comment: {selectedPetPoint.comment}</p>
-                            <p>Address: {placeName}</p>
                         </div>
                     </Popup>
                 ) : null}

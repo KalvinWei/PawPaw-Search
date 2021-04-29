@@ -3,6 +3,7 @@ import {useHistory, useParams} from 'react-router-dom'
 import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
+import TraceReporter from "./PostDetailOnMap/reportTrace"
 import {AppContext} from "../../ContextProvider";
 import {Grid, Typography} from "@material-ui/core";
 
@@ -52,9 +53,9 @@ export default function PostDetail() {
                 })}</li>
                 <li>{post.createdAt}</li>
                 <div>
-                    <button>
-                        Add lattest trace
-                    </button>
+                    <TraceReporter>
+             
+                        </TraceReporter>
                 </div>
                 <div>
                     <PostDetailOnMap post={post}/>
