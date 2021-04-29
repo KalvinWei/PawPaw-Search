@@ -84,14 +84,14 @@ export default function SignUpDialog({open, onClose}) {
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="First Name"
+                        label="Last Name"
                         type="text"
                         value={user.lastName}
                         onChange={e => setUser({...user, lastName:e.target.value})}
                         fullWidth
                     />
                     <TextField
-                        autoFocus
+                        autoFocu
                         margin="dense"
                         label="Email"
                         type="text"
