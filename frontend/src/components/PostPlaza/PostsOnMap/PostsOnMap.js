@@ -105,9 +105,9 @@ export default function PostsOnMap({posts}) {
                         }}
                     >
                         <div>
-                            <h1>Pet Name: {selectedPetPoint.petName}</h1>
-                            <h2 style={{color: "red"}}>{selectedPetPoint.status}</h2>
-                            <h3 style={{fontSize: "10"}}>Comment: {getLast(selectedPetPoint).comment}</h3>
+                            <h3>Pet Name: {selectedPetPoint.petName}</h3>
+                            <h3 style={{color: "red"}}>{selectedPetPoint.status}</h3>
+                            <p style={{fontSize: "10"}}>Comment: {getLast(selectedPetPoint).comment}</p>>
                             <Button size="small" color="primary" onClick={showDetail}>
                                 see details
                             </Button>

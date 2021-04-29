@@ -20,23 +20,26 @@ const useStyles = makeStyles((theme) => ({
     },
     iconButton:{
         backgroundColor: "transparent",
-        border: "1px solid black",
+        border: "1px solid blue",
         color: "red",
         padding: "5px",
         margin: "2px 2px",
         fontSize: "14px",
         cursor: "pointer",
-        borderRadius: "50%"
+        borderRadius: "50%",
+        '&:hover': {
+            background: "#f00",
+            color:"white"
+         },
     }
-
 }));
 export default function PostDetailOnMap({post}) {
     const [viewport, setViewport] = useState({
-        latitude: -36.848461,
-        longitude: 174.763336,
+        latitude: parseFloat(getLast(post).latitude),
+        longitude: parseFloat(getLast(post).longitude),
         width: "80%",
         height: "500px",
-        zoom: 11
+        zoom: 13
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
     const classes = useStyles()
@@ -52,6 +55,10 @@ export default function PostDetailOnMap({post}) {
         }
         fetchPlace()
     },[selectedPetPoint])
+
+    function getLast(post) {
+        return post.trace[post.trace.length - 1]
+    }
 
     return (
         <div>
@@ -94,7 +101,7 @@ export default function PostDetailOnMap({post}) {
                         style={"width=50px"}
                     >
                         <div>
-                            <h3>#{post.trace.indexOf(selectedPetPoint)+1}</h3>
+                            <h3>#{post.trace.indexOf(selectedPetPoint)+1}  {selectedPetPoint.timestamp}</h3>
                             <p>Comment: {selectedPetPoint.comment}</p>
                             <p>Address: {placeName}</p>
                         </div>

@@ -52,6 +52,11 @@ export default function PostDetail() {
                 })}</li>
                 <li>{post.createdAt}</li>
                 <div>
+                    <button>
+                        Add lattest trace
+                    </button>
+                </div>
+                <div>
                     <PostDetailOnMap post={post}/>
                 </div>
             </Grid>
