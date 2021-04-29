@@ -91,7 +91,7 @@ export default function SignUpDialog({open, onClose}) {
                         fullWidth
                     />
                     <TextField
-                        autoFocus
+                        autoFocu
                         margin="dense"
                         label="Email"
                         type="text"
