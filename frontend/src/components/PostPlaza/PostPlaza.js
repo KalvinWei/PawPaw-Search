@@ -4,14 +4,18 @@ import {AppContext} from "../../ContextProvider";
 import SearchSetting from "./SearchSetting/SearchSetting";
 import Grid from "@material-ui/core/Grid";
 import {makeStyles} from "@material-ui/core/styles";
-
+import PostsOnMap from "./PostsOnMap/PostsOnMap"
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         padding:20
-    }
+    },
+    mapStyle :
+        { position:"static",top: 0, bottom: 0, width: "100%"}
 }));
+
+
 
 export default function PostPlaza() {
     const classes = useStyles()
@@ -42,8 +46,16 @@ export default function PostPlaza() {
                 <Grid item>
                     <SearchSetting onSubmitSearch={setSearch}/>
                 </Grid>
-                <Grid item>
-                    <Posts posts={posts} page={pageOffset + 1} onPageChange={handlePageChange} pageTotal={pageTotal}/>
+                <Grid item direction='column' container>
+                    <Grid item>
+                        <div className={classes.mapStyle}>
+                            <PostsOnMap posts={posts}/>
+                        </div>
+                    </Grid>
+                    <Grid item>
+                        <Posts posts={posts} page={pageOffset + 1} onPageChange={handlePageChange} pageTotal={pageTotal}/>
+                    </Grid>
+
                 </Grid>
             </Grid>
         </div>

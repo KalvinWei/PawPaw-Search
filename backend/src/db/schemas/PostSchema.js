@@ -81,7 +81,8 @@ const PostSchema = new Schema({
     trace: [{
         latitude: String,
         longitude: String,
-        timestamp: Date
+        timestamp: Date,
+        comment:String
     }],
     matches: [{type: Schema.Types.ObjectId, ref:'Post' }]
 },
