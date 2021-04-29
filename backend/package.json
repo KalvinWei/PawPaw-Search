@@ -16,7 +16,6 @@
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "isodate": "^0.1.4",
-    "mogoose": "^0.0.1-security",
     "mongoose": "^5.12.3"
   },
   "devDependencies": {
