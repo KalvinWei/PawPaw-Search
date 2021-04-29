@@ -25,7 +25,7 @@ export default function PostDetailOnMap({post}) {
         longitude: 174.763336,
         width: "80%",
         height: "500px",
-        zoom: 10
+        zoom: 11
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
     const classes = useStyles()
@@ -47,7 +47,7 @@ export default function PostDetailOnMap({post}) {
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
-                mapStyle="mapbox://styles/zli786/cknqui4de047a18qrip6y1kib"
+                mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}>

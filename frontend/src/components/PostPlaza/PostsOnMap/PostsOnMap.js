@@ -67,7 +67,7 @@ export default function PostsOnMap({posts}) {
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
-                // mapStyle="mapbox://styles/zli786/cknqui4de047a18qrip6y1kib"
+                mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}
