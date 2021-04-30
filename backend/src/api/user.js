@@ -47,10 +47,10 @@ user.get('/:username/posts/watching', async (req, res) => {
 })
 
 user.put('/:username/edit', async (req,res)=>{
+    console.log('responding to a put request')
     const user = req.body
-    const result  = await updateUser(user)
-    //if success, result==true, false otherwise.
-    res.send(result)
+    const updatedUser  = await updateUser(user)
+    res.send(updatedUser)
 })
 
 export default user;

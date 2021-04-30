@@ -126,7 +126,7 @@ export default function SignUpDialog({open, onClose}) {
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="State"
+                        label="PostCode"
                         type="text"
                         value={user.address.postcode}
                         onChange={e => setUser({...user, address:{...user.address, postcode:e.target.value}})}

@@ -81,7 +81,6 @@ export default function useGet() {
 
     //for signup
     async function signUpUser(user) {
-        console.log(user)
         return await axios.post('users/new', user)
             .then(res => {
                 const dbUser = res.data
@@ -95,12 +94,19 @@ export default function useGet() {
             })
     }
 
+    async function updateUserProfile(user){
+        return await axios.put(`/users/${user.username}/edit`,user)
+            .then(res=> res.data)
+            .catch(e=>{
+                console.log(e)
+            })
+    }
 
     return {
         //states
-        loginUser, dashboard,
+        loginUser, dashboard, setLoginUser,
         //functions
         clearSession: clearLocalStorage, fetchPostsBy, fetchNewestPosts, fetchPostsOf,
-        signUpUser, authenticateUser, fetchMatchedPosts
+        signUpUser, authenticateUser, fetchMatchedPosts, updateUserProfile
     };
 }

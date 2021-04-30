@@ -2,7 +2,7 @@ import User from "../db/schemas/UserSchema";
 
 //retrieve a user without population of its posts
 async function getUserBy(username) {
-    const user = await User.findOne({username:username})
+    const user = await User.findOne({username: username})
     return user
 }
 
@@ -12,12 +12,14 @@ async function createUser(user) {
     return (await nUser.save())
 }
 
-async function updateUser(user){
-    const result = await User.updateOne({username:user.username}, {...user})
-    if(result.nModified === 0 || result.nMatched === 0){
-        return false
+async function updateUser(user) {
+    const result = await User.updateOne({username: user.username}, {...user})
+    if (result.nModified === 0 || result.nMatched === 0) {
+        return null
+    } else {
+        const newUser = await getUserBy(user.username)
+        return newUser
     }
-    else return true
 }
 
 export {createUser, getUserBy, updateUser}
