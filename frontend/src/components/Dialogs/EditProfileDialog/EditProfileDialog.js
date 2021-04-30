@@ -1,7 +1,7 @@
-import React from "react";
-import {useState, useContext} from 'react';
 import {AppContext} from "../../../ContextProvider";
-import {useHistory} from "react-router-dom";
+import React, {useContext} from 'react';
+import {useState} from 'react';
+import {useHistory} from 'react-router-dom'
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,84 +11,69 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {FormHelperText} from "@material-ui/core";
 
+export default function EditProfileDialog({open, onClose}) {
+    const {updateUserProfile, loginUser, setLoginUser} = useContext(AppContext)
+    const history = useHistory();
 
-export default function SignUpDialog({open, onClose}) {
+    const  [isPwdMatch, setIsPwdMatch] = useState(true)
 
-    const {signUpUser, loginUser} = useContext(AppContext);
-
-    const [user, setUser] = useState({
-        username: "",
-        password: "",
-        cfmPassword: "",
-        email: "",
-        firstName: "",
-        lastName: "",
-        phone: "",
-        address: {
-            number: "",
-            street: "",
-            city: "",
-            postcode: ""
+    //a copy of logged-in user to react to form input
+    const [user, setUser] = useState(()=>{
+        const userProfile = {
+            username:loginUser.username,
+            firstName:loginUser.firstName,
+            lastName:loginUser.lastName,
+            password:"",
+            cfmPassword:"",
+            email:loginUser.email,
+            phone:loginUser.phone,
+            address:{
+                number:loginUser.address.number,
+                street:loginUser.address.street,
+                city:loginUser.address.city,
+                postcode:loginUser.address.postcode
+            }
         }
+        return userProfile
     })
-    const [isUsernameValid, setIsUsernameValid] = useState(true)
-    const [isPwdMatch, setIsPwdMath] =  useState(true)
 
-    const history = useHistory()
-
-    // TODO CHECK username duplicate -> check if this should be implemented in schema
-    // TODO the format of phone number and email is correct or not -> 39/ week 4
-    // TODO check whether the confirm password matches with password
-    async function handleUserCreate() {
-        console.log(user)
-        if(user.password  !== user.cfmPassword){
-            setIsPwdMath(false)
+    const handleUpdate = async () => {
+        if(user.password && user.password !== user.cfmPassword){
+            setIsPwdMatch(false)
             return
         }
-        const {cfmPassword,...rest} = user
-        setUser(rest)
-        const dbUser = await signUpUser(user)
-        if(dbUser){
+
+        delete user.cfmPassword
+        if(!user.password) delete user.password
+        const updatedUser = await updateUserProfile(user)
+        if(updatedUser) {
+            setLoginUser(updatedUser)
+            onClose()
             history.goBack()
-        } else {
-            setIsUsernameValid(false)
         }
     }
 
     return (
         <div>
             <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
-                <DialogTitle id="form-dialog-title">Sign Up</DialogTitle>
+                <DialogTitle id="form-dialog-title">Edit {user.firstName} {user.lastName}'s Profile</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Please input the fields to sign up!
+                        It must be a fresh you today ~
                     </DialogContentText>
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="Username"
-                        type="text"
-                        value={user.username}
-                        onChange={e => setUser({...user, username:e.target.value})}
-                        fullWidth
-                    />
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="First Name"
-                        type="text"
                         value={user.firstName}
-                        onChange={e => setUser({...user, firstName:e.target.value})}
-                        fullWidth
+                        label="First Name"
+                        onChange={e=>setUser({...user, firstName:e.target.value})}
                     />
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="Last Name"
-                        type="text"
                         value={user.lastName}
-                        onChange={e => setUser({...user, lastName:e.target.value})}
-                        fullWidth
+                        label="Last Name"
+                        onChange={e=>setUser({...user, lastName:e.target.value})}
                     />
                     <TextField
                         autoFocu
@@ -126,7 +111,7 @@ export default function SignUpDialog({open, onClose}) {
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="PostCode"
+                        label="Postcode"
                         type="text"
                         value={user.address.postcode}
                         onChange={e => setUser({...user, address:{...user.address, postcode:e.target.value}})}
@@ -147,6 +132,7 @@ export default function SignUpDialog({open, onClose}) {
                         type="password"
                         value={user.password}
                         onChange={e => setUser({...user, password:e.target.value})}
+                        placeholder='not change? leave it emtpy!'
                         fullWidth
                     />
                     <TextField
@@ -156,13 +142,10 @@ export default function SignUpDialog({open, onClose}) {
                         type="password"
                         value={user.cfmPassword}
                         onChange={e => setUser({...user, cfmPassword:e.target.value})}
+                        placeholder='not change? leave it emtpy!'
                         fullWidth
                     />
                     <div>
-                        {isUsernameValid ||
-                        <FormHelperText style={{color:'red', fontSize:'large'}}>
-                            Username you input is in already use
-                        </FormHelperText>}
                         {isPwdMatch ||
                         <FormHelperText style={{color:'red', fontSize:'large'}}>
                             The passwords you input don't match
@@ -173,8 +156,8 @@ export default function SignUpDialog({open, onClose}) {
                     <Button onClick={onClose} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={handleUserCreate} color="primary">
-                        Sign up
+                    <Button onClick={handleUpdate} color="primary">
+                        Submit
                     </Button>
                 </DialogActions>
             </Dialog>
