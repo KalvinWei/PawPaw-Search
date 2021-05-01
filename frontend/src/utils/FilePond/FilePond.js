@@ -17,7 +17,7 @@ import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
 
 // Our app
-export default function App({images, onChangeImages, imageName}) {
+export default function App({images, onChangeImages}) {
 
     return (
         <div className="App">

@@ -235,7 +235,7 @@ export default function NewPost() {
                         />
                     </Grid>
                     <Grid item>
-                        <ImageUploader images={post.petImages} onChangeImages={setImages} imageName={post._id}/>
+                        <ImageUploader images={post.petImages} onChangeImages={setImages}/>
                     </Grid>
                 </Grid>
             </Grid>
