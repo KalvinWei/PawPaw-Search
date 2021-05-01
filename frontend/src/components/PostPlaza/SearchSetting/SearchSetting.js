@@ -76,7 +76,7 @@ export default function SearchSetting({onSubmitSearch}) {
                     </ToggleButtonGroup>
                 </Grid>
                 <Grid item>
-                    <FormControl size='small'>
+                    <FormControl size='small' fullWidth>
                         <InputLabel>Type</InputLabel>
                         <Select native
                                 value={settings.petBreed}
@@ -100,7 +100,7 @@ export default function SearchSetting({onSubmitSearch}) {
                     </FormControl>
                 </Grid>
                 <Grid item>
-                    <FormControl size='small'>
+                    <FormControl size='small' fullWidth>
                         <InputLabel>Size</InputLabel>
                         <Select native
                                 value={settings.petSize}
@@ -116,7 +116,7 @@ export default function SearchSetting({onSubmitSearch}) {
                     </FormControl>
                 </Grid>
                 <Grid item>
-                    <FormControl size='small'>
+                    <FormControl size='small' fullWidth>
                         <InputLabel>Gender</InputLabel>
                         <Select native
                                 value={settings.petGender}
@@ -132,7 +132,7 @@ export default function SearchSetting({onSubmitSearch}) {
                     </FormControl>
                 </Grid>
                 <Grid item>
-                    <FormControl size='small'>
+                    <FormControl size='small' fullWidth>
                         <InputLabel>Color</InputLabel>
                         <Select native
                                 value={settings.petColor}
@@ -154,7 +154,7 @@ export default function SearchSetting({onSubmitSearch}) {
                     </FormControl>
                 </Grid>
                 <Grid item>
-                    <FormControl size='small'>
+                    <FormControl size='small' fullWidth>
                         <InputLabel>Search Radius</InputLabel>
                         <Select native
                                 value={settings.rangeRadius}
@@ -173,6 +173,7 @@ export default function SearchSetting({onSubmitSearch}) {
                 </Grid>
                 <Grid item>
                     <TextField id="standard-basic"
+                               fullWidth
                                value={settings.keywords}
                                label="Keywords"
                                placeholder='blacks to divide words'

@@ -38,8 +38,8 @@ export default function Banner() {
         history.push("/")
     }
 
-    const openNewPost = ()=>{
-        if(!!loginUser){
+    const openNewPost = () => {
+        if (!!loginUser) {
             history.push("/create-new-post")
         } else {
             history.replace('/login')
@@ -105,19 +105,15 @@ export default function Banner() {
                                 history.push('/sign-up')
                                 openSignup()
                             }}>Sign Up</Button>
+                            <LoginDialog open={loginOpen} onClose={closeLogin}/>
+                            <SignUpDialog open={signupOpen} onClose={closeSignup}/>
                         </div>
                     }
                     <Button color='inherit' onClick={openNewPost}>New Post</Button>
                 </Toolbar>
             </AppBar>
-            <Switch>
-                <Route path={`/login`}>
-                    <LoginDialog open={loginOpen} onClose={closeLogin}/>
-                </Route>
-                <Route path={`/sign-up`}>
-                    <SignUpDialog open={signupOpen} onClose={closeSignup}/>
-                </Route>
-            </Switch>
+
+
         </div>
 
     );
