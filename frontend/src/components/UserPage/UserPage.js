@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import {AppContext} from "../../ContextProvider";
 import Posts from "../PostPlaza/Posts/Posts";
 import Grid from "@material-ui/core/Grid";
-import {Card, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography} from "@material-ui/core";
+import {Paper,Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Email, Person, PhoneAndroid, Room} from "@material-ui/icons";
 import Button from "@material-ui/core/Button";

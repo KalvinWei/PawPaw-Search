@@ -94,8 +94,6 @@ export default function PostsOnMap({posts}) {
                         )
                     }
                 ) : null}
-
-
                 {selectedPetPoint ? (
                     <Popup
                         latitude={parseFloat(getLast(selectedPetPoint).latitude)}

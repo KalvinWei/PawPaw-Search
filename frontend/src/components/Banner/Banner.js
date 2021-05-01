@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {AppContext} from "../../ContextProvider";
-import {Link, NavLink, Route, Switch, useHistory, useLocation} from 'react-router-dom'
+import {Route, Switch, useHistory} from 'react-router-dom'
 import LoginDialog from "../Dialogs/LoginDialog/LoginDialog";
 import SignUpDialog from "../Dialogs/SignUpDialog/SignUpDialog";
 import {makeStyles} from '@material-ui/core/styles';
@@ -38,6 +38,16 @@ export default function Banner() {
         history.push("/")
     }
 
+    const openNewPost = ()=>{
+        if(!!loginUser){
+            history.push("/create-new-post")
+        } else {
+            history.replace('/login')
+            openLogin()
+        }
+
+    }
+
     //for login dialog
     const [loginOpen, setLoginOpen] = React.useState(false);
     const openLogin = () => {
@@ -63,7 +73,7 @@ export default function Banner() {
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <PetsIcon />
+                        <PetsIcon/>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
                         <span onClick={() => {
@@ -91,12 +101,13 @@ export default function Banner() {
                                 history.push('/login')
                                 openLogin()
                             }}>Log In</Button>
-                            <Button  color='inherit' onClick={() => {
+                            <Button color='inherit' onClick={() => {
                                 history.push('/sign-up')
                                 openSignup()
                             }}>Sign Up</Button>
                         </div>
                     }
+                    <Button color='inherit' onClick={openNewPost}>New Post</Button>
                 </Toolbar>
             </AppBar>
             <Switch>
