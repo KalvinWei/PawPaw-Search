@@ -38,7 +38,7 @@ export default function TraceReporter() {
         Report
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Report New Find</DialogTitle>
         <DialogContent>
           <DialogContentText>
             To report a new trace, please enter the lastest address when you see this pet,
@@ -48,31 +48,31 @@ export default function TraceReporter() {
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
+            label="Address"
             type="email"
             fullWidth
           />
         </DialogContent>
 
- <form className={classes.container} noValidate>
-      <TextField
-        id="datetime-local"
-        label="Next appointment"
-        type="datetime-local"
-        defaultValue="2017-05-24T10:30"
-        className={classes.textField}
-        InputLabelProps={{
-          shrink: true,
-        }}
-      />
-    </form>
+        <form className={classes.container} noValidate>
+            <TextField
+                id="datetime-local"
+                label="Find Date"
+                type="datetime-local"
+                defaultValue="2017-05-24T10:30"
+                className={classes.textField}
+                InputLabelProps={{
+                shrink: true,
+                }}
+            />
+        </form>
 
         <DialogActions>
           <Button onClick={handleClose} color="primary">
             Cancel
           </Button>
           <Button onClick={handleClose} color="primary">
-            Subscribe
+            Submit 
           </Button>
         </DialogActions>
       </Dialog>
