@@ -9,12 +9,16 @@ import PostsOnMap from "./PostsOnMap/PostsOnMap"
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        padding:20
+        padding: 20
     },
-    mapStyle :
-        { position:"static",top: 0, bottom: 0, width: "100%"}
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: 'center',
+        color: theme.palette.text.secondary,
+    },
+    mapStyle:
+        {width: "100%"}
 }));
-
 
 
 export default function PostPlaza() {
@@ -27,11 +31,12 @@ export default function PostPlaza() {
     const [pageTotal, setPageTotal] = useState(0)
 
     useEffect(() => {
-        async function fetchPosts(){
+        async function fetchPosts() {
             const {posts, pageTotal: pageCount} = await fetchPostsBy(searchSetting, 20, pageOffset)
             setPosts(posts)
             setPageTotal(pageCount)
         }
+
         fetchPosts()
     }, [searchSetting, pageOffset])
 
@@ -43,19 +48,19 @@ export default function PostPlaza() {
     return (
         <div>
             <Grid container direction='row' spacing={2} className={classes.root}>
-                <Grid item>
+                <Grid item xs={3} >
                     <SearchSetting onSubmitSearch={setSearch}/>
                 </Grid>
-                <Grid item direction='column' container>
-                    <Grid item>
-                        <div className={classes.mapStyle}>
+                <Grid item xs={9} className={classes.paper}>
+                    <Grid container direction='column'>
+                        <Grid item className={classes.mapStyle}>
                             <PostsOnMap posts={posts}/>
-                        </div>
+                        </Grid>
+                        <Grid item className={classes.paper}>
+                            <Posts posts={posts} page={pageOffset + 1} onPageChange={handlePageChange}
+                                   pageTotal={pageTotal}/>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <Posts posts={posts} page={pageOffset + 1} onPageChange={handlePageChange} pageTotal={pageTotal}/>
-                    </Grid>
-
                 </Grid>
             </Grid>
         </div>

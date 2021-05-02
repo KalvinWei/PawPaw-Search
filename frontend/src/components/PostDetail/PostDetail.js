@@ -6,10 +6,10 @@ import Posts from "../PostPlaza/Posts/Posts";
 import TraceReporter from "./PostDetailOnMap/reportTrace"
 import {AppContext} from "../../ContextProvider";
 import {Grid, Typography} from "@material-ui/core";
-
+// import moment from 'moment'
 
 export default function PostDetail() {
-
+    // const moment = require('moment');
     const location = useHistory().location
     const post = location.state
 
@@ -17,19 +17,19 @@ export default function PostDetail() {
     const [matches, setMatches] = useState(null)
     const [pageTotal, setTotal] = useState(0)
     const [offset, setOffset] = useState(0)
-    useEffect(()=>{
-        async function fetchMatches(){
+    useEffect(() => {
+        async function fetchMatches() {
             const res = await fetchMatchedPosts(post._id, 3, offset)
             setMatches(res.posts)
             setTotal(res.pageTotal)
         }
-        fetchMatches()
-    },[offset])
 
-    function handlePageChange(e, pageIndex){
+        fetchMatches()
+    }, [offset])
+
+    function handlePageChange(e, pageIndex) {
         setOffset(pageIndex - 1)
     }
-
 
     return (
         <Grid container direction='column'>
@@ -50,12 +50,16 @@ export default function PostDetail() {
                 <li>{post.status}</li>
                 <li>{post.trace.map(spot => {
                     <span>(${spot.latitude},${spot.longitude})</span>
-                })}</li>
-                <li>{post.createdAt}</li>
+                })}
+                </li>
+                <li>
+                    {post.createdAt}
+                    {/*<Moment format="DD MM YYYY hh:mm:ss" />*/}
+                </li>
                 <div>
                     <TraceReporter>
-             
-                        </TraceReporter>
+
+                    </TraceReporter>
                 </div>
                 <div>
                     <PostDetailOnMap post={post}/>
@@ -72,7 +76,7 @@ export default function PostDetail() {
                 <Typography variant='subtitle1'>
                     Posts are in descending order with respect to relevance to the current post.
                 </Typography>
-                <Posts posts={matches} pageTotal={pageTotal} page={offset+1} onPageChange={handlePageChange} />
+                <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
             </Grid>}
         </Grid>
 

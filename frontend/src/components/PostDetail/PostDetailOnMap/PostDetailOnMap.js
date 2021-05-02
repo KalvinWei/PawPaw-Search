@@ -5,6 +5,7 @@ import PetsIcon from "@material-ui/icons/Pets";
 import {makeStyles} from "@material-ui/core/styles";
 import fromLatLng from "../../../utils/geoCoding";
 
+const MAPBOX_TOKEN = "pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg";
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
         right: 10,
@@ -64,7 +65,7 @@ export default function PostDetailOnMap({post}) {
         <div>
             <ReactMapGL
                 {...viewport}
-                mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
+                mapboxApiAccessToken={MAPBOX_TOKEN}
                 mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
                 onViewportChange={viewport => {
                     setViewport(viewport);
@@ -97,11 +98,11 @@ export default function PostDetailOnMap({post}) {
                         onClose={() => {
                             setSelectedPetPoint(null);
                         }}
-                        style={"width=50px"}
+                    
                     >
-                        <div>
+                        <div style={"width=50px"}>
                             <h3>#{post.trace.indexOf(selectedPetPoint)+1}  {selectedPetPoint.timestamp}</h3>
-                            <p>Address: {placeName.split(/[ ,]+/)}</p>
+                            <p>Address: {placeName}</p>
                             <p>Comment: {selectedPetPoint.comment}</p>
                         </div>
                     </Popup>
