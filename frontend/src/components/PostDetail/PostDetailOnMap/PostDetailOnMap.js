@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
-import IconButton from "@material-ui/core/IconButton";
+import Filter1RoundedIcon from '@material-ui/icons/Filter1Rounded';
 import PetsIcon from "@material-ui/icons/Pets";
 import {makeStyles} from "@material-ui/core/styles";
 import fromLatLng from "../../../utils/geoCoding";
@@ -17,15 +17,29 @@ const useStyles = makeStyles((theme) => ({
     geolocateControlStyle: {
         right: 10,
         bottom: 20
+    },
+    iconButton:{
+        backgroundColor: "transparent",
+        border: "1px solid blue",
+        color: "red",
+        padding: "5px",
+        margin: "2px 2px",
+        fontSize: "14px",
+        cursor: "pointer",
+        borderRadius: "50%",
+        '&:hover': {
+            background: "#f00",
+            color:"white"
+         },
     }
 }));
 export default function PostDetailOnMap({post}) {
     const [viewport, setViewport] = useState({
-        latitude: -36.848461,
-        longitude: 174.763336,
+        latitude: parseFloat(getLast(post).latitude),
+        longitude: parseFloat(getLast(post).longitude),
         width: "80%",
         height: "500px",
-        zoom: 11
+        zoom: 13
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
     const classes = useStyles()
@@ -42,6 +56,10 @@ export default function PostDetailOnMap({post}) {
         fetchPlace()
     },[selectedPetPoint])
 
+    function getLast(post) {
+        return post.trace[post.trace.length - 1]
+    }
+
     return (
         <div>
             <ReactMapGL
@@ -55,21 +73,19 @@ export default function PostDetailOnMap({post}) {
                 {
                     post.trace.map(spot =>
                                 <Marker
-
                                     key={spot.longitude + " " + spot.latitude}
                                     latitude={parseFloat(spot.latitude)}
                                     longitude={parseFloat(spot.longitude)}
                                 >
                                     <div>
-                                        <IconButton edge="start" color="inherit" aria-label="menu"
+                                        <button className={classes.iconButton}
                                                     onClick={e => {
                                                         // e.preventDefault();
                                                         setSelectedPetPoint(spot);
                                                     }}
                                         >
                                             {post.trace.indexOf(spot)+1}
-                                            <PetsIcon/>
-                                        </IconButton>
+                                        </button>
                                     </div>
                                 </Marker>
                             )
@@ -81,11 +97,12 @@ export default function PostDetailOnMap({post}) {
                         onClose={() => {
                             setSelectedPetPoint(null);
                         }}
+                        style={"width=50px"}
                     >
                         <div>
-                            <h1>Trace No:{post.trace.indexOf(selectedPetPoint)+1}</h1>
-                            <h3 style={{fontSize: "10"}}>Comment: {selectedPetPoint.comment}</h3>
-                            <p>Address:{placeName}</p>
+                            <h3>#{post.trace.indexOf(selectedPetPoint)+1}  {selectedPetPoint.timestamp}</h3>
+                            <p>Address: {placeName.split(/[ ,]+/)}</p>
+                            <p>Comment: {selectedPetPoint.comment}</p>
                         </div>
                     </Popup>
                 ) : null}

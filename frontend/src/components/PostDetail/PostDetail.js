@@ -3,6 +3,7 @@ import {useHistory, useParams} from 'react-router-dom'
 import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
+import TraceReporter from "./PostDetailOnMap/reportTrace"
 import {AppContext} from "../../ContextProvider";
 import {Grid, Typography} from "@material-ui/core";
 
@@ -51,6 +52,11 @@ export default function PostDetail() {
                     <span>(${spot.latitude},${spot.longitude})</span>
                 })}</li>
                 <li>{post.createdAt}</li>
+                <div>
+                    <TraceReporter>
+             
+                        </TraceReporter>
+                </div>
                 <div>
                     <PostDetailOnMap post={post}/>
                 </div>
