@@ -6,6 +6,7 @@ import {useHistory} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 
+const MAPBOX_TOKEN = "pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg";
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
         right: 10,
@@ -18,15 +19,19 @@ const useStyles = makeStyles((theme) => ({
     geolocateControlStyle: {
         right: 10,
         bottom: 20
-    }
+    },
+    textField: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1)
+    },
 }));
 
 export default function PostsOnMap({posts}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width: "70%",
-        height: "450px",
+        width: "100%",
+        height: "500px",
         zoom: 10
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
@@ -66,7 +71,7 @@ export default function PostsOnMap({posts}) {
         <div>
             <ReactMapGL
                 {...viewport}
-                mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
+                mapboxApiAccessToken={MAPBOX_TOKEN}
                 mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
                 onViewportChange={viewport => {
                     setViewport(viewport);
@@ -103,11 +108,12 @@ export default function PostsOnMap({posts}) {
                         onClose={() => {
                             setSelectedPetPoint(null);
                         }}
+                        className={classes.textField}
                     >
                         <div>
-                            <h1>Pet Name: {selectedPetPoint.petName}</h1>
-                            <h2 style={{color: "red"}}>{selectedPetPoint.status}</h2>
-                            <h3 style={{fontSize: "10"}}>Comment: {getLast(selectedPetPoint).comment}</h3>
+                            <h3>Pet Name: {selectedPetPoint.petName}</h3>
+                            <h3 style={{color: "red"}}>{selectedPetPoint.status}</h3>
+                            <p style={{fontSize: "10"}}>Comment: {getLast(selectedPetPoint).comment}</p>
                             <Button size="small" color="primary" onClick={showDetail}>
                                 see details
                             </Button>
