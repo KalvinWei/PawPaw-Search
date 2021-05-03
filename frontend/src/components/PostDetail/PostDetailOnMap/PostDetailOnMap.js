@@ -16,6 +16,17 @@ const useStyles = makeStyles((theme) => ({
         right: 10,
         bottom: 20
     },
+    dt: {
+        fontFamily: 'Helvetica',
+        fontSize: '12px',
+        color: "darkgrey",
+        textTransform:'uppercase'
+    },
+    dd: {
+        fontFamily: 'Helvetica',
+        fontSize: 14,
+        color: '#666'
+    },
     iconButton:{
         backgroundColor: "darkgreen",
         borderColor:"transparent",
@@ -100,9 +111,31 @@ export default function PostDetailOnMap({post, dimension}) {
                         }}
                     >
                         <div>
-                            <h1>Trace No:{post.trace.indexOf(selectedPetPoint)+1}</h1>
-                            <h3 style={{fontSize: "10"}}>Comment: {selectedPetPoint.comment}</h3>
-                            <p>Address:{placeName}</p>
+                            <table>
+                                <tbody>
+                                <tr className={classes.dd} style={{fontWeight:'bold', fontSize: '1.4em'}}>
+                                    <td>#{post.trace.indexOf(selectedPetPoint)+1}</td>
+                                </tr>
+                                <tr className={classes.dt}>
+                                    <td>report time</td>
+                                </tr>
+                                <tr className={classes.dd}>
+                                    <td>{selectedPetPoint.timestamp}</td>
+                                </tr>
+                                <tr className={classes.dt}>
+                                    <td>address</td>
+                                </tr>
+                                <tr className={classes.dd}>
+                                    <td>{placeName}</td>
+                                </tr>
+                                <tr className={classes.dt}>
+                                    <td>comment</td>
+                                </tr>
+                                <tr className={classes.dd}>
+                                    <td>{selectedPetPoint.comment}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </Popup>
                 ) : null}
