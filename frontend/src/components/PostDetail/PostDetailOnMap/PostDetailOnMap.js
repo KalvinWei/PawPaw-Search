@@ -1,10 +1,11 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
-import Filter1RoundedIcon from '@material-ui/icons/Filter1Rounded';
-import PetsIcon from "@material-ui/icons/Pets";
+// import Filter1RoundedIcon from '@material-ui/icons/Filter1Rounded';
+// import PetsIcon from "@material-ui/icons/Pets";
 import {makeStyles} from "@material-ui/core/styles";
 import fromLatLng from "../../../utils/geoCoding";
 
+const MAPBOX_TOKEN = "pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg";
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
         right: 10,
@@ -64,7 +65,7 @@ export default function PostDetailOnMap({post}) {
         <div>
             <ReactMapGL
                 {...viewport}
-                mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
+                mapboxApiAccessToken={MAPBOX_TOKEN}
                 mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
                 onViewportChange={viewport => {
                     setViewport(viewport);
@@ -97,11 +98,11 @@ export default function PostDetailOnMap({post}) {
                         onClose={() => {
                             setSelectedPetPoint(null);
                         }}
-                        style={"width=50px"}
+                    
                     >
                         <div>
-                            <h3>#{post.trace.indexOf(selectedPetPoint)+1}  {selectedPetPoint.timestamp}</h3>
-                            <p>Address: {placeName.split(/[ ,]+/)}</p>
+                            <h3>#{post.trace.indexOf(selectedPetPoint)+1}  {(new Date(selectedPetPoint.timestamp)).toLocaleString()}</h3>
+                            <p>Address: {placeName}</p>
                             <p>Comment: {selectedPetPoint.comment}</p>
                         </div>
                     </Popup>
