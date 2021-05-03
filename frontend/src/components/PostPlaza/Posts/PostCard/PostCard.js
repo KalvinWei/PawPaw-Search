@@ -6,11 +6,10 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import PetImages from "./PetImages/PetImages";
 import fromLatLng from "../../../../utils/geoCoding";
 import {CardHeader} from "@material-ui/core";
-import {Info, Loyalty, Room} from "@material-ui/icons";
+import Grid from "@material-ui/core/Grid";
 
 const useStyles = makeStyles((theme) => ({
     root: {
