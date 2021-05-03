@@ -4,8 +4,9 @@ import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
-import {Grid, Typography} from "@material-ui/core";
+import {FormHelperText, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core";
+import Carousel from "./Carousel/Carousel";
 
 
 const useStyle = makeStyles(theme=>({
@@ -18,7 +19,7 @@ const useStyle = makeStyles(theme=>({
           textTransform:'uppercase',
             textAlign:'right',
             paddingRight:10,
-            color:'#777',
+            color:'#999',
         },
         '& tr > td:nth-child(2)':{
             fontSize:20,
@@ -53,29 +54,26 @@ export default function PostDetail() {
         setOffset(pageIndex - 1)
     }
 
+    const statusBgColor = post.status === 'Found' ? 'carol': (post.status === 'Found' ? 'darkgreen': 'darkgrey')
 
     return (
         <Grid container direction='row' justify='center'>
             <Grid item md={9} direction='column'>
-                <Grid item container direction='row'>
+                <Grid item container direction='row' alignItems='center' justify='space-between'>
                     <Grid item>
                         <table className={classes.detailTable}>
                             <tbody>
+                            <tr>
+                                <td><span style={{borderRadius:10, color:'white', background:statusBgColor }}>{post.status}</span></td>
+                                <td style={{fontWeight:'bold', fontSize:30}}>{post.petName}</td>
+                            </tr>
                             <tr>
                                 <td>Post ID</td>
                                 <td>{post._id}</td>
                             </tr>
                             <tr>
-                                <td>{post.status}</td>
-                                <td></td>
-                            </tr>
-                            <tr>
                                 <td>Post Time</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>Pet Name</td>
-                                <td>{post.petName}</td>
+                                <td>{post.createdAt}</td>
                             </tr>
                             <tr>
                                 <td>Breed</td>
@@ -117,7 +115,7 @@ export default function PostDetail() {
                         </table>
                     </Grid>
                     <Grid item>
-                        <PetImages urls={post.petImages}/>
+                        <Carousel urls={post.petImages}/>
                     </Grid>
                 </Grid>
                 <Grid>
