@@ -31,6 +31,9 @@ const useStyles = makeStyles((theme) => ({
         '&:hover':{
             backgroundColor:'primary'
         }
+    },
+    'MuiMobileStepper-dots':{
+
     }
 }));
 

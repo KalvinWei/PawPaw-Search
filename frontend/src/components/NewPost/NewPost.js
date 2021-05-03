@@ -15,7 +15,7 @@ import LocalSearch from "../../utils/LocalSearch";
 
 
 export default function NewPost() {
-    const {loginUser} = useContext(AppContext)
+    const {loginUser, createPost} = useContext(AppContext)
 
     const [post, setPost] = useState(() => {
         return {
@@ -24,13 +24,13 @@ export default function NewPost() {
             petName: "",
             petImages: [],
             //backend needs to translate breed to petType{species, breed}
-            petBreed: "",
+            petBreed: "Husky",
             petColor: "Mixed",
             petSize: "Medium",
             isMicrochipped: "Unknown",
             microchipNumber: "",
             petGender: "Male",
-            desexed: "",
+            desexed: "Unknown",
             collarTagDescription: '',
             comment: '',
             status: 'Lost',
@@ -38,8 +38,13 @@ export default function NewPost() {
         }
     })
 
-    function setImages(images){
-        setPost({...post, petImages: images})
+    // useEffect(()=>{
+    //     console.log('post changed')
+    //     console.log(post)
+    // },[post])
+
+    function setImages(fileNames) {
+        setPost({...post, petImages: fileNames})
     }
 
     const history = useHistory()
@@ -49,9 +54,15 @@ export default function NewPost() {
     }
 
     async function handleSubmit() {
-        return null;
-    }
+        const savedPost = await createPost(post)
+        if (savedPost) {
+            history.push({
+                pathname: `/posts/${savedPost._id}`,
+                state: savedPost
+            })
+        }
 
+    }
 
 
     return (
@@ -60,29 +71,28 @@ export default function NewPost() {
         >
             <Grid container direction='column' spacing={2} gutterBottom>
                 <Grid item container direction='column' spacing={2}>
-                    <Grid item gutterBottom container spacing={3} justify='space-between'>
+                    <Grid item container justify='center'>
                         <Grid item>
                             <ToggleButtonGroup
                                 value={post.status}
+                                defaultValue='Lost'
                                 exclusive
                                 size='small'
-                                onChange={e => {
-                                    setPost({...post, status: e.target.value})
+                                onChange={(e,newVal) => {
+                                    setPost({...post, status: newVal})
                                 }}
                             >
-                                <ToggleButton value='Lost' style={{width:100}}>
-                                    <SentimentVeryDissatisfiedTwoTone/>&nbsp; Lost
+                                <ToggleButton value='Lost' style={{width: 100}}>
+                                    <SentimentVeryDissatisfiedTwoTone/>Lost
                                 </ToggleButton>
-                                <ToggleButton value='Found' style={{width:100}}>
-                                    <SentimentSatisfiedTwoTone/>&nbsp; Found
+                                <ToggleButton value='Found' style={{width: 100}}>
+                                    <SentimentSatisfiedTwoTone/>Found
                                 </ToggleButton>
                             </ToggleButtonGroup>
                         </Grid>
-                        <Grid item>
+                    </Grid>
+                    <Grid item>
                             <LocalSearch post={post} setPost={setPost}/>
-                            <FormHelperText style={{textAlign:'right'}}>last seen address{post.trace[0] && `: ${post.trace[0].latitude},${post.trace[0].longitude}`}&nbsp;&nbsp;</FormHelperText>
-                            <FormHelperText style={{textAlign:'right'}}></FormHelperText>
-                        </Grid>
                     </Grid>
                     <Grid item gutterBottom>
                         <TextField
@@ -102,7 +112,7 @@ export default function NewPost() {
                             <InputLabel>Type</InputLabel>
                             <Select native
                                     value={post.petBreed}
-                                    onChange={e => setPost({...post, petBreed: e.target.groupName})}
+                                    onChange={e => setPost({...post, petBreed: e.target.value})}
                             >
                                 <optgroup label='Dog'>
                                     <option value='Husky'>Husky</option>
@@ -194,19 +204,19 @@ export default function NewPost() {
                         </FormControl>
                     </Grid>
                     {post.isMicrochipped === 'Yes' &&
-                        <Grid item gutterBottom>
-                    <TextField
-                        autoFocus
-                        margin="dense"
-                        label="Microchip Number"
-                        type="text"
-                        fullWidth
-                        value={post.microchipNumber}
-                        onChange={e => {
-                            setPost({...post, microchipNumber: e.target.value})
-                        }}
-                    />
-                        </Grid>
+                    <Grid item gutterBottom>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            label="Microchip Number"
+                            type="text"
+                            fullWidth
+                            value={post.microchipNumber}
+                            onChange={e => {
+                                setPost({...post, microchipNumber: e.target.value})
+                            }}
+                        />
+                    </Grid>
                     }
                     <Grid item gutterBottom>
                         <TextField
@@ -235,16 +245,18 @@ export default function NewPost() {
                         />
                     </Grid>
                     <Grid item>
-                        <ImageUploader images={post.petImages} onChangeImages={setImages}/>
+                        <ImageUploader onChangeImages={setImages}/>
                     </Grid>
                 </Grid>
             </Grid>
             <Grid item container justify='flex-end' spacing={2}>
                 <Grid item>
-                    <Button color='primary' style={{width:100}} size='small' variant='contained' onClick={handleSubmit}>Submit</Button>
+                    <Button color='primary' style={{width: 100}} size='small' variant='contained'
+                            onClick={handleSubmit}>Submit</Button>
                 </Grid>
                 <Grid item>
-                    <Button color='default'  style={{width:100}}  size='small' variant='contained' onClick={handleCancel}>Cancel</Button>
+                    <Button color='default' style={{width: 100}} size='small' variant='contained'
+                            onClick={handleCancel}>Cancel</Button>
                 </Grid>
             </Grid>
         </Paper>

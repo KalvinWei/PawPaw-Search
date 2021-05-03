@@ -4,15 +4,14 @@ import multer from 'multer'
 import fs from 'fs'
 
 const TEMP_FOLDER = 'assets/images/temp'
-const tempFolder = multer({dest:TEMP_FOLDER})
+const upload = multer({dest:TEMP_FOLDER})
 
 const images = express()
 images.use(cors())
 
-images.post('/', tempFolder.single('petImage'),(req,res)=>{
-
+images.post('/', upload.single('petImage'),(req,res)=>{
+    req.file.path =
     res.contentType('text/plaintext').send(req.file.filename)
-
 })
 
 images.delete('/', (req,res)=>{

@@ -55,13 +55,14 @@ export default function SearchSetting({onSubmitSearch}) {
                 <Grid item>
                     <ToggleButtonGroup
                         value={settings.status}
+                        defaultValue='All'
                         exclusive
                         size='small'
                         onChange={(e, newVal) => {
                             modifySettings({status: newVal})
                         }}
                     >
-                        <ToggleButton value='All' >
+                        <ToggleButton value='All'>
                             <strong>All</strong>
                         </ToggleButton>
                         <ToggleButton value='Lost'>

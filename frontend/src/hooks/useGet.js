@@ -102,11 +102,17 @@ export default function useGet() {
             })
     }
 
+    async function createPost(post){
+        return await axios.post('posts/',post)
+            .then(res=> res.data)
+            .catch(e=>{console.log(e)})
+    }
+
     return {
         //states
         loginUser, dashboard, setLoginUser,
         //functions
         clearSession: clearLocalStorage, fetchPostsBy, fetchNewestPosts, fetchPostsOf,
-        signUpUser, authenticateUser, fetchMatchedPosts, updateUserProfile
+        signUpUser, authenticateUser, fetchMatchedPosts, updateUserProfile, createPost
     };
 }

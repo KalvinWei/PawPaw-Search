@@ -1,6 +1,7 @@
 import User from "../db/schemas/UserSchema";
 import Post from "../db/schemas/PostSchema";
 import {sphericalCosines} from "earth-distance-js"
+import PetType from "../db/schemas/PetTypeSchema";
 
 async function getPostsFor(criteria, countPerPage,pageOffset){
     //TODO: process criteria(searchSetting) to proper query object for mongoDB
@@ -65,4 +66,21 @@ async function getPostById(id){
     return post
 }
 
-export {getPostsOf, getPostsFor, getPostsSince, getMatchedPostsFor, getPostById}
+async function savePost(post){
+    const petType = await PetType.findOne({breed:post.petBreed})
+    console.log(petType)
+    post.petType = petType._id
+    delete post.breed
+
+    const nPost = new Post(post)
+    console.log(nPost)
+    const savedPost = await nPost.save()
+
+    const user = await User.findOne({_id:post.poster})
+    user.myPosts.push(savedPost._id)
+    await user.save()
+
+    return savedPost
+}
+
+export {getPostsOf, getPostsFor, getPostsSince, getMatchedPostsFor, getPostById, savePost}
