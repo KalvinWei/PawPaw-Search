@@ -7,7 +7,7 @@ export default function StatPaper({figure, item}) {
         <Grid item xs container alignItems='center' direction='row' spacing={1} wrap='nowrap'
             style={{backdropFilter:'blur(5px)', background:'#eees', borderRadius:10, margin:'2px 5px'}}>
             <Grid item>
-                <Typography align='center' variant="h5">
+                <Typography align='center' variant="h3" style={{color:'#666'}}>
                     {figure}
                 </Typography>
             </Grid>

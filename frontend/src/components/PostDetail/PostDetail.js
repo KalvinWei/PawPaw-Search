@@ -1,17 +1,16 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {useHistory, useParams} from 'react-router-dom'
-import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
+import {useHistory} from 'react-router-dom'
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
-import {FormHelperText, Grid, Typography} from "@material-ui/core";
+import {Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core";
 import Carousel from "./Carousel/Carousel";
 
 
 const useStyle = makeStyles(theme=>({
     detailTable:{
-        fontSize:16,
+        fontSize:14,
         '& tr':{
           height:30
         },
@@ -55,6 +54,8 @@ export default function PostDetail() {
     }
 
     const statusBgColor = post.status === 'Lost' ? 'carol': (post.status === 'Found' ? 'darkgreen': 'darkgrey')
+    console.log('statusgbcolor')
+    console.log(statusBgColor)
 
     return (
         <Grid container direction='row' justify='center'>
@@ -65,7 +66,7 @@ export default function PostDetail() {
                             <tbody>
                             <tr>
                                 <td><span style={{padding:'0 10px', borderRadius:10, color:'white', background:statusBgColor }}>{post.status}</span></td>
-                                <td style={{fontWeight:'bold', fontSize:30}}>{post.petName}</td>
+                                <td style={{fontWeight:'bold', fontSize:30, textTransform:'capitalize'}}>{post.petName}</td>
                             </tr>
                             <tr>
                                 <td>Post ID</td>
@@ -73,7 +74,7 @@ export default function PostDetail() {
                             </tr>
                             <tr>
                                 <td>Post Time</td>
-                                <td>{post.createdAt}</td>
+                                <td>{(new Date(post.createdAt)).toLocaleString().replace(',','')}</td>
                             </tr>
                             <tr>
                                 <td>Breed</td>
