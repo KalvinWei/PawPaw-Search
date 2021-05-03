@@ -53,7 +53,7 @@ export default function PostDetail() {
                 })}
                 </li>
                 <li>
-                    {post.createdAt}
+                    {(new Date(post.createdAt)).toLocaleString()}
                     {/*<Moment format="DD MM YYYY hh:mm:ss" />*/}
                 </li>
                 <div>

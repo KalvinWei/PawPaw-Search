@@ -101,7 +101,7 @@ export default function PostDetailOnMap({post}) {
                     
                     >
                         <div>
-                            <h3>#{post.trace.indexOf(selectedPetPoint)+1}  {selectedPetPoint.timestamp}</h3>
+                            <h3>#{post.trace.indexOf(selectedPetPoint)+1}  {(new Date(selectedPetPoint.timestamp)).toLocaleString()}</h3>
                             <p>Address: {placeName}</p>
                             <p>Comment: {selectedPetPoint.comment}</p>
                         </div>
