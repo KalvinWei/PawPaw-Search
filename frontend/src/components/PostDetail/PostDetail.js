@@ -3,13 +3,12 @@ import {useHistory, useParams} from 'react-router-dom'
 import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
-import TraceReporter from "./PostDetailOnMap/TraceRepoter/TraceReporter"
 import {AppContext} from "../../ContextProvider";
 import {Grid, Typography} from "@material-ui/core";
-// import moment from 'moment'
+
 
 export default function PostDetail() {
-    // const moment = require('moment');
+
     const location = useHistory().location
     const post = location.state
 
@@ -17,19 +16,19 @@ export default function PostDetail() {
     const [matches, setMatches] = useState(null)
     const [pageTotal, setTotal] = useState(0)
     const [offset, setOffset] = useState(0)
-    useEffect(() => {
-        async function fetchMatches() {
+    useEffect(()=>{
+        async function fetchMatches(){
             const res = await fetchMatchedPosts(post._id, 3, offset)
             setMatches(res.posts)
             setTotal(res.pageTotal)
         }
-
         fetchMatches()
-    }, [offset])
+    },[offset])
 
-    function handlePageChange(e, pageIndex) {
+    function handlePageChange(e, pageIndex){
         setOffset(pageIndex - 1)
     }
+
 
     return (
         <Grid container direction='column'>
@@ -50,15 +49,8 @@ export default function PostDetail() {
                 <li>{post.status}</li>
                 <li>{post.trace.map(spot => {
                     <span>(${spot.latitude},${spot.longitude})</span>
-                })}
-                </li>
-                <li>
-                    {(new Date(post.createdAt)).toLocaleString()}
-                    {/*<Moment format="DD MM YYYY hh:mm:ss" />*/}
-                </li>
-                <div>
-                    <TraceReporter/>
-                </div>
+                })}</li>
+                <li>{post.createdAt}</li>
                 <div>
                     <PostDetailOnMap post={post}/>
                 </div>
@@ -74,7 +66,7 @@ export default function PostDetail() {
                 <Typography variant='subtitle1'>
                     Posts are in descending order with respect to relevance to the current post.
                 </Typography>
-                <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
+                <Posts posts={matches} pageTotal={pageTotal} page={offset+1} onPageChange={handlePageChange} />
             </Grid>}
         </Grid>
 
