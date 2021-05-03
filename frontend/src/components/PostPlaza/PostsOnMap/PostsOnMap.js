@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
-import IconButton from '@material-ui/core/IconButton';
-import PetsIcon from '@material-ui/icons/Pets'
 import {useHistory} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
@@ -20,15 +18,24 @@ const useStyles = makeStyles((theme) => ({
         right: 10,
         bottom: 20
     },
-    dt:{
-        fontFamily:'Helvetica',
-        fontSize:'12px',
-        color:"darkgrey"
+    dt: {
+        fontFamily: 'Helvetica',
+        fontSize: '12px',
+        color: "darkgrey"
     },
-    dd:{
-        fontFamily:'Helvetica',
-        fontSize:14,
-        color:'black'
+    dd: {
+        fontFamily: 'Helvetica',
+        fontSize: 14,
+        color: 'black'
+    },
+    iconButton:{
+        borderColor:"transparent",
+        padding: "5px",
+        margin: "2px 2px",
+        cursor: "pointer",
+        borderRadius: "50%",
+        width: "15px",
+        height: "15px"
     }
 }));
 
@@ -36,8 +43,8 @@ export default function PostsOnMap({posts, dimension}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width:dimension.width,
-        height:dimension.height,
+        width: dimension.width,
+        height: dimension.height,
         zoom: 10
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
@@ -73,72 +80,93 @@ export default function PostsOnMap({posts, dimension}) {
         return post.trace[post.trace.length - 1]
     }
 
+    function statusColor(post) {
+        return post.status === 'Reunited' ? 'grey' : (post.status === 'Lost' ? 'coral' : 'darkgreen')
+    }
+
     return (
-            <ReactMapGL
-                {...viewport}
-                mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
-                mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
-                onViewportChange={viewport => {
-                    setViewport(viewport);
-                }}
-            >
-                {hasPosts ? posts.map(post => {
+        <ReactMapGL
+            {...viewport}
+            mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
+            mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
+            onViewportChange={viewport => {
+                setViewport(viewport);
+            }}
+        >
+            {hasPosts ? posts.map(post => {
 
-                        return (
-                            <Marker
-                                key={post._id}
-                                latitude={parseFloat(getLast(post).latitude)}
-                                longitude={parseFloat(getLast(post).longitude)}
-                            >
-                                <div>
-                                    <IconButton edge="start" color="inherit" aria-label="menu"
-                                                onClick={e => {
-                                                    e.preventDefault();
-                                                    setSelectedPetPoint(post);
-                                                }}
-                                    >
-                                        <PetsIcon/>
-                                    </IconButton>
-                                </div>
-                            </Marker>
-                        )
-                    }
-                ) : null}
-                {selectedPetPoint ? (
-                    <Popup
-                        latitude={parseFloat(getLast(selectedPetPoint).latitude)}
-                        longitude={parseFloat(getLast(selectedPetPoint).longitude)}
-                        onClose={() => {
-                            setSelectedPetPoint(null);
-                        }}
-                    >
-                        <div >
-                            <table>
-                                <tbody>
-                                <tr className={classes.dt}><td>pet name</td></tr>
-                                <tr className={classes.dd}><td>{selectedPetPoint.petName}</td></tr>
-                                <tr className={classes.dt}><td>color</td></tr>
-                                <tr className={classes.dd}><td>{selectedPetPoint.petColor && 'Unknown'}</td></tr>
-                                <tr className={classes.dt}><td>breed</td></tr>
-                                <tr className={classes.dd}><td>{selectedPetPoint.petType.species} / {selectedPetPoint.petType.breed}</td></tr>
-                                <tr className={classes.dt}><td>last seen time</td></tr>
-                                <tr className={classes.dd}><td>{(new Date(getLast(selectedPetPoint).timestamp)).toLocaleString()}</td></tr>
+                    return (
+                        <Marker
+                            key={post._id}
+                            latitude={parseFloat(getLast(post).latitude)}
+                            longitude={parseFloat(getLast(post).longitude)}
+                        >
+                            <div>
+                                <button
+                                    onClick={e => {
+                                        e.preventDefault();
+                                        setSelectedPetPoint(post);
+                                    }}
+                                    className={classes.iconButton}
+                                    style={{backgroundColor: statusColor(post),"&:hover":{background: "lightGreen"}}}
+                                />
 
-                                </tbody>
-                            </table>
-                            <Button size="small" variant='text' color="primary" onClick={showDetail}>
-                                see details
-                            </Button>
-                        </div>
-                    </Popup>
-                ) : null}
-                <NavigationControl className={classes.navControlStyle} />
-                <ScaleControl maxWidth={100} unit="metric" className={classes.scaleControlStyle}/>
-                <GeolocateControl
-                    className={classes.geolocateControlStyle}
-                    positionOptions={{enableHighAccuracy: true}}
-                    trackUserLocation={true}
-                />
-            </ReactMapGL>
+                            </div>
+                        </Marker>
+                    )
+                }
+            ) : null}
+            {selectedPetPoint ? (
+                <Popup
+                    latitude={parseFloat(getLast(selectedPetPoint).latitude)}
+                    longitude={parseFloat(getLast(selectedPetPoint).longitude)}
+                    onClose={() => {
+                        setSelectedPetPoint(null);
+                    }}
+                >
+                    <div>
+                        <table>
+                            <tbody>
+                            <tr className={classes.dt}>
+                                <td>pet name</td>
+                            </tr>
+                            <tr className={classes.dd}>
+                                <td>{selectedPetPoint.petName}</td>
+                            </tr>
+                            <tr className={classes.dt}>
+                                <td>color</td>
+                            </tr>
+                            <tr className={classes.dd}>
+                                <td>{selectedPetPoint.petColor && 'Unknown'}</td>
+                            </tr>
+                            <tr className={classes.dt}>
+                                <td>breed</td>
+                            </tr>
+                            <tr className={classes.dd}>
+                                <td>{selectedPetPoint.petType.species} / {selectedPetPoint.petType.breed}</td>
+                            </tr>
+                            <tr className={classes.dt}>
+                                <td>last seen time</td>
+                            </tr>
+                            <tr className={classes.dd}>
+                                <td>{(new Date(getLast(selectedPetPoint).timestamp)).toLocaleString()}</td>
+                            </tr>
+
+                            </tbody>
+                        </table>
+                        <Button size="small" variant='text' color="primary" onClick={showDetail}>
+                            see details
+                        </Button>
+                    </div>
+                </Popup>
+            ) : null}
+            <NavigationControl className={classes.navControlStyle}/>
+            <ScaleControl maxWidth={100} unit="metric" className={classes.scaleControlStyle}/>
+            <GeolocateControl
+                className={classes.geolocateControlStyle}
+                positionOptions={{enableHighAccuracy: true}}
+                trackUserLocation={true}
+            />
+        </ReactMapGL>
     );
 }

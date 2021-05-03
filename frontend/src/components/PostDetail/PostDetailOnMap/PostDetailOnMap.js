@@ -1,7 +1,5 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
-import IconButton from "@material-ui/core/IconButton";
-import PetsIcon from "@material-ui/icons/Pets";
 import {makeStyles} from "@material-ui/core/styles";
 import fromLatLng from "../../../utils/geoCoding";
 
@@ -17,15 +15,31 @@ const useStyles = makeStyles((theme) => ({
     geolocateControlStyle: {
         right: 10,
         bottom: 20
+    },
+    iconButton:{
+        backgroundColor: "darkgreen",
+        borderColor:"transparent",
+        color: "white",
+        margin: "2px 2px",
+        fontSize: "18px",
+        verticalAlign: "top",
+        cursor: "pointer",
+        borderRadius: "50%",
+        width: "30px",
+        height: "30px",
+        '&:hover': {
+            background: "lightGreen",
+            color:"black"
+        }
     }
 }));
 export default function PostDetailOnMap({post, dimension}) {
     const [viewport, setViewport] = useState({
-        latitude: -36.848461,
-        longitude: 174.763336,
-        width:dimension.width,
-        height:dimension.height,
-        zoom: 11
+        latitude: parseFloat(getLast(post).latitude),
+        longitude: parseFloat(getLast(post).longitude),
+        width: dimension.width,
+        height: dimension.height,
+        zoom: 13
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
     const classes = useStyles()
@@ -41,6 +55,10 @@ export default function PostDetailOnMap({post, dimension}) {
         }
         fetchPlace()
     },[selectedPetPoint])
+
+    function getLast(post) {
+        return post.trace[post.trace.length - 1]
+    }
 
     return (
         <div>
@@ -61,15 +79,14 @@ export default function PostDetailOnMap({post, dimension}) {
                                     longitude={parseFloat(spot.longitude)}
                                 >
                                     <div>
-                                        <IconButton edge="start" color="inherit" aria-label="menu"
-                                                    onClick={e => {
-                                                        // e.preventDefault();
-                                                        setSelectedPetPoint(spot);
-                                                    }}
+                                        <button className={classes.iconButton}
+                                                onClick={e => {
+                                                    // e.preventDefault();
+                                                    setSelectedPetPoint(spot);
+                                                }}
                                         >
                                             {post.trace.indexOf(spot)+1}
-                                            <PetsIcon/>
-                                        </IconButton>
+                                        </button>
                                     </div>
                                 </Marker>
                             )
