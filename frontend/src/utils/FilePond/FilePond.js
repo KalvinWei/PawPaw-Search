@@ -25,19 +25,15 @@ export default function App({onChangeImages}) {
         <div className="App">
             <FilePond
                 files={files}
-                onprocessfiles={() => {
-                    console.log("onprocessfile_s")
-                    console.log(files)
-                    // console.log(fileItems)
-                    // console.log('try to fetch fileItems')
-                    // fileItems.map(fi=>console.log(fi.serverId))
-                    // files.map(file => console.log(file))
-                    // onChangeImages(files.map(file => file.name))
+                onprocessfiles={()=>{
+                    console.log()
                 }}
                 onupdatefiles={fs => {
                     console.log("onupdatefiles")
-                    console.log(JSON.parse(JSON.stringify(fs[0])))
-                    // setFiles(fs.map(fi => fi.file))
+                    setFiles(fs.map(fi => {
+                        console.log(fi.file)
+                        return fi.file
+                    }))
                 }}
                 allowMultiple={true}
                 maxFiles={5}
