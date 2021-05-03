@@ -7,10 +7,8 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {makeStyles} from '@material-ui/core/styles';
-import MapGL from "react-map-gl";
-import Geocoder from "react-map-gl-geocoder";
+import AutoComplete from './AutoComplete.js'
 
-const MAPBOX_TOKEN = "pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg";
 const useStyles = makeStyles((theme) => ({
     container: {
         display: 'flex',
@@ -25,7 +23,6 @@ export default function TraceReporter() {
     const handleClickOpen = () => {
         setOpen(true);
     };
-
     const handleClose = () => {
         setOpen(false);
     };
@@ -39,7 +36,7 @@ export default function TraceReporter() {
                 <DialogTitle id="form-dialog-title">Report New Find</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To report a new trace, please enter the lastest address when you see this pet,
+                        To report a new trace, please enter the latest address when you see this pet,
                         then chose a date and time for your last seen. The point will show on the map.
                     </DialogContentText>
                     <form>
@@ -54,17 +51,18 @@ export default function TraceReporter() {
                             }}
                         />
                     </form>
-                    <TextField
+
+                    <AutoComplete
                         autoFocus
                         margin="dense"
                         id="name"
                         label="Address"
                         type="address"
-                        fullWidth
-                    />
+                        >
+
+                    </AutoComplete>
 
                 </DialogContent>
-
                 <DialogActions>
                     <Button onClick={handleClose} color="primary">
                         Cancel

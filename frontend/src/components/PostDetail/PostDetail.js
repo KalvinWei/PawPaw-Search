@@ -3,7 +3,7 @@ import {useHistory, useParams} from 'react-router-dom'
 import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
-import TraceReporter from "./PostDetailOnMap/reportTrace"
+import TraceReporter from "./PostDetailOnMap/TraceRepoter/TraceReporter"
 import {AppContext} from "../../ContextProvider";
 import {Grid, Typography} from "@material-ui/core";
 // import moment from 'moment'
@@ -57,9 +57,7 @@ export default function PostDetail() {
                     {/*<Moment format="DD MM YYYY hh:mm:ss" />*/}
                 </li>
                 <div>
-                    <TraceReporter>
-
-                    </TraceReporter>
+                    <TraceReporter/>
                 </div>
                 <div>
                     <PostDetailOnMap post={post}/>

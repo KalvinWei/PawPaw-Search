@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
-import Filter1RoundedIcon from '@material-ui/icons/Filter1Rounded';
-import PetsIcon from "@material-ui/icons/Pets";
+// import Filter1RoundedIcon from '@material-ui/icons/Filter1Rounded';
+// import PetsIcon from "@material-ui/icons/Pets";
 import {makeStyles} from "@material-ui/core/styles";
 import fromLatLng from "../../../utils/geoCoding";
 
@@ -100,7 +100,7 @@ export default function PostDetailOnMap({post}) {
                         }}
                     
                     >
-                        <div style={"width=50px"}>
+                        <div>
                             <h3>#{post.trace.indexOf(selectedPetPoint)+1}  {selectedPetPoint.timestamp}</h3>
                             <p>Address: {placeName}</p>
                             <p>Comment: {selectedPetPoint.comment}</p>
