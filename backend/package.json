@@ -12,11 +12,14 @@
   "author": "Group26",
   "license": "ISC",
   "dependencies": {
+    "cors": "^2.8.5",
     "earth-distance-js": "^1.4.1",
     "esm": "^3.2.25",
     "express": "^4.17.1",
     "isodate": "^0.1.4",
-    "mongoose": "^5.12.3"
+    "mongoose": "^5.12.3",
+    "multer": "^1.4.2",
+    "uuid": "^8.3.2"
   },
   "devDependencies": {
     "cross-env": "^7.0.3",

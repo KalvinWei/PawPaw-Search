@@ -17,18 +17,21 @@ async function main() {
     });
     console.log('Connected to database!');
 
-    await clearDatabase();
-    console.log();
+    const user = await User.findOne({_id:'60892f753fdbd06344901984'}).populate('myPosts').populate('petType').execPopulate()
+    console.log(user)
+
+    // await clearDatabase();
+    // console.log();
     // Only add, if data is not already initilaized
     //Need to find the way of checking this
     //Error will occur, if run it twice due to schema validation
 
-    await addUser()
-    console.log("add one user!")
-    await addPetTypes();
-    console.log("add all pet types")
-    await addPost();
-    console.log("add a post")
+    // await addUser()
+    // console.log("add one user!")
+    // await addPetTypes();
+    // console.log("add all pet types")
+    // await addPost();
+    // console.log("add a post")
 
     // Disconnect when complete
     await mongoose.disconnect();

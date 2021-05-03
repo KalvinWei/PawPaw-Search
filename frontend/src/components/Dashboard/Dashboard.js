@@ -3,19 +3,12 @@ import {AppContext} from "../../ContextProvider";
 import {makeStyles} from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import ButtonBase from '@material-ui/core/ButtonBase';
 import StatPaper from "./StatPaper";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
-        margin:20
-    },
-    paper: {
-        padding: '0 ' + theme.spacing(2),
-        margin: 'auto',
-        width: 155,
+        margin: 20
     }
 }));
 
@@ -26,14 +19,14 @@ export default function Dashboard() {
 
     return (
         <div className={classes.root}>
-            <Grid container justify='center' spacing={3}>
-                {dashboard && Object.keys(dashboard).map(key =>
-                    <Grid key={key} item>
-                        <Paper className={classes.paper}>
-                            <StatPaper figure={dashboard[key]} item={key}/>
-                        </Paper>
-                    </Grid>
-                )}
+            <Grid container justify='space-evenly' spacing={3} alignContent='center' wrap='nowrap' style={{overflow:"scroll"}}>
+                <StatPaper figure={dashboard.userTotal} item='TOTAL USER'/>
+                <StatPaper figure={dashboard.foundTotal} item='TOTAL FOUND'/>
+                <StatPaper figure={dashboard.lostTotal} item='TOTAL LOST'/>
+                <StatPaper figure={dashboard.reunionTotal} item='TOTAL REUNITED'/>
+                <StatPaper figure={dashboard.foundToday} item='FOUND TODAY'/>
+                <StatPaper figure={dashboard.lostToday} item='LOST TODAY'/>
+                <StatPaper figure={dashboard.reunionToday} item='REUNITED TODAY'/>
             </Grid>
         </div>
     );

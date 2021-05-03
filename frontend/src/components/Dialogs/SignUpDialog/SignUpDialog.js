@@ -94,7 +94,7 @@ export default function SignUpDialog({open, onClose}) {
                         autoFocu
                         margin="dense"
                         label="Email"
-                        type="text"
+                        type="email"
                         value={user.email}
                         onChange={e => setUser({...user, email:e.target.value})}
                         fullWidth

@@ -6,13 +6,12 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
 import PetImages from "./PetImages/PetImages";
 import fromLatLng from "../../../../utils/geoCoding";
 import {CardHeader} from "@material-ui/core";
-import {Info, Loyalty, Room} from "@material-ui/icons";
+import Grid from "@material-ui/core/Grid";
 
-const useStyles = makeStyles((theme)=>({
+const useStyles = makeStyles((theme) => ({
     root: {
         width: 255,
         height: 355
@@ -21,14 +20,49 @@ const useStyles = makeStyles((theme)=>({
         height: 140,
     },
     content: {
-        flexGrow:1
+        overflow:'scroll',
+        height: 120
     },
-    cardHeader:{
-      ...theme.typography.caption,
-        textAlign:'center',
-        textTransform:'uppercase'
+    cardHeader: {
+        ...theme.typography.caption,
+        textAlign: 'center',
+        textTransform: 'uppercase'
+    },
+    briefTable: {
+        marginTop: 5,
+        borderSpacing: 5,
+        '& tr:first-child':{
+            fontWeight:'bold'
+        },
+        '& tr:first-child > td:nth-child(2)':{
+            fontSize:16
+        }
+
+    },
+    dt: {
+        fontFamily: 'Helvetica',
+        fontSize: 10,
+        color: "darkgrey",
+        textAlign: 'right',
+        width: '30%',
+        paddingRight: 8,
+        verticalAlign: "baseline"
+    },
+    dd: {
+        fontFamily: 'Helvetica',
+        fontSize: 14,
+        color: '#444',
+        width: '70%',
+        verticalAlign: "baseline"
+    },
+    action:{
+        alignItems:'right'
     }
 }));
+
+function getLast(post) {
+    return post.trace[post.trace.length - 1]
+}
 
 function PostCard({post}) {
     const classes = useStyles();
@@ -39,7 +73,9 @@ function PostCard({post}) {
     useEffect(() => {
         async function getAddress() {
             const addr = await fromLatLng(lastSpot.latitude, lastSpot.longitude)
-            setAddress(addr.features[0].place_name)
+            const place_name = addr.features[0].place_name
+            const index = place_name.indexOf(',', place_name.indexOf(',')+1)
+            setAddress(place_name.substring(0,index))
         }
 
         getAddress()
@@ -49,13 +85,19 @@ function PostCard({post}) {
         history.push({pathname: `/posts/${post._id}`, state: post})
     }
 
-    const statusColor = post.status === 'Reunited' ? 'grey': (post.status === 'Lost' ? 'coral':'darkgreen')
+    const statusColor = post.status === 'Reunited' ? 'grey' : (post.status === 'Lost' ? 'coral' : 'darkgreen')
+    const GRADIENT_LOST = {background:`linear-gradient(25deg, rgba(255,127,80,0.2) 0%, rgba(254,226,215,0) 21%, rgba(255,255,255,1) 100%)`}
+    const GRADIENT_FOUND = {background:'linear-gradient(25deg, rgba(59,167,48,0.2) 0%, rgba(239,255,234,0) 21%, rgba(255,255,255,1) 100%)'}
+    const GRADIENT_REUNITED = {background: 'linear-gradient(25deg, rgba(191,191,191,0.09707633053221287) 0%, rgba(236,236,236,0) 21%, rgba(255,255,255,1) 100%)'}
+    const background = post.status === 'Reunited' ? GRADIENT_REUNITED : (post.status === 'Lost' ? GRADIENT_LOST : GRADIENT_FOUND)
 
     return (
-        <Card variant='outlined' className={classes.root}>
+        <Card variant='outlined' className={classes.root} style={background}>
             <CardHeader
-                title={<div className={classes.cardHeader} style={{width:'100%', backgroundColor:statusColor, color:'white'}}>{post.status}</div>}
-                style={{padding:0}}
+                title={<div className={classes.cardHeader}
+                            style={{
+                    width: '100%', backgroundColor: statusColor, color: 'white'}}>{post.status}</div>}
+                style={{padding: 0}}
             />
             <CardMedia
                 className={classes.media}
@@ -64,23 +106,41 @@ function PostCard({post}) {
                 <PetImages urls={post.petImages}/>
             </CardMedia>
             <CardContent className={classes.content}>
-                <Typography  variant="h6" component="h2" color="textSecondary">
-                    {post.petName}
-                </Typography>
-                <Typography  variant="subtitle2"  >
-                    <Info fontSize='small'/> {post.petType.species} {post.petType.breed} {post.petColor}
-                </Typography>
-                <Typography  variant="subtitle2"  >
-                    <Loyalty fontSize='small'/> {post.comment}
-                </Typography>
-                <Typography variant="subtitle2">
-                    <Room fontSize='small'/>{address}
-                </Typography>
+                <table className={classes.briefTable}>
+                    <tbody>
+                    <tr>
+                        <td className={classes.dt}>NAME</td>
+                        <td className={classes.dd}>{post.petName}</td>
+                    </tr>
+                    <tr>
+                        <td className={classes.dt}>BREED</td>
+                        <td className={classes.dd}>{post.petType.species} / {post.petType.breed}</td>
+                    </tr>
+                    <tr>
+                        <td className={classes.dt}>COLOR</td>
+                        <td className={classes.dd}>{post.petColor}</td>
+                    </tr>
+                    <tr>
+                        <td className={classes.dt}>LAST SEEN</td>
+                        <td className={classes.dd}>
+                            {(new Date(getLast(post).timestamp)).toLocaleString().replace(',','  ')}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td className={classes.dt}></td>
+                        <td className={classes.dd}>
+                            {address}
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
             </CardContent>
-            <CardActions>
-                <Button size="small" color="primary" onClick={showDetail}>
-                    see details
-                </Button>
+            <CardActions className={classes.action}>
+                <Grid container justify='flex-end'>
+                    <Button size="small" variant='outlined' style={{fontSize:12}} color="default" onClick={showDetail}>
+                        see details
+                    </Button>
+                </Grid>
             </CardActions>
         </Card>
     );

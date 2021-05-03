@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react'
 import {AppContext} from "../../ContextProvider";
 import Posts from "../PostPlaza/Posts/Posts";
 import Grid from "@material-ui/core/Grid";
-import {Card, Paper, Table, TableBody, TableCell, TableContainer, TableRow, Typography} from "@material-ui/core";
+import {Paper,Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core/styles";
 import {Email, Person, PhoneAndroid, Room} from "@material-ui/icons";
 import Button from "@material-ui/core/Button";
@@ -123,14 +123,14 @@ export default function UserPage() {
                 </Grid>
                 <Grid item sm={7} direction='column' container spacing={2}>
                     <Grid item>
-                        <Typography variant='h4' color='textSecondary' component='h4' gutterBottom>
+                        <Typography variant='h5' color='textSecondary' component='h4' gutterBottom>
                             My Posts
                         </Typography>
                         <Posts posts={myPosts} page={offSetMy + 1} onPageChange={handlePageChangeMy}
                                pageTotal={pageTotalMy}/>
                     </Grid>
                     <Grid item>
-                        <Typography variant='h4' color='textSecondary' component='h4' gutterBottom>
+                        <Typography variant='h5' color='textSecondary' component='h4' gutterBottom>
                             Watching
                         </Typography>
                         <Posts posts={watchings} page={offSetWatching + 1} onPageChange={handlePageChangeWatchings}

@@ -1,6 +1,7 @@
 import User from "../db/schemas/UserSchema";
 import Post from "../db/schemas/PostSchema";
 import {sphericalCosines} from "earth-distance-js"
+import PetType from "../db/schemas/PetTypeSchema";
 
 async function getPostsFor(criteria, countPerPage,pageOffset){
     //TODO: process criteria(searchSetting) to proper query object for mongoDB
@@ -22,8 +23,8 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
     //     //use keyword to search in petName, collarTagDescription, comment
     //     keywords: ""
 
-    const onePagePosts =  await Post.getOnePage(criteria,countPerPage,pageOffset)
-    const pageTotal = await Post.getPageTotal(criteria,countPerPage)
+    const onePagePosts =  await getOnePage(criteria,countPerPage,pageOffset)
+    const pageTotal = await getPageTotal(criteria,countPerPage)
     return {posts:onePagePosts, pageTotal}
 }
 
@@ -65,4 +66,31 @@ async function getPostById(id){
     return post
 }
 
-export {getPostsOf, getPostsFor, getPostsSince, getMatchedPostsFor, getPostById}
+//some static methods
+async function getOnePage(searchCriteria, countPerPage, pageOffset){
+    const posts = await Post.find(searchCriteria).skip(countPerPage * pageOffset).limit(countPerPage).populate('petType')
+    return posts
+}
+
+async function getPageTotal(searchCriteria, countPerPage){
+    return Math.ceil((await Post.countDocuments(searchCriteria)) / countPerPage)
+}
+
+async function savePost(post){
+    const petType = await PetType.findOne({breed:post.petBreed})
+    console.log(petType)
+    post.petType = petType._id
+    delete post.breed
+
+    const nPost = new Post(post)
+    console.log(nPost)
+    const savedPost = await nPost.save()
+
+    const user = await User.findOne({_id:post.poster})
+    user.myPosts.push(savedPost._id)
+    await user.save()
+
+    return savedPost
+}
+
+export {getPostsOf, getPostsFor, getPostsSince, getMatchedPostsFor, getPostById, savePost}
