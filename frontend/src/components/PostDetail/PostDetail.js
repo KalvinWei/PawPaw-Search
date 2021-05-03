@@ -54,7 +54,7 @@ export default function PostDetail() {
         setOffset(pageIndex - 1)
     }
 
-    const statusBgColor = post.status === 'Found' ? 'carol': (post.status === 'Found' ? 'darkgreen': 'darkgrey')
+    const statusBgColor = post.status === 'Lost' ? 'carol': (post.status === 'Found' ? 'darkgreen': 'darkgrey')
 
     return (
         <Grid container direction='row' justify='center'>
@@ -64,7 +64,7 @@ export default function PostDetail() {
                         <table className={classes.detailTable}>
                             <tbody>
                             <tr>
-                                <td><span style={{borderRadius:10, color:'white', background:statusBgColor }}>{post.status}</span></td>
+                                <td><span style={{padding:'0 10px', borderRadius:10, color:'white', background:statusBgColor }}>{post.status}</span></td>
                                 <td style={{fontWeight:'bold', fontSize:30}}>{post.petName}</td>
                             </tr>
                             <tr>
