@@ -22,10 +22,13 @@ const useStyle = makeStyles(theme=>({
         },
         '& tr > td:nth-child(2)':{
             fontSize:20,
-            color:'#444',
+            color:'#555',
         },
         margin:30,
         fontFamily:'helvetica'
+    },
+    mapWrapper:{
+        border:'1px solid #ddd'
     }
 }))
 
@@ -53,7 +56,7 @@ export default function PostDetail() {
         setOffset(pageIndex - 1)
     }
 
-    const statusBgColor = post.status === 'Lost' ? 'carol': (post.status === 'Found' ? 'darkgreen': 'darkgrey')
+    const statusBgColor = post.status === 'Lost' ? 'coral': (post.status === 'Found' ? 'darkgreen': 'darkgrey')
     console.log('statusgbcolor')
     console.log(statusBgColor)
 
@@ -65,7 +68,10 @@ export default function PostDetail() {
                         <table className={classes.detailTable}>
                             <tbody>
                             <tr>
-                                <td><span style={{padding:'0 10px', borderRadius:10, color:'white', background:statusBgColor }}>{post.status}</span></td>
+                                <td>
+                                    <span style={{padding:'8px 20px', borderRadius:5, fontWeight:'bolder', color:'white', background:statusBgColor }}>
+                                    {post.status}</span>
+                                </td>
                                 <td style={{fontWeight:'bold', fontSize:30, textTransform:'capitalize'}}>{post.petName}</td>
                             </tr>
                             <tr>
@@ -93,7 +99,7 @@ export default function PostDetail() {
                                 <td>{post.petGender}</td>
                             </tr>
                             <tr>
-                                <td>MicrochipNumber</td>
+                                <td>Microchip No.</td>
                                 <td>
                                     {post.isMicrochipped === 'Yes' ? post.microchipNumber :
                                         (post.isMicrochipped === 'Unknown' ? 'Unknown' : 'No Microchip')
@@ -119,7 +125,7 @@ export default function PostDetail() {
                         <Carousel urls={post.petImages}/>
                     </Grid>
                 </Grid>
-                <Grid>
+                <Grid className={classes.mapWrapper}>
                     <PostDetailOnMap post={post} dimension={{width:'100%', height:400}}/>
                 </Grid>
 
