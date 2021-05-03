@@ -2,6 +2,7 @@ import PostCard from "./PostCard/PostCard";
 import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import {Pagination} from "@material-ui/lab";
+import {Typography} from "@material-ui/core";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -20,7 +21,7 @@ export default function Posts({posts, pageTotal, page, onPageChange}){
     const classes = useStyles();
 
     return (
-        (!posts || posts.length ===0) ? <div><p>OOPS! NO AVAILABLE POSTS.</p></div> :
+        (!posts || posts.length ===0) ? <Typography variant='subtitle2' color='textSecondary'>Sometimes, empty means good...</Typography> :
             <div className={classes.root}>
                 <Grid container spacing={2}>
                         {posts.map(post =>

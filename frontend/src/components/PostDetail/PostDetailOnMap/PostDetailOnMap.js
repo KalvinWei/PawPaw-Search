@@ -19,12 +19,12 @@ const useStyles = makeStyles((theme) => ({
         bottom: 20
     }
 }));
-export default function PostDetailOnMap({post}) {
+export default function PostDetailOnMap({post, dimension}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width: "80%",
-        height: "500px",
+        width:dimension.width,
+        height:dimension.height,
         zoom: 11
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);

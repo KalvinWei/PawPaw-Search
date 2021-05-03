@@ -23,8 +23,8 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
     //     //use keyword to search in petName, collarTagDescription, comment
     //     keywords: ""
 
-    const onePagePosts =  await Post.getOnePage(criteria,countPerPage,pageOffset)
-    const pageTotal = await Post.getPageTotal(criteria,countPerPage)
+    const onePagePosts =  await getOnePage(criteria,countPerPage,pageOffset)
+    const pageTotal = await getPageTotal(criteria,countPerPage)
     return {posts:onePagePosts, pageTotal}
 }
 
@@ -64,6 +64,16 @@ async function getPostById(id){
         await Post.findOne({_id:id})
             .populate('petType')
     return post
+}
+
+//some static methods
+async function getOnePage(searchCriteria, countPerPage, pageOffset){
+    const posts = await Post.find(searchCriteria).skip(countPerPage * pageOffset).limit(countPerPage).populate('petType')
+    return posts
+}
+
+async function getPageTotal(searchCriteria, countPerPage){
+    return Math.ceil((await Post.countDocuments(searchCriteria)) / countPerPage)
 }
 
 async function savePost(post){

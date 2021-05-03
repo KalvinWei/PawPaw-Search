@@ -50,7 +50,7 @@ export default function SearchSetting({onSubmitSearch}) {
     }
 
     return (
-        <Paper style={{padding: 15}} variant={"outlined"}>
+        <Paper style={{marginRight:20,padding: 15, width:320}} variant={"outlined"}>
             <Grid container direction='column' spacing={1}>
                 <Grid item>
                     <ToggleButtonGroup

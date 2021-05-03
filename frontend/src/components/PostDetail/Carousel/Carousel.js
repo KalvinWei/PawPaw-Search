@@ -8,23 +8,16 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
 const useStyles = makeStyles((theme) => ({
     root: {
-        maxWidth: 255,
+        maxWidth: 500,
         flexGrow: 1,
         zIndex:1000
     },
     img: {
-        height: 155,
+        height: 300,
         width: '100%',
         objectFit: 'cover',
         overflow: 'hidden',
         display: 'block'
-    },
-    stepper:{
-        boxSizing:'border-box',
-        position:'absolute',
-        width:'100%',
-        transform:'translateY(-100%)',
-        background:'none'
     },
     button:{
         color:'pink',
@@ -32,13 +25,10 @@ const useStyles = makeStyles((theme) => ({
         '&:hover':{
             backgroundColor:'primary'
         }
-    },
-    'MuiMobileStepper-dots':{
-
     }
 }));
 
-export default function PetImages({urls}) {
+export default function Carousel({urls}) {
     const classes = useStyles();
     const theme = useTheme();
     const [activeImg, setActiveImg] = React.useState(0);

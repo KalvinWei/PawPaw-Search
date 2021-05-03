@@ -5,6 +5,7 @@ import PetsIcon from '@material-ui/icons/Pets'
 import {useHistory} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
+import 'mapbox-gl/dist/mapbox-gl.css'
 
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
@@ -18,15 +19,25 @@ const useStyles = makeStyles((theme) => ({
     geolocateControlStyle: {
         right: 10,
         bottom: 20
+    },
+    dt:{
+        fontFamily:'Helvetica',
+        fontSize:'12px',
+        color:"darkgrey"
+    },
+    dd:{
+        fontFamily:'Helvetica',
+        fontSize:14,
+        color:'black'
     }
 }));
 
-export default function PostsOnMap({posts}) {
+export default function PostsOnMap({posts, dimension}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width: "70%",
-        height: "450px",
+        width:dimension.width,
+        height:dimension.height,
         zoom: 10
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
@@ -63,7 +74,6 @@ export default function PostsOnMap({posts}) {
     }
 
     return (
-        <div>
             <ReactMapGL
                 {...viewport}
                 mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
@@ -102,11 +112,21 @@ export default function PostsOnMap({posts}) {
                             setSelectedPetPoint(null);
                         }}
                     >
-                        <div>
-                            <h1>Pet Name: {selectedPetPoint.petName}</h1>
-                            <h2 style={{color: "red"}}>{selectedPetPoint.status}</h2>
-                            <h3 style={{fontSize: "10"}}>Comment: {getLast(selectedPetPoint).comment}</h3>
-                            <Button size="small" color="primary" onClick={showDetail}>
+                        <div >
+                            <table>
+                                <tbody>
+                                <tr className={classes.dt}><td>pet name</td></tr>
+                                <tr className={classes.dd}><td>{selectedPetPoint.petName}</td></tr>
+                                <tr className={classes.dt}><td>color</td></tr>
+                                <tr className={classes.dd}><td>{selectedPetPoint.petColor && 'Unknown'}</td></tr>
+                                <tr className={classes.dt}><td>breed</td></tr>
+                                <tr className={classes.dd}><td>{selectedPetPoint.petType.species} / {selectedPetPoint.petType.breed}</td></tr>
+                                <tr className={classes.dt}><td>last seen time</td></tr>
+                                <tr className={classes.dd}><td>{(new Date(getLast(selectedPetPoint).timestamp)).toLocaleString()}</td></tr>
+
+                                </tbody>
+                            </table>
+                            <Button size="small" variant='text' color="primary" onClick={showDetail}>
                                 see details
                             </Button>
                         </div>
@@ -120,6 +140,5 @@ export default function PostsOnMap({posts}) {
                     trackUserLocation={true}
                 />
             </ReactMapGL>
-        </div>
     );
 }
