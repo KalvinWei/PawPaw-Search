@@ -123,14 +123,14 @@ export default function UserPage() {
                 </Grid>
                 <Grid item sm={7} direction='column' container spacing={2}>
                     <Grid item>
-                        <Typography variant='h4' color='textSecondary' component='h4' gutterBottom>
+                        <Typography variant='h5' color='textSecondary' component='h4' gutterBottom>
                             My Posts
                         </Typography>
                         <Posts posts={myPosts} page={offSetMy + 1} onPageChange={handlePageChangeMy}
                                pageTotal={pageTotalMy}/>
                     </Grid>
                     <Grid item>
-                        <Typography variant='h4' color='textSecondary' component='h4' gutterBottom>
+                        <Typography variant='h5' color='textSecondary' component='h4' gutterBottom>
                             Watching
                         </Typography>
                         <Posts posts={watchings} page={offSetWatching + 1} onPageChange={handlePageChangeWatchings}

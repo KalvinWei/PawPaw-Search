@@ -23,8 +23,8 @@ export default function PostDetailOnMap({post}) {
     const [viewport, setViewport] = useState({
         latitude: -36.848461,
         longitude: 174.763336,
-        width: "80%",
-        height: "500px",
+        width:'100%',
+        height:'200px',
         zoom: 11
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);

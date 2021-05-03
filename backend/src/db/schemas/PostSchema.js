@@ -37,7 +37,7 @@ const PetColor = Object.freeze({
 const PostSchema = new Schema({
     poster: { type: Schema.Types.ObjectId, ref: 'User', required: true },
     petName: { type: String},
-    petType: {type: Schema.Types.ObjectId, ref:'PetType',required:true },
+    petType: {type: Schema.Types.ObjectId, ref:'PetType', required:true },
     petImages:[{ type: String}], //should have multiple images
     petColor: { 
         type: String, 
@@ -90,14 +90,6 @@ const PostSchema = new Schema({
     timestamps: {}
 });
 
-//some static methods
-PostSchema.statics.getOnePage = async function(searchCriteria, countPerPage, pageOffset){
-    return await this.find(searchCriteria).skip(countPerPage * pageOffset).limit(countPerPage)
-}
-
-PostSchema.statics.getPageTotal = async function(searchCriteria, countPerPage){
-    return Math.ceil((await this.countDocuments(searchCriteria)) / countPerPage)
-}
 
 // Object.assign(PostSchema.statics, PostStatus, PetSize, PetColor, PetGender);
 const Post = mongoose.model('Post', PostSchema);

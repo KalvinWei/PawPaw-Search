@@ -4,13 +4,18 @@ import Typography from "@material-ui/core/Typography";
 
 export default function StatPaper({figure, item}) {
     return (
-        <Grid item xs container direction="column">
-                <Typography align='center' color='secondary' variant="h4">
+        <Grid item xs container alignItems='center' direction='row' spacing={1} wrap='nowrap'
+            style={{backdropFilter:'blur(5px)', background:'#eees', borderRadius:10, margin:'2px 5px'}}>
+            <Grid item>
+                <Typography align='center' variant="h5">
                     {figure}
                 </Typography>
-                <Typography align='center' color='textSecondary' variant="button">
+            </Grid>
+            <Grid item>
+                <Typography align='center'  variant='overline' noWrap>
                     {item}
                 </Typography>
+            </Grid>
         </Grid>
     )
 }

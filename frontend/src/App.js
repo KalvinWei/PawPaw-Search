@@ -7,6 +7,7 @@ import PostPlaza from "./components/PostPlaza/PostPlaza";
 import UserPage from "./components/UserPage/UserPage";
 import PostDetail from "./components/PostDetail/PostDetail";
 import NewPost from "./components/NewPost/NewPost";
+import HomePage from "./components/HomePage/HomePage";
 
 function App() {
 
@@ -16,8 +17,7 @@ function App() {
                 <Banner/>
                 <Switch>
                     <Route exact path={'/'}>
-                        <Dashboard/>
-                        <NewestPosts/>
+                        <HomePage />
                     </Route>
                     <Route path='/PostPlaza'>
                         <PostPlaza/>

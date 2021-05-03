@@ -24,10 +24,10 @@ export default function NewestPosts() {
 
     return (
         <div>
-            <Typography variant='h4' color='textPrimary'>
-               Newest Posts
+            <Typography variant='h5' color='textPrimary'>
+               Newest Posts&nbsp;
             </Typography>
-            <Typography variant='subtitle1' color='textSecondary' gutterBottom>
+            <Typography variant='subtitle2' color='textSecondary' gutterBottom>
                 These posts are new in less than 48 hours
             </Typography>
             <Posts posts={posts} page={pageOffset+1} onPageChange={handlePageChange} pageTotal={pageTotal}/>
