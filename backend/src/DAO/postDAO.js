@@ -93,4 +93,12 @@ async function savePost(post){
     return savedPost
 }
 
-export {getPostsOf, getPostsFor, getPostsSince, getMatchedPostsFor, getPostById, savePost}
+async function addTrace(spot,postId){
+    const post = await Post.findOne({_id: postId})
+    post.trace.push(spot)
+    await post.save()
+    const savedPost = await Post.findOne({_id:postId}).populate('petType').populate('matches')
+    return savedPost
+}
+
+export {getPostsOf, getPostsFor, getPostsSince, getMatchedPostsFor, getPostById, savePost, addTrace}
