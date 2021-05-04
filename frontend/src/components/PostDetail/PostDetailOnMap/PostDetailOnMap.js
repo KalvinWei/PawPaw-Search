@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
 import {makeStyles} from "@material-ui/core/styles";
 import fromLatLng from "../../../utils/geoCoding";
+import {MY_KEY} from '../../../utils/geoCoding'
 
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
@@ -64,7 +65,7 @@ export default function PostDetailOnMap({post, dimension}) {
         <div>
             <ReactMapGL
                 {...viewport}
-                mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
+                mapboxApiAccessToken={MY_KEY}
                 mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
                 onViewportChange={viewport => {
                     setViewport(viewport);
