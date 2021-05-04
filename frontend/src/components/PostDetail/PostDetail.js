@@ -9,27 +9,27 @@ import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
 
 
-const useStyle = makeStyles(theme=>({
-    detailTable:{
-        fontSize:14,
-        '& tr':{
-          height:30
+const useStyle = makeStyles(theme => ({
+    detailTable: {
+        fontSize: 14,
+        '& tr': {
+            height: 30
         },
-        '& tr > td:first-child':{
-          textTransform:'uppercase',
-            textAlign:'right',
-            paddingRight:10,
-            color:'#999',
+        '& tr > td:first-child': {
+            textTransform: 'uppercase',
+            textAlign: 'right',
+            paddingRight: 10,
+            color: '#999',
         },
-        '& tr > td:nth-child(2)':{
-            fontSize:20,
-            color:'#555',
+        '& tr > td:nth-child(2)': {
+            fontSize: 20,
+            color: '#555',
         },
-        margin:30,
-        fontFamily:'helvetica'
+        margin: 30,
+        fontFamily: 'helvetica'
     },
-    mapWrapper:{
-        border:'1px solid #ddd'
+    mapWrapper: {
+        border: '1px solid #ddd'
     }
 }))
 
@@ -57,7 +57,7 @@ export default function PostDetail() {
         setOffset(pageIndex - 1)
     }
 
-    const statusBgColor = post.status === 'Lost' ? 'coral': (post.status === 'Found' ? 'darkgreen': 'darkgrey')
+    const statusBgColor = post.status === 'Lost' ? 'coral' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey')
     console.log('statusgbcolor')
     console.log(statusBgColor)
 
@@ -70,10 +70,20 @@ export default function PostDetail() {
                             <tbody>
                             <tr>
                                 <td>
-                                    <span style={{padding:'8px 20px', borderRadius:5, fontWeight:'bolder', color:'white', background:statusBgColor }}>
+                                    <span style={{
+                                        padding: '8px 20px',
+                                        borderRadius: 5,
+                                        fontWeight: 'bolder',
+                                        color: 'white',
+                                        background: statusBgColor
+                                    }}>
                                     {post.status}</span>
                                 </td>
-                                <td style={{fontWeight:'bold', fontSize:30, textTransform:'capitalize'}}>{post.petName}</td>
+                                <td style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 30,
+                                    textTransform: 'capitalize'
+                                }}>{post.petName}</td>
                             </tr>
                             <tr>
                                 <td>Post ID</td>
@@ -81,7 +91,7 @@ export default function PostDetail() {
                             </tr>
                             <tr>
                                 <td>Post Time</td>
-                                <td>{(new Date(post.createdAt)).toLocaleString().replace(',','')}</td>
+                                <td>{(new Date(post.createdAt)).toLocaleString().replace(',', '')}</td>
                             </tr>
                             <tr>
                                 <td>Breed</td>
@@ -127,25 +137,25 @@ export default function PostDetail() {
                     </Grid>
                 </Grid>
                 <Grid className={classes.mapWrapper}>
-                <Grid>
-                    <TraceReporter post={post}/>
-                    <PostDetailOnMap post={post} dimension={{width:'100%', height:400}}/>
-                </Grid>
+                    <Grid>
+                        <TraceReporter post={post}/>
+                        <PostDetailOnMap post={post} dimension={{width: '100%', height: 400}}/>
+                    </Grid>
 
-                {matches && <Grid>
-                    <Typography variant='h5'>
-                        Matched Posts
-                    </Typography>
-                    <Typography variant='subtitle2'>
-                        Relevant posts are matched by our matching engine according to the features of posts.
-                    </Typography>
-                    <Typography variant='subtitle2'>
-                        Posts are in descending order with respect to relevance with the current post.
-                    </Typography>
-                    <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
-                </Grid>}
+                    {matches && <Grid>
+                        <Typography variant='h5'>
+                            Matched Posts
+                        </Typography>
+                        <Typography variant='subtitle2'>
+                            Relevant posts are matched by our matching engine according to the features of posts.
+                        </Typography>
+                        <Typography variant='subtitle2'>
+                            Posts are in descending order with respect to relevance with the current post.
+                        </Typography>
+                        <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
+                    </Grid>}
+                </Grid>
             </Grid>
         </Grid>
-
     )
 }
