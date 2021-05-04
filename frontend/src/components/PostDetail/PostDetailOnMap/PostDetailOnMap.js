@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
 import {makeStyles} from "@material-ui/core/styles";
-import fromLatLng from "../../../utils/geoCoding";
-import {MY_KEY} from '../../../utils/geoCoding'
+import fromLatLng, {fetchVet, MY_KEY} from "../../../utils/geoCoding";
+import Checkbox from '@material-ui/core/Checkbox';
+import {FormControlLabel} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
@@ -60,6 +61,11 @@ export default function PostDetailOnMap({post, dimension}) {
     function getLast(post) {
         return post.trace[post.trace.length - 1]
     }
+    //
+    // const [checked, setChecked] = React.useState(false);
+    // const handleChange = (event) => {
+    //     setChecked(event.target.checked)
+    // };
 
     return (
         <div>
@@ -70,11 +76,28 @@ export default function PostDetailOnMap({post, dimension}) {
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}>
+                {/*<FormControlLabel*/}
+                {/*    control={*/}
+                {/*        <Checkbox*/}
+                {/*            checked={checked}*/}
+                {/*            onChange={handleChange}*/}
+                {/*            name="showVets"*/}
+                {/*        />*/}
+                {/*    }*/}
+                {/*    label="Show Nearby Vets"*/}
+                {/*/>*/}
+                {/*{}*/}
+                {/*<Marker*/}
+                {/*key={fetchVet.longitude + " " + fetchVet.latitude}*/}
+                {/*latitude={parseFloat(fetchVet.latitude)}*/}
+                {/*longitude={parseFloat(fetchVet.longitude)}*/}
+                {/*>*/}
+                {/*    */}
+                {/*</Marker>*/}
 
                 {
                     post.trace.map(spot =>
                                 <Marker
-
                                     key={spot.longitude + " " + spot.latitude}
                                     latitude={parseFloat(spot.latitude)}
                                     longitude={parseFloat(spot.longitude)}
