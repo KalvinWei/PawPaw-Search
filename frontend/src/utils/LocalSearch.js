@@ -66,7 +66,7 @@ export default function LocalSearch({post, setPost}) {
                     <TextField
                         value={spot.timestamp}
                         onChange={e=>{
-                            setSpot({...post,timestamp: e.target.value})
+                            setSpot({...spot,timestamp: e.target.value})
                         }}
                         label="Last Seen Date"
                         type="datetime-local"

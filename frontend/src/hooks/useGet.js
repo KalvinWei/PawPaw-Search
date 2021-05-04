@@ -120,6 +120,7 @@ export default function useGet() {
         loginUser, dashboard, setLoginUser,
         //functions
         clearSession: clearLocalStorage, fetchPostsBy, fetchNewestPosts, fetchPostsOf,
-        signUpUser, authenticateUser, fetchMatchedPosts, updateUserProfile, createPost
+        signUpUser, authenticateUser, fetchMatchedPosts, updateUserProfile, createPost,
+        reportTrace
     };
 }
