@@ -1,5 +1,5 @@
 import express from 'express'
-import {getPostsFor, getPostsSince, getMatchedPostsFor, getPostById, savePost} from "../DAO/postDAO";
+import {getPostsFor, getPostsSince, getMatchedPostsFor, getPostById, savePost, addTrace} from "../DAO/postDAO";
 
 const posts = express()
 
@@ -33,6 +33,13 @@ posts.post('/', async (req,res) => {
     const result = await savePost(post)
     console.log("backend result")
     console.log(result)
+    res.send(result)
+})
+
+posts.patch('/:postId/trace', async (req,res) =>{
+    const {postId} = req.params
+    const spot = req.body
+    const result = await addTrace(spot,postId)
     res.send(result)
 })
 
