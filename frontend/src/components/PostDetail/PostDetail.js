@@ -119,6 +119,7 @@ export default function PostDetail() {
                     </Grid>
                 </Grid>
                 <Grid>
+
                     <PostDetailOnMap post={post} dimension={{width:'100%', height:400}}/>
                 </Grid>
 

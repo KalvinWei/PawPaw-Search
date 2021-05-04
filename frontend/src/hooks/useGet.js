@@ -108,6 +108,13 @@ export default function useGet() {
             .catch(e=>{console.log(e)})
     }
 
+    async function reportTrace(spot,postId){
+        return await axios.patch(`/posts/${postId}/trace`,spot)
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+
+    }
+
     return {
         //states
         loginUser, dashboard, setLoginUser,
