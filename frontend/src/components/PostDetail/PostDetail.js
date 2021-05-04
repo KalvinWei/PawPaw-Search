@@ -6,6 +6,7 @@ import {AppContext} from "../../ContextProvider";
 import {Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core";
 import Carousel from "./Carousel/Carousel";
+import TraceReporter from "./TraceReporter/TraceReporter";
 
 
 const useStyle = makeStyles(theme=>({
@@ -126,6 +127,8 @@ export default function PostDetail() {
                     </Grid>
                 </Grid>
                 <Grid className={classes.mapWrapper}>
+                <Grid>
+                    <TraceReporter post={post}/>
                     <PostDetailOnMap post={post} dimension={{width:'100%', height:400}}/>
                 </Grid>
 
