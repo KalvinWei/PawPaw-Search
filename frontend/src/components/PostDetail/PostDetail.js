@@ -1,14 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {useHistory, useParams} from 'react-router-dom'
-import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
-import {FormHelperText, Grid, Typography} from "@material-ui/core";
+import {FormControlLabel, FormHelperText, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core";
 import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
-
+import Checkbox from "@material-ui/core/Checkbox";
+import {Favorite, FavoriteBorder} from "@material-ui/icons";
 
 const useStyle = makeStyles(theme=>({
     detailTable:{
@@ -37,7 +37,7 @@ export default function PostDetail() {
     const location = useHistory().location
     const post = location.state
 
-    const {fetchMatchedPosts} = useContext(AppContext)
+    const {fetchMatchedPosts, loginUser, checkWatching} = useContext(AppContext)
     const [matches, setMatches] = useState(null)
     const [pageTotal, setTotal] = useState(0)
     const [offset, setOffset] = useState(0)
@@ -53,6 +53,14 @@ export default function PostDetail() {
 
     function handlePageChange(e, pageIndex) {
         setOffset(pageIndex - 1)
+    }
+    const [watched,setWatched] = useState(async ()=>{
+        return await checkWatching(post._id, loginUser._id)
+    })
+    function handleWatch(){
+        if(watched){
+            setWatched(true)
+        }
     }
 
     const statusBgColor = post.status === 'Lost' ? 'carol': (post.status === 'Found' ? 'darkgreen': 'darkgrey')
@@ -120,7 +128,15 @@ export default function PostDetail() {
                     </Grid>
                 </Grid>
                 <Grid>
+                    <FormControlLabel
+                        control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="checkedH" />}
+                        label="Watch this post"
+                        onChange={handleWatch}
+                        checked={watched}
+                    />
                     <TraceReporter post={post}/>
+                </Grid>
+                <Grid>
                     <PostDetailOnMap post={post} dimension={{width:'100%', height:400}}/>
                 </Grid>
 

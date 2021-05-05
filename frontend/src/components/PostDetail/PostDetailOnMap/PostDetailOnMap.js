@@ -122,10 +122,9 @@ export default function PostDetailOnMap({post, dimension}) {
                     >
                         <div>
                             <button className={classes.vetButton}
-                                    // onClick={e => {
-                                    //     // e.preventDefault();
-                                    //     setSelectedPetPoint(spot);
-                                    // }}
+                                    onClick={() => {
+                                        setVets(vet);
+                                    }}
                             >
                                 V
                             </button>
