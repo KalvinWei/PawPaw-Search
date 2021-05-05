@@ -33,6 +33,22 @@ const useStyles = makeStyles((theme) => ({
             background: "lightGreen",
             color:"black"
         }
+    },
+    vetButton:{
+        backgroundColor: "darkgrey",
+        borderColor:"transparent",
+        color: "white",
+        margin: "2px 2px",
+        fontSize: "18px",
+        verticalAlign: "top",
+        cursor: "pointer",
+        borderRadius: "50%",
+        width: "30px",
+        height: "30px",
+        '&:hover': {
+            background: "lightgrey",
+            color:"black"
+        }
     }
 }));
 export default function PostDetailOnMap({post, dimension}) {
@@ -61,11 +77,18 @@ export default function PostDetailOnMap({post, dimension}) {
     function getLast(post) {
         return post.trace[post.trace.length - 1]
     }
-    //
-    // const [checked, setChecked] = React.useState(false);
-    // const handleChange = (event) => {
-    //     setChecked(event.target.checked)
-    // };
+
+    const [vets, setVets] = useState(null)
+    const [checked, setChecked] = React.useState(false);
+    const handleChange = () => {
+        const fetchedVets = fetchVet()
+        if(fetchedVets){
+            setChecked(true)
+            setVets(fetchedVets)
+        }
+
+    };
+
 
     return (
         <div>
@@ -76,25 +99,34 @@ export default function PostDetailOnMap({post, dimension}) {
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}>
-                {/*<FormControlLabel*/}
-                {/*    control={*/}
-                {/*        <Checkbox*/}
-                {/*            checked={checked}*/}
-                {/*            onChange={handleChange}*/}
-                {/*            name="showVets"*/}
-                {/*        />*/}
-                {/*    }*/}
-                {/*    label="Show Nearby Vets"*/}
-                {/*/>*/}
-                {/*{}*/}
-                {/*<Marker*/}
-                {/*key={fetchVet.longitude + " " + fetchVet.latitude}*/}
-                {/*latitude={parseFloat(fetchVet.latitude)}*/}
-                {/*longitude={parseFloat(fetchVet.longitude)}*/}
-                {/*>*/}
-                {/*    */}
-                {/*</Marker>*/}
-
+                <FormControlLabel
+                    control={
+                        <Checkbox
+                            checked={checked}
+                            onChange={handleChange}
+                            name="showVets"
+                        />
+                    }
+                    label="Show Nearby Vets"
+                />
+                {vets && vets.map(vet=>
+                    <Marker
+                        key={vet.longitude + " " + vet.latitude}
+                        latitude={parseFloat(vet.latitude)}
+                        longitude={parseFloat(vet.longitude)}
+                    >
+                        <div>
+                            <button className={classes.vetButton}
+                                    // onClick={e => {
+                                    //     // e.preventDefault();
+                                    //     setSelectedPetPoint(spot);
+                                    // }}
+                            >
+                                V
+                            </button>
+                        </div>
+                    </Marker>
+                )}
                 {
                     post.trace.map(spot =>
                                 <Marker
@@ -104,7 +136,7 @@ export default function PostDetailOnMap({post, dimension}) {
                                 >
                                     <div>
                                         <button className={classes.iconButton}
-                                                onClick={e => {
+                                                onClick={() => {
                                                     // e.preventDefault();
                                                     setSelectedPetPoint(spot);
                                                 }}
