@@ -116,7 +116,7 @@ export default function useGet() {
     }
 
     async function checkWatching(postId,userId){
-        return await axios.get(`/users/${userId}/watchings`, postId)
+        return await axios.get(`/users/${userId}/posts/watchings/${postId}`, )
             .then(res=>res.data)
             .catch(e=>console.log(e))
     }
