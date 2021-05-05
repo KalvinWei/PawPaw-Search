@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     vetButton:{
-        backgroundColor: "darkgrey",
+        backgroundColor: "#444",
         borderColor:"transparent",
         color: "white",
         margin: "2px 2px",
@@ -51,6 +51,8 @@ const useStyles = makeStyles((theme) => ({
         }
     }
 }));
+
+
 export default function PostDetailOnMap({post, dimension}) {
     const [viewport, setViewport] = useState({
         latitude: parseFloat(getLast(post).latitude),
@@ -80,15 +82,18 @@ export default function PostDetailOnMap({post, dimension}) {
 
     const [vets, setVets] = useState(null)
     const [checked, setChecked] = React.useState(false);
-    const handleChange = () => {
-        const fetchedVets = fetchVet()
-        if(fetchedVets){
-            setChecked(true)
-            setVets(fetchedVets)
+    const handleChange = async (e) => {
+        if(e.target.checked){
+            const fetchedVets = await fetchVet()
+            if(fetchedVets){
+                setChecked(true)
+                setVets(fetchedVets)
+            }
+        } else{
+            setChecked(false)
+            setVets(null)
         }
-
     };
-
 
     return (
         <div>

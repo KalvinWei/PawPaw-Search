@@ -16,8 +16,7 @@ function toFixedFloat(num) {
 
 export async function fetchVet(){
     const result = await axios.get(`https://api.mapbox.com/geocoding/v5/mapbox.places/vet.json?bbox=174.58937629047745,-37.08833057682634,175.08650761829546,-36.67365885719289&access_token=${MY_KEY}&limit=10`)
-// place_name,text,center
-    return result.features.map(f=>({
+    return result.data.features.map(f=>({
         vet:f.text,address:f.place_name,latitude:f.center[1], longitude:f.center[0]
     }))
 
