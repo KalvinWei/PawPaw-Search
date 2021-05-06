@@ -18,9 +18,9 @@ const useStyles = makeStyles((theme) => ({
         right: 10,
         bottom: 20
     },
-    iconButton:{
+    iconButton: {
         backgroundColor: "darkgreen",
-        borderColor:"transparent",
+        borderColor: "transparent",
         color: "white",
         margin: "2px 2px",
         fontSize: "18px",
@@ -31,12 +31,12 @@ const useStyles = makeStyles((theme) => ({
         height: "30px",
         '&:hover': {
             background: "lightGreen",
-            color:"black"
+            color: "black"
         }
     },
-    vetButton:{
+    vetButton: {
         backgroundColor: "#444",
-        borderColor:"transparent",
+        borderColor: "transparent",
         color: "white",
         margin: "2px 2px",
         fontSize: "18px",
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
         height: "30px",
         '&:hover': {
             background: "lightgrey",
-            color:"black"
+            color: "black"
         }
     }
 }));
@@ -65,16 +65,17 @@ export default function PostDetailOnMap({post, dimension}) {
     const classes = useStyles()
 
     const [placeName, setPlaceName] = useState("")
-    useEffect(()=>{
-        async function fetchPlace(){
-            if(selectedPetPoint) {
-                const res = await fromLatLng(selectedPetPoint.latitude,selectedPetPoint.longitude)
+    useEffect(() => {
+        async function fetchPlace() {
+            if (selectedPetPoint) {
+                const res = await fromLatLng(selectedPetPoint.latitude, selectedPetPoint.longitude)
                 setPlaceName(res.features[0].place_name)
             }
 
         }
+
         fetchPlace()
-    },[selectedPetPoint])
+    }, [selectedPetPoint])
 
     function getLast(post) {
         return post.trace[post.trace.length - 1]
@@ -83,17 +84,29 @@ export default function PostDetailOnMap({post, dimension}) {
     const [vets, setVets] = useState(null)
     const [checked, setChecked] = React.useState(false);
     const handleChange = async (e) => {
-        if(e.target.checked){
+        if (e.target.checked) {
             const fetchedVets = await fetchVet()
-            if(fetchedVets){
+            if (fetchedVets) {
                 setChecked(true)
                 setVets(fetchedVets)
+                setSelectVetPoint(fetchedVets)
             }
-        } else{
+        } else {
             setChecked(false)
             setVets(null)
         }
     };
+
+    const [selectVetPoint, setSelectVetPoint] = useState("")
+    useEffect(() => {
+        async function getVetInfo() {
+            if (selectVetPoint) {
+                const res = await fetchVet()
+                setSelectVetPoint(res)
+            }
+        }
+        getVetInfo()
+    }, [setSelectVetPoint])
 
     return (
         <div>
@@ -104,17 +117,20 @@ export default function PostDetailOnMap({post, dimension}) {
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}>
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={checked}
-                            onChange={handleChange}
-                            name="showVets"
-                        />
-                    }
-                    label="Show Nearby Vets"
-                />
-                {vets && vets.map(vet=>
+                <div>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={checked}
+                                onChange={handleChange}
+                                name="showVets"
+                            />
+                        }
+                        label="Show Nearby Vets"
+                    />
+                </div>
+
+                {vets && vets.map(vet =>
                     <Marker
                         key={vet.longitude + " " + vet.latitude}
                         latitude={parseFloat(vet.latitude)}
@@ -123,50 +139,56 @@ export default function PostDetailOnMap({post, dimension}) {
                         <div>
                             <button className={classes.vetButton}
                                     onClick={() => {
-                                        setVets(vet);
+                                        setSelectVetPoint(vet);
                                     }}
                             >
                                 V
                             </button>
                         </div>
-                    </Marker>
-                )}
-                {
-                    post.trace.map(spot =>
-                                <Marker
-                                    key={spot.longitude + " " + spot.latitude}
-                                    latitude={parseFloat(spot.latitude)}
-                                    longitude={parseFloat(spot.longitude)}
+                    </Marker>)}
+                {selectVetPoint ? <Popup longitude={parseFloat(selectVetPoint.latitude)}
+                                         latitude={parseFloat(selectVetPoint.longitude)}
+                                         onClose={() => {
+                                             setSelectVetPoint(null);
+                                         }}
+                >
+                    <div>
+                        <p>Name:{selectVetPoint.vet}</p>
+                        <p>Address:{selectVetPoint.address}</p>
+                    </div>
+                </Popup> : null
+                }
+
+                {post.trace.map(spot =>
+                        <Marker
+                            key={spot.longitude + " " + spot.latitude}
+                            latitude={parseFloat(spot.latitude)}
+                            longitude={parseFloat(spot.longitude)}
+                        >
+                            <div>
+                                <button className={classes.iconButton}
+                                        onClick={() => {setSelectedPetPoint(spot)}}
                                 >
-                                    <div>
-                                        <button className={classes.iconButton}
-                                                onClick={() => {
-                                                    // e.preventDefault();
-                                                    setSelectedPetPoint(spot);
-                                                }}
-                                        >
-                                            {post.trace.indexOf(spot)+1}
-                                        </button>
-                                    </div>
-                                </Marker>
-                            )
+                                    {post.trace.indexOf(spot) + 1}
+                                </button>
+                            </div>
+                        </Marker>
+                    )
                 }
                 {selectedPetPoint ? (
                     <Popup
                         latitude={parseFloat(selectedPetPoint.latitude)}
                         longitude={parseFloat(selectedPetPoint.longitude)}
-                        onClose={() => {
-                            setSelectedPetPoint(null);
-                        }}
+                        onClose={() => {setSelectedPetPoint(null)}}
                     >
                         <div>
-                            <h1>Trace No:{post.trace.indexOf(selectedPetPoint)+1}</h1>
+                            <h1>Trace No:{post.trace.indexOf(selectedPetPoint) + 1}</h1>
                             <h3 style={{fontSize: "10"}}>Comment: {selectedPetPoint.comment}</h3>
                             <p>Address:{placeName}</p>
                         </div>
                     </Popup>
                 ) : null}
-                <NavigationControl className={classes.navControlStyle} />
+                <NavigationControl className={classes.navControlStyle}/>
                 <ScaleControl maxWidth={100} unit="metric" className={classes.scaleControlStyle}/>
                 <GeolocateControl
                     className={classes.geolocateControlStyle}
