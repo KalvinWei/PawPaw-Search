@@ -122,7 +122,7 @@ export default function useGet() {
     }
 
     async function updateWatchStatus(postId, userId, actionType) {
-        return await axios.put(`/users/${userId}/posts/watchings/${postId}`, actionType)
+        return await axios.put(`/users/${userId}/posts/watchings/${postId}`, {actionType})
             .then(res=>res.data)
             .catch(e=>console.log(e))
     }
