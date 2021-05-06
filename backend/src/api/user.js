@@ -52,7 +52,8 @@ user.put('/:username/edit', async (req,res)=>{
     res.send(updatedUser)
 })
 
-user.put('/:userId/posts/watchings/:postId', async (req, res)=>{
+user.get('/:userId/posts/watchings/:postId', async (req, res)=>{
+    const {userId, postId} = req.params
     const result = await checkIfWatching(userId, postId)
     res.send(result)
 })

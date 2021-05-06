@@ -1,9 +1,9 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {useHistory, useParams} from 'react-router-dom'
+import {useHistory} from 'react-router-dom'
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
-import {FormControlLabel, FormHelperText, Grid, Typography} from "@material-ui/core";
+import {FormControlLabel, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core";
 import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
@@ -37,7 +37,7 @@ export default function PostDetail() {
     const location = useHistory().location
     const post = location.state
 
-    const {fetchMatchedPosts, loginUser, checkWatching} = useContext(AppContext)
+    const {fetchMatchedPosts, loginUser, checkWatching, updateWatchStatus} = useContext(AppContext)
     const [matches, setMatches] = useState(null)
     const [pageTotal, setTotal] = useState(0)
     const [offset, setOffset] = useState(0)
@@ -57,9 +57,20 @@ export default function PostDetail() {
     const [watched,setWatched] = useState(async ()=>{
         return await checkWatching(post._id, loginUser._id)
     })
-    function handleWatch(){
-        if(watched){
-            setWatched(true)
+    async function handleWatch(e){
+        const checked = e.target.checked
+        // not watch -> watched
+        if(checked){
+            const result = await updateWatchStatus(post._id, loginUser._id, "watching")
+            if(result){
+                setWatched(true)
+            }
+        } else{
+        // watched -> not watch
+            const result = await updateWatchStatus(post._id, loginUser._id, "removeWatching")
+            if(result){
+                setWatched(false)
+            }
         }
     }
 
