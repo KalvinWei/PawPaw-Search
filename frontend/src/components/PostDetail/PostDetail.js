@@ -1,33 +1,33 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {useHistory, useParams} from 'react-router-dom'
-import PetImages from "../PostPlaza/Posts/PostCard/PetImages/PetImages";
+import {useHistory} from 'react-router-dom'
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
-import {FormHelperText, Grid, Typography} from "@material-ui/core";
+import {FormControlLabel, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core";
 import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
+import Checkbox from "@material-ui/core/Checkbox";
+import {Favorite, FavoriteBorder} from "@material-ui/icons";
 
-
-const useStyle = makeStyles(theme=>({
-    detailTable:{
-        fontSize:16,
-        '& tr':{
-          height:30
+const useStyle = makeStyles(theme => ({
+    detailTable: {
+        fontSize: 16,
+        '& tr': {
+            height: 30
         },
-        '& tr > td:first-child':{
-          textTransform:'uppercase',
-            textAlign:'right',
-            paddingRight:10,
-            color:'#999',
+        '& tr > td:first-child': {
+            textTransform: 'uppercase',
+            textAlign: 'right',
+            paddingRight: 10,
+            color: '#999',
         },
-        '& tr > td:nth-child(2)':{
-            fontSize:20,
-            color:'#444',
+        '& tr > td:nth-child(2)': {
+            fontSize: 20,
+            color: '#444',
         },
-        margin:30,
-        fontFamily:'helvetica'
+        margin: 30,
+        fontFamily: 'helvetica'
     }
 }))
 
@@ -37,7 +37,7 @@ export default function PostDetail() {
     const location = useHistory().location
     const post = location.state
 
-    const {fetchMatchedPosts} = useContext(AppContext)
+    const {fetchMatchedPosts, loginUser, checkWatching, updateWatchStatus} = useContext(AppContext)
     const [matches, setMatches] = useState(null)
     const [pageTotal, setTotal] = useState(0)
     const [offset, setOffset] = useState(0)
@@ -55,7 +55,33 @@ export default function PostDetail() {
         setOffset(pageIndex - 1)
     }
 
-    const statusBgColor = post.status === 'Lost' ? 'carol': (post.status === 'Found' ? 'darkgreen': 'darkgrey')
+    const [watched, setWatched] = useState("")
+    useEffect(() => {
+            async function check() {
+                const watchStatus = await checkWatching(post._id, loginUser._id)
+                setWatched(watchStatus)
+            }
+            check()
+    },[])
+
+    async function handleWatch(e) {
+        const checked = e.target.checked
+        // not watch -> watched
+        if (checked) {
+            const result = await updateWatchStatus(post._id, loginUser._id, "watching")
+            if (result) {
+                setWatched(true)
+            }
+        } else {
+            // watched -> not watch
+            const result = await updateWatchStatus(post._id, loginUser._id, "removeWatching")
+            if (result) {
+                setWatched(false)
+            }
+        }
+    }
+
+    const statusBgColor = post.status === 'Lost' ? 'carol' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey')
 
     return (
         <Grid container direction='row' justify='center'>
@@ -65,8 +91,13 @@ export default function PostDetail() {
                         <table className={classes.detailTable}>
                             <tbody>
                             <tr>
-                                <td><span style={{padding:'0 10px', borderRadius:10, color:'white', background:statusBgColor }}>{post.status}</span></td>
-                                <td style={{fontWeight:'bold', fontSize:30}}>{post.petName}</td>
+                                <td><span style={{
+                                    padding: '0 10px',
+                                    borderRadius: 10,
+                                    color: 'white',
+                                    background: statusBgColor
+                                }}>{post.status}</span></td>
+                                <td style={{fontWeight: 'bold', fontSize: 30}}>{post.petName}</td>
                             </tr>
                             <tr>
                                 <td>Post ID</td>
@@ -120,8 +151,18 @@ export default function PostDetail() {
                     </Grid>
                 </Grid>
                 <Grid>
+                    {loginUser._id === post.poster || <FormControlLabel
+                        control={<Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} name="checkedH"/>}
+                        label="Watch this post"
+                        onChange={handleWatch}
+                        checked={watched}
+                    />
+                    }
                     <TraceReporter post={post}/>
-                    <PostDetailOnMap post={post} dimension={{width:'100%', height:400}}/>
+                </Grid>
+
+                <Grid>
+                    <PostDetailOnMap post={post} dimension={{width: '100%', height: 400}}/>
                 </Grid>
 
                 {matches && <Grid>

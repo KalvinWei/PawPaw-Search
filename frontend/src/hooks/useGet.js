@@ -115,12 +115,24 @@ export default function useGet() {
 
     }
 
+    async function checkWatching(postId,userId){
+        return await axios.get(`/users/${userId}/posts/watchings/${postId}`)
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+    }
+
+    async function updateWatchStatus(postId, userId, actionType) {
+        return await axios.put(`/users/${userId}/posts/watchings/${postId}`, {actionType})
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+    }
+
     return {
         //states
         loginUser, dashboard, setLoginUser,
         //functions
         clearSession: clearLocalStorage, fetchPostsBy, fetchNewestPosts, fetchPostsOf,
         signUpUser, authenticateUser, fetchMatchedPosts, updateUserProfile, createPost,
-        reportTrace
+        reportTrace,checkWatching, updateWatchStatus
     };
 }
