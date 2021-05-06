@@ -23,7 +23,9 @@ async function updateUser(user) {
 }
 
 async function checkIfWatching(userId, postId){
-    const result = await User.findOne({_id:userId, myWatchings:[postId]})
+    console.log(userId,postId)
+    const result = await User.findOne({_id:userId,myWatchings:postId})
+    console.log(result)
     return !!result
 }
 

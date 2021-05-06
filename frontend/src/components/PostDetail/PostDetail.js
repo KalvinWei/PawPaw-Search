@@ -55,7 +55,10 @@ export default function PostDetail() {
         setOffset(pageIndex - 1)
     }
     const [watched,setWatched] = useState(async ()=>{
-        return await checkWatching(post._id, loginUser._id)
+        const W = await checkWatching(post._id, loginUser._id)
+        console.log("watchStatus")
+        console.log(W)
+        return W
     })
     async function handleWatch(e){
         const checked = e.target.checked
@@ -139,14 +142,16 @@ export default function PostDetail() {
                     </Grid>
                 </Grid>
                 <Grid>
-                    <FormControlLabel
+                    {loginUser._id === post.poster || <FormControlLabel
                         control={<Checkbox icon={<FavoriteBorder />} checkedIcon={<Favorite />} name="checkedH" />}
                         label="Watch this post"
                         onChange={handleWatch}
                         checked={watched}
                     />
+                    }
                     <TraceReporter post={post}/>
                 </Grid>
+
                 <Grid>
                     <PostDetailOnMap post={post} dimension={{width:'100%', height:400}}/>
                 </Grid>
