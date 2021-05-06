@@ -89,7 +89,6 @@ export default function PostDetailOnMap({post, dimension}) {
             if (fetchedVets) {
                 setChecked(true)
                 setVets(fetchedVets)
-                setSelectVetPoint(fetchedVets)
             }
         } else {
             setChecked(false)
@@ -97,14 +96,18 @@ export default function PostDetailOnMap({post, dimension}) {
         }
     };
 
-    const [selectVetPoint, setSelectVetPoint] = useState("")
+    const [selectVetPoint, setSelectVetPoint] = useState(null)
+
     useEffect(() => {
         async function getVetInfo() {
+            const res = await fetchVet()
             if (selectVetPoint) {
-                const res = await fetchVet()
-                setSelectVetPoint(res)
+                for (let i = 0; i < res.length; i++) {
+                    setSelectVetPoint(res)
+                }
             }
         }
+
         getVetInfo()
     }, [setSelectVetPoint])
 
@@ -146,8 +149,8 @@ export default function PostDetailOnMap({post, dimension}) {
                             </button>
                         </div>
                     </Marker>)}
-                {selectVetPoint ? <Popup longitude={parseFloat(selectVetPoint.latitude)}
-                                         latitude={parseFloat(selectVetPoint.longitude)}
+                {selectVetPoint && <Popup latitude={parseFloat(selectVetPoint.latitude)}
+                                         longitude={parseFloat(selectVetPoint.longitude)}
                                          onClose={() => {
                                              setSelectVetPoint(null);
                                          }}
@@ -156,30 +159,34 @@ export default function PostDetailOnMap({post, dimension}) {
                         <p>Name:{selectVetPoint.vet}</p>
                         <p>Address:{selectVetPoint.address}</p>
                     </div>
-                </Popup> : null
+                </Popup>
                 }
 
                 {post.trace.map(spot =>
-                        <Marker
-                            key={spot.longitude + " " + spot.latitude}
-                            latitude={parseFloat(spot.latitude)}
-                            longitude={parseFloat(spot.longitude)}
-                        >
-                            <div>
-                                <button className={classes.iconButton}
-                                        onClick={() => {setSelectedPetPoint(spot)}}
-                                >
-                                    {post.trace.indexOf(spot) + 1}
-                                </button>
-                            </div>
-                        </Marker>
-                    )
+                    <Marker
+                        key={spot.longitude + " " + spot.latitude}
+                        latitude={parseFloat(spot.latitude)}
+                        longitude={parseFloat(spot.longitude)}
+                    >
+                        <div>
+                            <button className={classes.iconButton}
+                                    onClick={() => {
+                                        setSelectedPetPoint(spot)
+                                    }}
+                            >
+                                {post.trace.indexOf(spot) + 1}
+                            </button>
+                        </div>
+                    </Marker>
+                )
                 }
                 {selectedPetPoint ? (
                     <Popup
                         latitude={parseFloat(selectedPetPoint.latitude)}
                         longitude={parseFloat(selectedPetPoint.longitude)}
-                        onClose={() => {setSelectedPetPoint(null)}}
+                        onClose={() => {
+                            setSelectedPetPoint(null)
+                        }}
                     >
                         <div>
                             <h1>Trace No:{post.trace.indexOf(selectedPetPoint) + 1}</h1>
