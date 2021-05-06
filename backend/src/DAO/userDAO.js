@@ -23,21 +23,17 @@ async function updateUser(user) {
 }
 
 async function checkIfWatching(userId, postId){
-    console.log(userId,postId)
     const result = await User.findOne({_id:userId,myWatchings:postId})
-    console.log(result)
     return !!result
 }
 
 async function updateWatching(userId, postId, actionType) {
-    console.log(userId, postId, actionType)
     let result
     if(actionType === "watching"){
         result = await User.updateOne({ _id: userId},{ $push: { myWatchings: postId} })
     } else {
         result = await User.updateOne({ _id: userId},{ $pull: { myWatchings: postId} })
     }
-    console.log(result)
     return result.nModified === 1 ? 1 : 0
 }
 
