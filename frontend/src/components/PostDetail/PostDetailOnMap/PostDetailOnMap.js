@@ -2,6 +2,7 @@ import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
 import {makeStyles} from "@material-ui/core/styles";
 import fromLatLng from "../../../utils/geoCoding";
+import TraceReporter from "../TraceReporter/TraceReporter";
 
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
@@ -80,7 +81,6 @@ export default function PostDetailOnMap({post, dimension}) {
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}>
-
                 {
                     post.trace.map(spot =>
                                 <Marker
@@ -120,7 +120,7 @@ export default function PostDetailOnMap({post, dimension}) {
                                     <td>report time</td>
                                 </tr>
                                 <tr className={classes.dd}>
-                                    <td>{selectedPetPoint.timestamp}</td>
+                                    <td>{(new Date(selectedPetPoint.timestamp)).toLocaleString()}</td>
                                 </tr>
                                 <tr className={classes.dt}>
                                     <td>address</td>

@@ -30,6 +30,12 @@ const useStyle = makeStyles(theme => ({
     },
     mapWrapper: {
         border: '1px solid #ddd'
+    },
+    reporter:{
+        position:'absolute',
+        left:0,
+        top:0,
+        border:'5px  solid green'
     }
 }))
 
@@ -58,8 +64,6 @@ export default function PostDetail() {
     }
 
     const statusBgColor = post.status === 'Lost' ? 'coral' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey')
-    console.log('statusgbcolor')
-    console.log(statusBgColor)
 
     return (
         <Grid container direction='row' justify='center'>
@@ -136,25 +140,21 @@ export default function PostDetail() {
                         <Carousel urls={post.petImages}/>
                     </Grid>
                 </Grid>
-                <Grid className={classes.mapWrapper}>
-                    <Grid>
-                        <TraceReporter post={post}/>
+                <Grid item className={classes.mapWrapper}>
                         <PostDetailOnMap post={post} dimension={{width: '100%', height: 400}}/>
-                    </Grid>
-
-                    {matches && <Grid>
-                        <Typography variant='h5'>
-                            Matched Posts
-                        </Typography>
-                        <Typography variant='subtitle2'>
-                            Relevant posts are matched by our matching engine according to the features of posts.
-                        </Typography>
-                        <Typography variant='subtitle2'>
-                            Posts are in descending order with respect to relevance with the current post.
-                        </Typography>
-                        <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
-                    </Grid>}
                 </Grid>
+                {matches && <Grid item>
+                    <Typography variant='h5'>
+                        Matched Posts
+                    </Typography>
+                    <Typography variant='subtitle2'>
+                        Relevant posts are matched by our matching engine according to the features of posts.
+                    </Typography>
+                    <Typography variant='subtitle2'>
+                        Posts are in descending order with respect to relevance with the current post.
+                    </Typography>
+                    <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
+                </Grid>}
             </Grid>
         </Grid>
     )

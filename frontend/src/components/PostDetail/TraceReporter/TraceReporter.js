@@ -22,10 +22,37 @@ const useStyles = makeStyles((theme) => ({
 export default function TraceReporter({post}) {
     const classes = useStyles();
     const {reportTrace} = useContext(AppContext)
-
-    let container = useRef()
-
     const history = useHistory()
+    const [spot, setSpot] = useState({
+        latitude: undefined,
+        longitude: undefined,
+        timestamp: (new Date()).toISOString(),
+        comment: ''
+    })
+
+    const [coord, setCoord] = useState({lat:undefined, lng:undefined})
+    let container = useRef()
+    useEffect(() => {
+        const geocoder = new MapboxGeocoder({
+            accessToken: MY_KEY,
+            types: 'address,neighborhood,locality,place,region,country,postcode'
+        })
+        geocoder.addTo(container.current)
+        geocoder.on('result', e => {
+            const [lng, lat] = e.result.center
+            setCoord({...coord, lat: lat, lng: lng})
+        })
+        geocoder.on('clear', () => {
+            setCoord({...coord, lat: undefined, lng: undefined})
+        })
+    }, [container])
+    useEffect(()=>{
+        setSpot({...spot, latitude: coord.lat, longitude: coord.lng})
+    },[coord])
+
+    function formatDate(date){
+        return JSON.stringify(date).substring(1,17)
+    }
 
     async function report() {
         console.log(spot)
@@ -37,44 +64,8 @@ export default function TraceReporter({post}) {
         }
     }
 
-    useEffect(() => {
-        const geocoder = new MapboxGeocoder({
-            accessToken: MY_KEY,
-            types: 'address,neighborhood,locality,place,region,country,postcode'
-        })
-
-        geocoder.addTo(container.current)
-
-        geocoder.on('result', e => {
-            const [lng, lat] = e.result.center
-            setSpot({...spot, latitude: lat, longitude: lng})
-        })
-
-        geocoder.on('clear', () => {
-            setSpot({...spot, latitude: undefined, longitude: undefined})
-        })
-    }, [container])
-
-    const [spot, setSpot] = useState({
-        latitude: undefined,
-        longitude: undefined,
-        timestamp: (new Date()).toISOString(),
-        comment: ''
-    })
-
-
-    // const []
-    useEffect(()=>{
-        console.log("spot")
-        console.log(spot)
-    },[spot])
-
-    function formatDate(date){
-        return JSON.stringify(date).substring(1,17)
-    }
-
     return (
-        <Grid container justify='space-evenly'>
+        <Grid container justify='flex-start'>
             <Grid item>
                 <FormHelperText style={{textAlign: 'left'}}>
                     Last Seen Spot{spot.latitude && `: ${spot.latitude.toFixed(4)},${spot.longitude.toFixed(4)}`}
@@ -110,7 +101,7 @@ export default function TraceReporter({post}) {
                 />
             </Grid>
             <Grid item>
-                <Button onClick={report} disabled={!spot.latitude}>
+                <Button onClick={report} color='primary'>
                     Report New Trace
                 </Button>
             </Grid>
