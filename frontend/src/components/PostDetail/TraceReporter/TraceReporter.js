@@ -18,7 +18,9 @@ const useStyles = makeStyles((theme) => ({
         width: 200
     },
     reporterBox:{
-        gap:10
+        position:"relative",
+        gap:10,
+        zIndex:1000
     }
 }));
 
@@ -57,13 +59,13 @@ export default function TraceReporter({post}) {
         return JSON.stringify(date).substring(1,17)
     }
 
-    async function report() {
-        console.log(spot)
+    async function report(){
         if(spot.latitude){
-            console.log("here")
             const updatedPost = await reportTrace(spot, post._id)
-            console.log(history)
-            history.push({path:history.location.pathname,state:updatedPost})
+            if(updatedPost){
+                alert('Trace extended! Thank you for your help!')
+                history.push({path:history.location.pathname,state:updatedPost})
+            }
         }
     }
 
@@ -104,7 +106,14 @@ export default function TraceReporter({post}) {
                 />
             </Grid>
             <Grid item style={{transform: 'translateY(-5px)'}}>
-                <Button onClick={report} variant='contained' color='primary' size='medium'>
+                <Button onClick={report}
+                        variant='contained'
+                        size='medium'
+                        color='secondary'
+                        disabled={!spot.latitude}
+                        style={{color:'ivory'}}
+
+                >
                     Report witness
                 </Button>
             </Grid>
