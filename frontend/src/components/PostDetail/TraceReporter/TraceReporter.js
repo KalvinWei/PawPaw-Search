@@ -4,7 +4,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import {MY_KEY} from '../../../utils/geoCoding'
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import {Button, FormHelperText} from "@material-ui/core";
+import {Button} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {AppContext} from "../../../ContextProvider";
 import {useHistory} from "react-router-dom";
@@ -17,6 +17,9 @@ const useStyles = makeStyles((theme) => ({
     textField: {
         width: 200
     },
+    reporterBox:{
+        gap:10
+    }
 }));
 
 export default function TraceReporter({post}) {
@@ -65,31 +68,31 @@ export default function TraceReporter({post}) {
     }
 
     return (
-        <Grid container justify='flex-start'>
-            <Grid item>
-                <FormHelperText style={{textAlign: 'left'}}>
-                    Last Seen Spot{spot.latitude && `: ${spot.latitude.toFixed(4)},${spot.longitude.toFixed(4)}`}
-                </FormHelperText>
-                <div id="localSearch" ref={container}></div>
+        <Grid container justify='center' alignItems='flex-end' className={classes.reporterBox}>
+            <Grid item style={{transform: 'translateY(-5px)'}}>
+                <div id="localSearch" ref={container} ></div>
             </Grid>
-            <Grid item style={{transform: 'translateY(5px)'}}>
+            <Grid item style={{transform: 'translateY(-2px)'}}>
                 <form className={classes.container} noValidate>
                     <TextField
                         value={spot.timestamp}
                         onChange={e =>
                             setSpot({...spot, timestamp: e.target.value})
                         }
-                        label="Last Seen Date"
+                        label="Last Seen"
                         type="datetime-local"
                         className={classes.textField}
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        variant='outlined'
+                        size='small'
                     />
                 </form>
             </Grid>
-            <Grid item >
+            <Grid item style={{transform: 'translateY(2px)'}}>
                 <TextField
+                    variant='outlined'
                     autoFocus
                     margin="dense"
                     label="Comment"
@@ -100,9 +103,9 @@ export default function TraceReporter({post}) {
                     }}
                 />
             </Grid>
-            <Grid item>
-                <Button onClick={report} color='primary'>
-                    Report New Trace
+            <Grid item style={{transform: 'translateY(-5px)'}}>
+                <Button onClick={report} variant='contained' color='primary' size='medium'>
+                    Report witness
                 </Button>
             </Grid>
         </Grid>

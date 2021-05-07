@@ -4,6 +4,7 @@ import {makeStyles} from "@material-ui/core/styles";
 import fromLatLng, {fetchVet} from "../../../utils/geoCoding";
 import Checkbox from '@material-ui/core/Checkbox';
 import {FormControlLabel} from "@material-ui/core";
+import {v4 as uuidv4} from 'uuid'
 
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
@@ -69,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
         paddingRight:15,
         borderRadius:10,
         fontFamily:'Helvetica',
-        color:'#555'
+        color:'#444'
     }
 }))
 
@@ -157,7 +158,7 @@ export default function PostDetailOnMap({post, dimension}) {
 
                 {vets && vets.map(vet =>
                     <Marker
-                        key={vet.longitude + " " + vet.latitude}
+                        key={uuidv4()}
                         latitude={parseFloat(vet.latitude)}
                         longitude={parseFloat(vet.longitude)}
                     >
@@ -200,7 +201,7 @@ export default function PostDetailOnMap({post, dimension}) {
 
                 {post.trace.map(spot =>
                     <Marker
-                        key={spot.longitude + " " + spot.latitude}
+                        key={uuidv4()}
                         latitude={parseFloat(spot.latitude)}
                         longitude={parseFloat(spot.longitude)}
                     >

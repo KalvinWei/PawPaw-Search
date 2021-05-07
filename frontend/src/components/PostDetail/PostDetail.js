@@ -29,14 +29,22 @@ const useStyle = makeStyles(theme => ({
         margin: 30,
         fontFamily: 'helvetica'
     },
-    mapWrapper: {
-        border: '1px solid #ddd'
-    },
     reporter:{
         position:'absolute',
         left:0,
         top:0,
         border:'5px  solid green'
+    },
+    actionBox:{
+        borderRadius:10,
+        background:'rgba(230,230,230,.4)',
+        padding:20,
+        marginBottom:15
+
+    },
+    watchButtonBox:{
+        borderRight:'2px solid #ddd',
+        marginRight:15
     }
 }))
 
@@ -71,7 +79,7 @@ export default function PostDetail() {
                 setWatched(watchStatus)
             }
             if(loginUser) check()
-    },[])
+    })
 
     async function handleWatch(e) {
         const checked = e.target.checked
@@ -168,18 +176,23 @@ export default function PostDetail() {
                         <Carousel urls={post.petImages}/>
                     </Grid>
                 </Grid>
-                <Grid>
-                    {(loginUser !== null && loginUser._id === post.poster) || <FormControlLabel
-                        control={<Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} name="checkedH"/>}
-                        label="Watch this post"
-                        onChange={handleWatch}
-                        checked={watched}
-                    />
-                    }
-                    <TraceReporter post={post}/>
+                <Grid item container className={classes.actionBox} justify='center' alignItems='center'>
+                    <Grid item className={classes.watchButtonBox}>
+                        {(loginUser !== null && loginUser._id === post.poster) ||
+                        <FormControlLabel
+                            control={<Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} name="checkedH"/>}
+                            label="WATCH"
+                            onChange={handleWatch}
+                            checked={watched}
+                            style={{color:'#444'}}
+                        />
+                        }
+                    </Grid>
+                    <Grid item>
+                        <TraceReporter post={post}/>
+                    </Grid>
                 </Grid>
-
-                <Grid>
+                <Grid item>
                     <PostDetailOnMap post={post} dimension={{width: '100%', height: 600}}/>
                 </Grid>
                 {matches && <Grid item>
