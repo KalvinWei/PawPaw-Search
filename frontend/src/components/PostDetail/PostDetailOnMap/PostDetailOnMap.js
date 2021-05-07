@@ -60,6 +60,16 @@ const useStyles = makeStyles((theme) => ({
             background: "lightgrey",
             color: "black"
         }
+    },
+    showVetBox:{
+        background: 'rgba(255,255,255,0.4)',
+        backdropFilter:'blur(5px)',
+        margin:8,
+        padding:5,
+        paddingRight:15,
+        borderRadius:10,
+        fontFamily:'Helvetica',
+        color:'#555'
     }
 }))
 
@@ -133,6 +143,7 @@ export default function PostDetailOnMap({post, dimension}) {
                 }}>
                 <div>
                     <FormControlLabel
+                        className={classes.showVetBox}
                         control={
                             <Checkbox
                                 checked={checked}
@@ -140,7 +151,7 @@ export default function PostDetailOnMap({post, dimension}) {
                                 name="showVets"
                             />
                         }
-                        label="Show Nearby Vets"
+                        label="show nearby vets"
                     />
                 </div>
 
