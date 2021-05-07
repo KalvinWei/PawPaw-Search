@@ -3,10 +3,11 @@ import {useHistory} from 'react-router-dom'
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
-import {Grid, Typography} from "@material-ui/core";
+import {Checkbox, FormControlLabel, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core";
 import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
+import {Favorite, FavoriteBorder} from "@material-ui/icons";
 
 
 const useStyle = makeStyles(theme => ({
@@ -45,7 +46,7 @@ export default function PostDetail() {
     const location = useHistory().location
     const post = location.state
 
-    const {fetchMatchedPosts} = useContext(AppContext)
+    const {fetchMatchedPosts, loginUser, checkWatching, updateWatchStatus} = useContext(AppContext)
     const [matches, setMatches] = useState(null)
     const [pageTotal, setTotal] = useState(0)
     const [offset, setOffset] = useState(0)
@@ -63,11 +64,37 @@ export default function PostDetail() {
         setOffset(pageIndex - 1)
     }
 
+    const [watched, setWatched] = useState(false)
+    useEffect(() => {
+            async function check() {
+                const watchStatus = await checkWatching(post._id, loginUser._id)
+                setWatched(watchStatus)
+            }
+            if(loginUser) check()
+    },[])
+
+    async function handleWatch(e) {
+        const checked = e.target.checked
+        // not watch -> watched
+        if (checked) {
+            const result = await updateWatchStatus(post._id, loginUser._id, "watching")
+            if (result) {
+                setWatched(true)
+            }
+        } else {
+            // watched -> not watch
+            const result = await updateWatchStatus(post._id, loginUser._id, "removeWatching")
+            if (result) {
+                setWatched(false)
+            }
+        }
+    }
+
     const statusBgColor = post.status === 'Lost' ? 'coral' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey')
 
     return (
         <Grid container direction='row' justify='center'>
-            <Grid item md={9} direction='column'>
+            <Grid item md={9} direction='column' container>
                 <Grid item container direction='row' alignItems='center' justify='space-between'>
                     <Grid item>
                         <table className={classes.detailTable}>
@@ -81,7 +108,8 @@ export default function PostDetail() {
                                         color: 'white',
                                         background: statusBgColor
                                     }}>
-                                    {post.status}</span>
+                                    {post.status}
+                                    </span>
                                 </td>
                                 <td style={{
                                     fontWeight: 'bold',
@@ -140,8 +168,19 @@ export default function PostDetail() {
                         <Carousel urls={post.petImages}/>
                     </Grid>
                 </Grid>
-                <Grid item className={classes.mapWrapper}>
-                        <PostDetailOnMap post={post} dimension={{width: '100%', height: 400}}/>
+                <Grid>
+                    {(loginUser !== null && loginUser._id === post.poster) || <FormControlLabel
+                        control={<Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} name="checkedH"/>}
+                        label="Watch this post"
+                        onChange={handleWatch}
+                        checked={watched}
+                    />
+                    }
+                    <TraceReporter post={post}/>
+                </Grid>
+
+                <Grid>
+                    <PostDetailOnMap post={post} dimension={{width: '100%', height: 400}}/>
                 </Grid>
                 {matches && <Grid item>
                     <Typography variant='h5'>
@@ -157,5 +196,6 @@ export default function PostDetail() {
                 </Grid>}
             </Grid>
         </Grid>
+
     )
 }

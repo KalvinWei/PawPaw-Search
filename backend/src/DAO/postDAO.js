@@ -1,6 +1,6 @@
 import User from "../db/schemas/UserSchema";
 import Post from "../db/schemas/PostSchema";
-import {sphericalCosines} from "earth-distance-js"
+// import {sphericalCosines} from "earth-distance-js"
 import PetType from "../db/schemas/PetTypeSchema";
 
 async function getPostsFor(criteria, countPerPage,pageOffset){
@@ -29,17 +29,21 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
 }
 
 async function getPostsOf(username, countperpage, pageoffset, field) {
+    countperpage = parseInt(countperpage)
+    pageoffset = parseInt(pageoffset)
     const user =
         await User.findOne({username:username})
             .populate(field)
             .populate('petType')
     const all = user[field]
     const pageTotal = Math.ceil(all.length / countperpage)
-    const posts = all.slice(pageoffset * countperpage, pageoffset * countperpage + 1)
+    const posts = all.slice(pageoffset * countperpage, pageoffset * countperpage + countperpage)
     return {posts, pageTotal}
 }
 
 async function getPostsSince(days, countPerPage, pageOffset){
+    countPerPage = parseInt(countPerPage)
+    pageOffset = parseInt(pageOffset)
     let now = new Date()
     const lastTime = new Date(now.setDate(now.getDate() - days))
     const criteria = {"createdAt":{$gt: lastTime.toISOString()}}
@@ -47,6 +51,8 @@ async function getPostsSince(days, countPerPage, pageOffset){
 }
 
 async function getMatchedPostsFor(postId, countPerPage, pageOffset){
+    countPerPage = parseInt(countPerPage)
+    pageOffset = parseInt(pageOffset)
     const post =
         await Post.findOne({_id:postId})
             .populate('watches')
@@ -55,7 +61,7 @@ async function getMatchedPostsFor(postId, countPerPage, pageOffset){
     console.log(post)
     const allWatches = post.watches
     const pageTotal = Math.ceil(allWatches.length / countPerPage)
-    const posts = allWatches.slice(pageoffset * countperpage, pageoffset * countperpage + 1)
+    const posts = allWatches.slice(pageOffset * countPerPage, pageOffset * countPerPage + countPerPage)
     return {posts, pageTotal}
 }
 
@@ -68,22 +74,23 @@ async function getPostById(id){
 
 //some static methods
 async function getOnePage(searchCriteria, countPerPage, pageOffset){
+    countPerPage = parseInt(countPerPage)
+    pageOffset = parseInt(pageOffset)
     const posts = await Post.find(searchCriteria).skip(countPerPage * pageOffset).limit(countPerPage).populate('petType')
     return posts
 }
 
 async function getPageTotal(searchCriteria, countPerPage){
+    countPerPage = parseInt(countPerPage)
     return Math.ceil((await Post.countDocuments(searchCriteria)) / countPerPage)
 }
 
 async function savePost(post){
     const petType = await PetType.findOne({breed:post.petBreed})
-    console.log(petType)
     post.petType = petType._id
     delete post.breed
 
     const nPost = new Post(post)
-    console.log(nPost)
     const savedPost = await nPost.save()
 
     const user = await User.findOne({_id:post.poster})
@@ -98,6 +105,7 @@ async function addTrace(spot,postId){
     post.trace.push(spot)
     await post.save()
     const savedPost = await Post.findOne({_id:postId}).populate('petType').populate('matches')
+    console.log(savedPost)
     return savedPost
 }
 

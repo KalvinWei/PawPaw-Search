@@ -1,6 +1,6 @@
 import express from 'express'
 import {getPostsOf} from "../DAO/postDAO";
-import {createUser, getUserBy, updateUser} from "../DAO/userDAO";
+import {checkIfWatching, createUser, getUserBy, updateUser, updateWatching} from "../DAO/userDAO";
 import {validateUsername} from "../DAO/authDAO";
 
 // const HTTP_OK = 200; // Not really needed; this is the default if you don't set something else.
@@ -52,5 +52,16 @@ user.put('/:username/edit', async (req,res)=>{
     res.send(updatedUser)
 })
 
-export default user;
+user.get('/:userId/posts/watchings/:postId', async (req, res)=>{
+    const {userId, postId} = req.params
+    const result = await checkIfWatching(userId, postId)
+    res.send(result)
+})
 
+user.put('/:userId/posts/watchings/:postId', async (req, res)=>{
+    const {userId, postId} = req.params
+    const result = await updateWatching(userId, postId, req.body.actionType)
+    res.send(!!result)
+})
+
+export default user;

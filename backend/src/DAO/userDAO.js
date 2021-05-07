@@ -22,4 +22,19 @@ async function updateUser(user) {
     }
 }
 
-export {createUser, getUserBy, updateUser}
+async function checkIfWatching(userId, postId){
+    const result = await User.findOne({_id:userId,myWatchings:postId})
+    return !!result
+}
+
+async function updateWatching(userId, postId, actionType) {
+    let result
+    if(actionType === "watching"){
+        result = await User.updateOne({ _id: userId},{ $push: { myWatchings: postId} })
+    } else {
+        result = await User.updateOne({ _id: userId},{ $pull: { myWatchings: postId} })
+    }
+    return result.nModified === 1 ? 1 : 0
+}
+
+export {createUser, getUserBy, updateUser, checkIfWatching, updateWatching}

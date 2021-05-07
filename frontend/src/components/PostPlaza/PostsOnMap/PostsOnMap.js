@@ -4,6 +4,7 @@ import {useHistory} from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import 'mapbox-gl/dist/mapbox-gl.css'
+import {MY_KEY} from '../../../utils/geoCoding';
 
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
@@ -87,7 +88,7 @@ export default function PostsOnMap({posts, dimension}) {
     return (
         <ReactMapGL
             {...viewport}
-            mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
+            mapboxApiAccessToken={MY_KEY}
             mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
             onViewportChange={viewport => {
                 setViewport(viewport);

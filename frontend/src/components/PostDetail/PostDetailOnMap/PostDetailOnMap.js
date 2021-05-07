@@ -1,8 +1,9 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
 import {makeStyles} from "@material-ui/core/styles";
-import fromLatLng from "../../../utils/geoCoding";
-import TraceReporter from "../TraceReporter/TraceReporter";
+import fromLatLng, {fetchVet} from "../../../utils/geoCoding";
+import Checkbox from '@material-ui/core/Checkbox';
+import {FormControlLabel} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
@@ -21,16 +22,16 @@ const useStyles = makeStyles((theme) => ({
         fontFamily: 'Helvetica',
         fontSize: '12px',
         color: "darkgrey",
-        textTransform:'uppercase'
+        textTransform: 'uppercase'
     },
     dd: {
         fontFamily: 'Helvetica',
         fontSize: 14,
         color: '#666'
     },
-    iconButton:{
+    iconButton: {
         backgroundColor: "darkgreen",
-        borderColor:"transparent",
+        borderColor: "transparent",
         color: "white",
         margin: "2px 2px",
         fontSize: "18px",
@@ -41,10 +42,28 @@ const useStyles = makeStyles((theme) => ({
         height: "30px",
         '&:hover': {
             background: "lightGreen",
-            color:"black"
+            color: "black"
+        }
+    },
+    vetButton: {
+        backgroundColor: "#444",
+        borderColor: "transparent",
+        color: "white",
+        margin: "2px 2px",
+        fontSize: "18px",
+        verticalAlign: "top",
+        cursor: "pointer",
+        borderRadius: "50%",
+        width: "30px",
+        height: "30px",
+        '&:hover': {
+            background: "lightgrey",
+            color: "black"
         }
     }
-}));
+}))
+
+
 export default function PostDetailOnMap({post, dimension}) {
     const [viewport, setViewport] = useState({
         latitude: parseFloat(getLast(post).latitude),
@@ -57,20 +76,51 @@ export default function PostDetailOnMap({post, dimension}) {
     const classes = useStyles()
 
     const [placeName, setPlaceName] = useState("")
-    useEffect(()=>{
-        async function fetchPlace(){
-            if(selectedPetPoint) {
-                const res = await fromLatLng(selectedPetPoint.latitude,selectedPetPoint.longitude)
+    useEffect(() => {
+        async function fetchPlace() {
+            if (selectedPetPoint) {
+                const res = await fromLatLng(selectedPetPoint.latitude, selectedPetPoint.longitude)
                 setPlaceName(res.features[0].place_name)
             }
 
         }
+
         fetchPlace()
-    },[selectedPetPoint])
+    }, [selectedPetPoint])
 
     function getLast(post) {
         return post.trace[post.trace.length - 1]
     }
+
+    const [vets, setVets] = useState(null)
+    const [checked, setChecked] = React.useState(false);
+    const handleChange = async (e) => {
+        if (e.target.checked) {
+            const fetchedVets = await fetchVet()
+            if (fetchedVets) {
+                setChecked(true)
+                setVets(fetchedVets)
+            }
+        } else {
+            setChecked(false)
+            setVets(null)
+        }
+    };
+
+    const [selectVetPoint, setSelectVetPoint] = useState(null)
+
+    useEffect(() => {
+        async function getVetInfo() {
+            const res = await fetchVet()
+            if (selectVetPoint) {
+                for (let i = 0; i < res.length; i++) {
+                    setSelectVetPoint(res)
+                }
+            }
+        }
+
+        getVetInfo()
+    }, [setSelectVetPoint])
 
     return (
         <div>
@@ -81,26 +131,65 @@ export default function PostDetailOnMap({post, dimension}) {
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}>
-                {
-                    post.trace.map(spot =>
-                                <Marker
+                <div>
+                    <FormControlLabel
+                        control={
+                            <Checkbox
+                                checked={checked}
+                                onChange={handleChange}
+                                name="showVets"
+                            />
+                        }
+                        label="Show Nearby Vets"
+                    />
+                </div>
 
-                                    key={spot.longitude + " " + spot.latitude}
-                                    latitude={parseFloat(spot.latitude)}
-                                    longitude={parseFloat(spot.longitude)}
-                                >
-                                    <div>
-                                        <button className={classes.iconButton}
-                                                onClick={e => {
-                                                    // e.preventDefault();
-                                                    setSelectedPetPoint(spot);
-                                                }}
-                                        >
-                                            {post.trace.indexOf(spot)+1}
-                                        </button>
-                                    </div>
-                                </Marker>
-                            )
+                {vets && vets.map(vet =>
+                    <Marker
+                        key={vet.longitude + " " + vet.latitude}
+                        latitude={parseFloat(vet.latitude)}
+                        longitude={parseFloat(vet.longitude)}
+                    >
+                        <div>
+                            <button className={classes.vetButton}
+                                    onClick={() => {
+                                        setSelectVetPoint(vet);
+                                    }}
+                            >
+                                V
+                            </button>
+                        </div>
+                    </Marker>)}
+                {selectVetPoint && <Popup latitude={parseFloat(selectVetPoint.latitude)}
+                                          longitude={parseFloat(selectVetPoint.longitude)}
+                                          onClose={() => {
+                                              setSelectVetPoint(null);
+                                          }}
+                >
+                    <div>
+                        <p>Name:{selectVetPoint.vet}</p>
+                        <p>Address:{selectVetPoint.address}</p>
+                    </div>
+                </Popup>
+                }
+
+                {post.trace.map(spot =>
+                    <Marker
+                        key={spot.longitude + " " + spot.latitude}
+                        latitude={parseFloat(spot.latitude)}
+                        longitude={parseFloat(spot.longitude)}
+                    >
+                        <div>
+                            <button className={classes.iconButton}
+                                    onClick={() => {
+                                        setSelectedPetPoint(spot)
+                                    }}
+                            >
+                                {post.trace.indexOf(spot) + 1}
+                            </button>
+                        </div>
+                    </Marker>
+                )
                 }
                 {selectedPetPoint ? (
                     <Popup
@@ -113,8 +202,8 @@ export default function PostDetailOnMap({post, dimension}) {
                         <div>
                             <table>
                                 <tbody>
-                                <tr className={classes.dd} style={{fontWeight:'bold', fontSize: '1.4em'}}>
-                                    <td>#{post.trace.indexOf(selectedPetPoint)+1}</td>
+                                <tr className={classes.dd} style={{fontWeight: 'bold', fontSize: '1.4em'}}>
+                                    <td>#{post.trace.indexOf(selectedPetPoint) + 1}</td>
                                 </tr>
                                 <tr className={classes.dt}>
                                     <td>report time</td>
@@ -139,7 +228,7 @@ export default function PostDetailOnMap({post, dimension}) {
                         </div>
                     </Popup>
                 ) : null}
-                <NavigationControl className={classes.navControlStyle} />
+                <NavigationControl className={classes.navControlStyle}/>
                 <ScaleControl maxWidth={100} unit="metric" className={classes.scaleControlStyle}/>
                 <GeolocateControl
                     className={classes.geolocateControlStyle}
