@@ -29,22 +29,22 @@ const useStyle = makeStyles(theme => ({
         margin: 30,
         fontFamily: 'helvetica'
     },
-    reporter:{
-        position:'absolute',
-        left:0,
-        top:0,
-        border:'5px  solid green'
+    reporter: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
+        border: '5px  solid green'
     },
-    actionBox:{
-        borderRadius:10,
-        background:'rgba(230,230,230,.4)',
-        padding:20,
-        marginBottom:15
+    actionBox: {
+        borderRadius: 10,
+        background: 'rgba(230,230,230,.4)',
+        padding: 20,
+        marginBottom: 15
 
     },
-    watchButtonBox:{
-        borderRight:'2px solid #ddd',
-        marginRight:15
+    watchButtonBox: {
+        borderRight: '2px solid #ddd',
+        marginRight: 15
     }
 }))
 
@@ -60,7 +60,7 @@ export default function PostDetail() {
     const [offset, setOffset] = useState(0)
     useEffect(() => {
         async function fetchMatches() {
-            const res = await fetchMatchedPosts(post._id, 3, offset)
+            const res = await fetchMatchedPosts(post._id, 5, offset)
             setMatches(res.posts)
             setTotal(res.pageTotal)
         }
@@ -74,11 +74,12 @@ export default function PostDetail() {
 
     const [watched, setWatched] = useState(false)
     useEffect(() => {
-            async function check() {
-                const watchStatus = await checkWatching(post._id, loginUser._id)
-                setWatched(watchStatus)
-            }
-            if(loginUser) check()
+        async function check() {
+            const watchStatus = await checkWatching(post._id, loginUser._id)
+            setWatched(watchStatus)
+        }
+
+        if (loginUser) check()
     })
 
     async function handleWatch(e) {
@@ -184,7 +185,7 @@ export default function PostDetail() {
                             label="WATCH"
                             onChange={handleWatch}
                             checked={watched}
-                            style={{color:'#444'}}
+                            style={{color: '#444'}}
                         />
                         }
                     </Grid>
@@ -193,20 +194,31 @@ export default function PostDetail() {
                     </Grid>
                 </Grid>
                 <Grid item>
-                    <PostDetailOnMap post={post} dimension={{width: '100%', height: 600}}/>
+                    <Typography variant='h5' color={"textSecondary"}>
+                        Trace
+                        <Typography variant='subtitle2'
+                                    color={"textSecondary"}
+                                    style={{marginBottom:10}}
+                                    variantMapping='span'
+                        >
+                            In witness time order
+                        </Typography>
+                    </Typography>
+
+                    <PostDetailOnMap post={post}
+                                     dimension={{width: '100%', height: 400}}
+                    />
                 </Grid>
-                {matches && <Grid item>
-                    <Typography variant='h5'>
+                <Grid item style={{marginTop: 20}}>
+                    <Typography variant='h5' color={"textSecondary"}>
                         Matched Posts
                     </Typography>
-                    <Typography variant='subtitle2'>
-                        Relevant posts are matched by our matching engine according to the features of posts.
-                    </Typography>
-                    <Typography variant='subtitle2'>
-                        Posts are in descending order with respect to relevance with the current post.
+                    <Typography variant='subtitle2' color={"textSecondary"}>
+                        We operate a cross-site analysis to couple relevant posts every hour<br/>
+                        Posts are listed by relevance in descending order
                     </Typography>
                     <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
-                </Grid>}
+                </Grid>
             </Grid>
         </Grid>
 
