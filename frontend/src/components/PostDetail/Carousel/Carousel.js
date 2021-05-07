@@ -20,11 +20,7 @@ const useStyles = makeStyles((theme) => ({
         display: 'block'
     },
     button:{
-        color:'pink',
-        backgroundColor:'transparent',
-        '&:hover':{
-            backgroundColor:'primary'
-        }
+        color:'darkgrey'
     }
 }));
 

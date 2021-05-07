@@ -1,9 +1,10 @@
 import React, {useState, useEffect} from "react";
 import ReactMapGL, {Marker, Popup, NavigationControl, ScaleControl, GeolocateControl} from "react-map-gl";
 import {makeStyles} from "@material-ui/core/styles";
-import fromLatLng, {fetchVet, MY_KEY} from "../../../utils/geoCoding";
+import fromLatLng, {fetchVet} from "../../../utils/geoCoding";
 import Checkbox from '@material-ui/core/Checkbox';
 import {FormControlLabel} from "@material-ui/core";
+import {v4 as uuidv4} from 'uuid'
 
 const useStyles = makeStyles((theme) => ({
     navControlStyle: {
@@ -17,6 +18,17 @@ const useStyles = makeStyles((theme) => ({
     geolocateControlStyle: {
         right: 10,
         bottom: 20
+    },
+    dt: {
+        fontFamily: 'Helvetica',
+        fontSize: '12px',
+        color: "darkgrey",
+        textTransform: 'uppercase'
+    },
+    dd: {
+        fontFamily: 'Helvetica',
+        fontSize: 14,
+        color: '#666'
     },
     iconButton: {
         backgroundColor: "darkgreen",
@@ -49,8 +61,18 @@ const useStyles = makeStyles((theme) => ({
             background: "lightgrey",
             color: "black"
         }
+    },
+    showVetBox:{
+        background: 'rgba(255,255,255,0.4)',
+        backdropFilter:'blur(5px)',
+        margin:8,
+        padding:5,
+        paddingRight:15,
+        borderRadius:10,
+        fontFamily:'Helvetica',
+        color:'#444'
     }
-}));
+}))
 
 
 export default function PostDetailOnMap({post, dimension}) {
@@ -115,13 +137,14 @@ export default function PostDetailOnMap({post, dimension}) {
         <div>
             <ReactMapGL
                 {...viewport}
-                mapboxApiAccessToken={MY_KEY}
+                mapboxApiAccessToken='pk.eyJ1IjoiemxpNzg2IiwiYSI6ImNrbnF1NzcyYjBkcnAydm4wenhvN2J0YmEifQ.QU5fBqJ3Gy7vvu9xWEMIKg'
                 mapStyle="mapbox://styles/zli786/cko28t2jb04m518n5iwbmgycb"
                 onViewportChange={viewport => {
                     setViewport(viewport);
                 }}>
                 <div>
                     <FormControlLabel
+                        className={classes.showVetBox}
                         control={
                             <Checkbox
                                 checked={checked}
@@ -129,13 +152,13 @@ export default function PostDetailOnMap({post, dimension}) {
                                 name="showVets"
                             />
                         }
-                        label="Show Nearby Vets"
+                        label="show nearby vets"
                     />
                 </div>
 
                 {vets && vets.map(vet =>
                     <Marker
-                        key={vet.longitude + " " + vet.latitude}
+                        key={uuidv4()}
                         latitude={parseFloat(vet.latitude)}
                         longitude={parseFloat(vet.longitude)}
                     >
@@ -150,21 +173,35 @@ export default function PostDetailOnMap({post, dimension}) {
                         </div>
                     </Marker>)}
                 {selectVetPoint && <Popup latitude={parseFloat(selectVetPoint.latitude)}
-                                         longitude={parseFloat(selectVetPoint.longitude)}
-                                         onClose={() => {
-                                             setSelectVetPoint(null);
-                                         }}
+                                          longitude={parseFloat(selectVetPoint.longitude)}
+                                          onClose={() => {
+                                              setSelectVetPoint(null);
+                                          }}
                 >
                     <div>
-                        <p>Name:{selectVetPoint.vet}</p>
-                        <p>Address:{selectVetPoint.address}</p>
+                        <table>
+                            <tbody>
+                            <tr className={classes.dt}>
+                                <td>Name</td>
+                            </tr>
+                            <tr className={classes.dd}>
+                                <td>{selectVetPoint.vet}</td>
+                            </tr>
+                            <tr className={classes.dt}>
+                                <td>Address</td>
+                            </tr>
+                            <tr className={classes.dd}>
+                                <td>{selectVetPoint.address}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </Popup>
                 }
 
                 {post.trace.map(spot =>
                     <Marker
-                        key={spot.longitude + " " + spot.latitude}
+                        key={uuidv4()}
                         latitude={parseFloat(spot.latitude)}
                         longitude={parseFloat(spot.longitude)}
                     >
@@ -185,13 +222,35 @@ export default function PostDetailOnMap({post, dimension}) {
                         latitude={parseFloat(selectedPetPoint.latitude)}
                         longitude={parseFloat(selectedPetPoint.longitude)}
                         onClose={() => {
-                            setSelectedPetPoint(null)
+                            setSelectedPetPoint(null);
                         }}
                     >
                         <div>
-                            <h1>Trace No:{post.trace.indexOf(selectedPetPoint) + 1}</h1>
-                            <h3 style={{fontSize: "10"}}>Comment: {selectedPetPoint.comment}</h3>
-                            <p>Address:{placeName}</p>
+                            <table>
+                                <tbody>
+                                <tr className={classes.dd} style={{fontWeight: 'bold', fontSize: '1.4em'}}>
+                                    <td>#{post.trace.indexOf(selectedPetPoint) + 1}</td>
+                                </tr>
+                                <tr className={classes.dt}>
+                                    <td>report time</td>
+                                </tr>
+                                <tr className={classes.dd}>
+                                    <td>{(new Date(selectedPetPoint.timestamp)).toLocaleString()}</td>
+                                </tr>
+                                <tr className={classes.dt}>
+                                    <td>address</td>
+                                </tr>
+                                <tr className={classes.dd}>
+                                    <td>{placeName}</td>
+                                </tr>
+                                <tr className={classes.dt}>
+                                    <td>comment</td>
+                                </tr>
+                                <tr className={classes.dd}>
+                                    <td>{selectedPetPoint.comment}</td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
                     </Popup>
                 ) : null}

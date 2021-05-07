@@ -4,7 +4,7 @@ import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css'
 import {MY_KEY} from '../../../utils/geoCoding'
 import {makeStyles} from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import {Button, FormHelperText} from "@material-ui/core";
+import {Button} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {AppContext} from "../../../ContextProvider";
 import {useHistory} from "react-router-dom";
@@ -17,44 +17,17 @@ const useStyles = makeStyles((theme) => ({
     textField: {
         width: 200
     },
+    reporterBox:{
+        position:"relative",
+        gap:10,
+        zIndex:1000
+    }
 }));
 
 export default function TraceReporter({post}) {
     const classes = useStyles();
     const {reportTrace} = useContext(AppContext)
-
-    let container = useRef()
-
     const history = useHistory()
-
-    async function report() {
-        console.log(spot)
-        if(spot.latitude){
-            console.log("here")
-            const updatedPost = await reportTrace(spot, post._id)
-            console.log(history)
-            history.push({path:history.location.pathname,state:updatedPost})
-        }
-    }
-
-    useEffect(() => {
-        const geocoder = new MapboxGeocoder({
-            accessToken: MY_KEY,
-            types: 'address,neighborhood,locality,place,region,country,postcode'
-        })
-
-        geocoder.addTo(container.current)
-
-        geocoder.on('result', e => {
-            const [lng, lat] = e.result.center
-            setSpot({...spot, latitude: lat, longitude: lng})
-        })
-
-        geocoder.on('clear', () => {
-            setSpot({...spot, latitude: undefined, longitude: undefined})
-        })
-    }, [container])
-
     const [spot, setSpot] = useState({
         latitude: undefined,
         longitude: undefined,
@@ -62,43 +35,66 @@ export default function TraceReporter({post}) {
         comment: ''
     })
 
-
-    // const []
+    const [coord, setCoord] = useState({lat:undefined, lng:undefined})
+    let container = useRef()
+    useEffect(() => {
+        const geocoder = new MapboxGeocoder({
+            accessToken: MY_KEY,
+            types: 'address,neighborhood,locality,place,region,country,postcode'
+        })
+        geocoder.addTo(container.current)
+        geocoder.on('result', e => {
+            const [lng, lat] = e.result.center
+            setCoord({...coord, lat: lat, lng: lng})
+        })
+        geocoder.on('clear', () => {
+            setCoord({...coord, lat: undefined, lng: undefined})
+        })
+    }, [container])
     useEffect(()=>{
-        console.log("spot")
-        console.log(spot)
-    },[spot])
+        setSpot({...spot, latitude: coord.lat, longitude: coord.lng})
+    },[coord])
 
     function formatDate(date){
         return JSON.stringify(date).substring(1,17)
     }
 
+    async function report(){
+        if(spot.latitude){
+            const updatedPost = await reportTrace(spot, post._id)
+            if(updatedPost){
+                alert('Trace extended! Thank you for your help!')
+                history.push({path:history.location.pathname,state:updatedPost})
+            }
+        }
+    }
+
     return (
-        <Grid container justify='space-evenly'>
-            <Grid item>
-                <FormHelperText style={{textAlign: 'left'}}>
-                    Last Seen Spot{spot.latitude && `: ${spot.latitude.toFixed(4)},${spot.longitude.toFixed(4)}`}
-                </FormHelperText>
-                <div id="localSearch" ref={container}></div>
+        <Grid container justify='center' alignItems='flex-end' className={classes.reporterBox}>
+            <Grid item style={{transform: 'translateY(-5px)'}}>
+                <div id="localSearch" ref={container} ></div>
             </Grid>
-            <Grid item style={{transform: 'translateY(5px)'}}>
+            <Grid item style={{transform: 'translateY(-2px)'}}>
                 <form className={classes.container} noValidate>
                     <TextField
                         value={spot.timestamp}
                         onChange={e =>
                             setSpot({...spot, timestamp: e.target.value})
                         }
-                        label="Last Seen Date"
+                        label="Last Seen"
                         type="datetime-local"
                         className={classes.textField}
                         InputLabelProps={{
                             shrink: true,
                         }}
+                        variant='outlined'
+                        size='small'
                     />
                 </form>
             </Grid>
-            <Grid item >
+            <Grid item style={{transform: 'translateY(2px)'}}>
                 <TextField
+                    variant='outlined'
                     autoFocus
                     margin="dense"
                     label="Comment"
@@ -109,9 +105,16 @@ export default function TraceReporter({post}) {
                     }}
                 />
             </Grid>
-            <Grid item>
-                <Button onClick={report} disabled={!spot.latitude}>
-                    Report New Trace
+            <Grid item style={{transform: 'translateY(-5px)'}}>
+                <Button onClick={report}
+                        variant='contained'
+                        size='medium'
+                        color='secondary'
+                        disabled={!spot.latitude}
+                        style={{color:'ivory'}}
+
+                >
+                    Report witness
                 </Button>
             </Grid>
         </Grid>

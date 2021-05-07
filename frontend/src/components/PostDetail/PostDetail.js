@@ -3,16 +3,16 @@ import {useHistory} from 'react-router-dom'
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
-import {FormControlLabel, Grid, Typography} from "@material-ui/core";
+import {Checkbox, FormControlLabel, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core";
 import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
-import Checkbox from "@material-ui/core/Checkbox";
 import {Favorite, FavoriteBorder} from "@material-ui/icons";
+
 
 const useStyle = makeStyles(theme => ({
     detailTable: {
-        fontSize: 16,
+        fontSize: 14,
         '& tr': {
             height: 30
         },
@@ -24,10 +24,27 @@ const useStyle = makeStyles(theme => ({
         },
         '& tr > td:nth-child(2)': {
             fontSize: 20,
-            color: '#444',
+            color: '#555',
         },
         margin: 30,
         fontFamily: 'helvetica'
+    },
+    reporter:{
+        position:'absolute',
+        left:0,
+        top:0,
+        border:'5px  solid green'
+    },
+    actionBox:{
+        borderRadius:10,
+        background:'rgba(230,230,230,.4)',
+        padding:20,
+        marginBottom:15
+
+    },
+    watchButtonBox:{
+        borderRight:'2px solid #ddd',
+        marginRight:15
     }
 }))
 
@@ -55,14 +72,14 @@ export default function PostDetail() {
         setOffset(pageIndex - 1)
     }
 
-    const [watched, setWatched] = useState("")
+    const [watched, setWatched] = useState(false)
     useEffect(() => {
             async function check() {
                 const watchStatus = await checkWatching(post._id, loginUser._id)
                 setWatched(watchStatus)
             }
-            check()
-    },[])
+            if(loginUser) check()
+    })
 
     async function handleWatch(e) {
         const checked = e.target.checked
@@ -81,23 +98,32 @@ export default function PostDetail() {
         }
     }
 
-    const statusBgColor = post.status === 'Lost' ? 'carol' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey')
+    const statusBgColor = post.status === 'Lost' ? 'coral' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey')
 
     return (
         <Grid container direction='row' justify='center'>
-            <Grid item md={9} direction='column'>
+            <Grid item md={9} direction='column' container>
                 <Grid item container direction='row' alignItems='center' justify='space-between'>
                     <Grid item>
                         <table className={classes.detailTable}>
                             <tbody>
                             <tr>
-                                <td><span style={{
-                                    padding: '0 10px',
-                                    borderRadius: 10,
-                                    color: 'white',
-                                    background: statusBgColor
-                                }}>{post.status}</span></td>
-                                <td style={{fontWeight: 'bold', fontSize: 30}}>{post.petName}</td>
+                                <td>
+                                    <span style={{
+                                        padding: '8px 20px',
+                                        borderRadius: 5,
+                                        fontWeight: 'bolder',
+                                        color: 'white',
+                                        background: statusBgColor
+                                    }}>
+                                    {post.status}
+                                    </span>
+                                </td>
+                                <td style={{
+                                    fontWeight: 'bold',
+                                    fontSize: 30,
+                                    textTransform: 'capitalize'
+                                }}>{post.petName}</td>
                             </tr>
                             <tr>
                                 <td>Post ID</td>
@@ -105,7 +131,7 @@ export default function PostDetail() {
                             </tr>
                             <tr>
                                 <td>Post Time</td>
-                                <td>{post.createdAt}</td>
+                                <td>{(new Date(post.createdAt)).toLocaleString().replace(',', '')}</td>
                             </tr>
                             <tr>
                                 <td>Breed</td>
@@ -124,7 +150,7 @@ export default function PostDetail() {
                                 <td>{post.petGender}</td>
                             </tr>
                             <tr>
-                                <td>MicrochipNumber</td>
+                                <td>Microchip No.</td>
                                 <td>
                                     {post.isMicrochipped === 'Yes' ? post.microchipNumber :
                                         (post.isMicrochipped === 'Unknown' ? 'Unknown' : 'No Microchip')
@@ -150,22 +176,26 @@ export default function PostDetail() {
                         <Carousel urls={post.petImages}/>
                     </Grid>
                 </Grid>
-                <Grid>
-                    {loginUser._id === post.poster || <FormControlLabel
-                        control={<Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} name="checkedH"/>}
-                        label="Watch this post"
-                        onChange={handleWatch}
-                        checked={watched}
-                    />
-                    }
-                    <TraceReporter post={post}/>
+                <Grid item container className={classes.actionBox} justify='center' alignItems='center'>
+                    <Grid item className={classes.watchButtonBox}>
+                        {(loginUser !== null && loginUser._id === post.poster) ||
+                        <FormControlLabel
+                            control={<Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} name="checkedH"/>}
+                            label="WATCH"
+                            onChange={handleWatch}
+                            checked={watched}
+                            style={{color:'#444'}}
+                        />
+                        }
+                    </Grid>
+                    <Grid item>
+                        <TraceReporter post={post}/>
+                    </Grid>
                 </Grid>
-
-                <Grid>
-                    <PostDetailOnMap post={post} dimension={{width: '100%', height: 400}}/>
+                <Grid item>
+                    <PostDetailOnMap post={post} dimension={{width: '100%', height: 600}}/>
                 </Grid>
-
-                {matches && <Grid>
+                {matches && <Grid item>
                     <Typography variant='h5'>
                         Matched Posts
                     </Typography>

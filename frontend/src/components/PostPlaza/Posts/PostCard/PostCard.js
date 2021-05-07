@@ -20,7 +20,6 @@ const useStyles = makeStyles((theme) => ({
         height: 140,
     },
     content: {
-        overflow:'scroll',
         height: 120
     },
     cardHeader: {
@@ -109,8 +108,8 @@ function PostCard({post}) {
                 <table className={classes.briefTable}>
                     <tbody>
                     <tr>
-                        <td className={classes.dt}>NAME</td>
-                        <td className={classes.dd}>{post.petName}</td>
+                        <td className={classes.dt}></td>
+                        <td className={classes.dd} style={{textTransform:'capitalize'}}>{post.petName}</td>
                     </tr>
                     <tr>
                         <td className={classes.dt}>BREED</td>
