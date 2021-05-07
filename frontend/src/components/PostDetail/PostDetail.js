@@ -62,8 +62,11 @@ export default function PostDetail() {
         async function fetchMatches() {
             alert(location.pathname)
             const res = await fetchMatchedPosts(post._id, 5, offset)
-            setMatches(res.posts)
-            setTotal(res.pageTotal)
+            if(res){
+                setMatches(res.posts)
+                setTotal(res.pageTotal)
+            }
+
         }
 
         fetchMatches()
