@@ -178,8 +178,22 @@ export default function PostDetailOnMap({post, dimension}) {
                                           }}
                 >
                     <div>
-                        <p>Name:{selectVetPoint.vet}</p>
-                        <p>Address:{selectVetPoint.address}</p>
+                        <table>
+                            <tbody>
+                            <tr className={classes.dt}>
+                                <td>Name</td>
+                            </tr>
+                            <tr className={classes.dd}>
+                                <td>{selectVetPoint.vet}</td>
+                            </tr>
+                            <tr className={classes.dt}>
+                                <td>Address</td>
+                            </tr>
+                            <tr className={classes.dd}>
+                                <td>{selectVetPoint.address}</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </Popup>
                 }

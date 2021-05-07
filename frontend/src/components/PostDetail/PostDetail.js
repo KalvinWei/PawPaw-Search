@@ -180,7 +180,7 @@ export default function PostDetail() {
                 </Grid>
 
                 <Grid>
-                    <PostDetailOnMap post={post} dimension={{width: '100%', height: 400}}/>
+                    <PostDetailOnMap post={post} dimension={{width: '100%', height: 600}}/>
                 </Grid>
                 {matches && <Grid item>
                     <Typography variant='h5'>
