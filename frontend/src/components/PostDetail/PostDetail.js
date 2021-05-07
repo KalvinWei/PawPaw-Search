@@ -60,6 +60,7 @@ export default function PostDetail() {
     const [offset, setOffset] = useState(0)
     useEffect(() => {
         async function fetchMatches() {
+            alert(location.pathname)
             const res = await fetchMatchedPosts(post._id, 5, offset)
             setMatches(res.posts)
             setTotal(res.pageTotal)

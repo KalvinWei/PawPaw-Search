@@ -58,8 +58,7 @@ async function getMatchedPostsFor(postId, countPerPage, pageOffset){
             .populate('watches')
     if(!post) return null
 
-    console.log(post)
-    const allWatches = post.watches
+    const allWatches = post.matches
     const pageTotal = Math.ceil(allWatches.length / countPerPage)
     const posts = allWatches.slice(pageOffset * countPerPage, pageOffset * countPerPage + countPerPage)
     return {posts, pageTotal}
