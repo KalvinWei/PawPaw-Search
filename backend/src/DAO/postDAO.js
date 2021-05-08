@@ -10,6 +10,15 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
         if(criteria.petColor=="All") delete criteria.petColor
         if(criteria.petSize=="All") delete criteria.petSize
         if(criteria.petGender=="All") delete criteria.petGender
+
+        if(criteria.petBreed!="All") {
+            const petTypeId=await getPetTypeId(criteria.petBreed)
+            criteria = {...criteria, 
+                "petType": petTypeId
+            }
+        }
+        delete criteria.petBreed
+
     }
     else    //No search criteria provided
     {
@@ -19,6 +28,12 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
     const onePagePosts =  await getOnePage(criteria,countPerPage,pageOffset)
     const pageTotal = await getPageTotal(criteria,countPerPage)
     return {posts:onePagePosts, pageTotal}
+}
+
+async function getPetTypeId(breedname){
+    const petType=
+        await PetType.findOne({breed:breedname})
+    return petType._id   
 }
 
 async function getPostsOf(username, countperpage, pageoffset, field) {
