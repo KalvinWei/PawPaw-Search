@@ -96,6 +96,7 @@ export default function SearchSetting({onSubmitSearch}) {
                             <optgroup label="Cat">
                                 <option value='Cheetoh'>Cheetoh</option>
                                 <option value='Birman'>Birman</option>
+                                <option value='Bengal'>Bengal</option>
                             </optgroup>
                         </Select>
                     </FormControl>
@@ -177,7 +178,7 @@ export default function SearchSetting({onSubmitSearch}) {
                                fullWidth
                                value={settings.keywords}
                                label="Keywords"
-                               placeholder='blacks to divide words'
+                               placeholder='separate keywords with comma'
                                onChange={(e)=>{
                                    modifySettings({keywords:e.target.value})
                                }}

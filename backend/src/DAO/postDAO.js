@@ -1,27 +1,20 @@
 import User from "../db/schemas/UserSchema";
 import Post from "../db/schemas/PostSchema";
-// import {sphericalCosines} from "earth-distance-js"
+import {sphericalCosines} from "earth-distance-js"
 import PetType from "../db/schemas/PetTypeSchema";
 
 async function getPostsFor(criteria, countPerPage,pageOffset){
-    //TODO: process criteria(searchSetting) to proper query object for mongoDB
-    // if(criteria.petBreed === "All") delete criteria.petBreed
-    // else {
-    //
-    // }
-    criteria = {}
-    delete criteria.status
-    // status: "All",
-    //     petBreed: "All",
-    //     petSize: "All",
-    //     petGender: "All",
-    //     petColor: "All",
-    //     //use Geolocation API to fetch current user's location,
-    //     // and search in an area of the given radius
-    //     originLatLng: [],
-    //     rangeRadius: 0,
-    //     //use keyword to search in petName, collarTagDescription, comment
-    //     keywords: ""
+    if(criteria.status)
+    {
+        if(criteria.status=="All") delete criteria.status
+        if(criteria.petColor=="All") delete criteria.petColor
+        if(criteria.petSize=="All") delete criteria.petSize
+        if(criteria.petGender=="All") delete criteria.petGender
+    }
+    else    //No search criteria provided
+    {
+        criteria = {}
+    }
 
     const onePagePosts =  await getOnePage(criteria,countPerPage,pageOffset)
     const pageTotal = await getPageTotal(criteria,countPerPage)
