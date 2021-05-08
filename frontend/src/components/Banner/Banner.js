@@ -35,7 +35,7 @@ export default function Banner() {
 
     const logout = () => {
         clearSession()
-        history.push("/")
+        history.replace("/")
     }
 
     const openNewPost = () => {

@@ -18,8 +18,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UserPage() {
-    const classes = useStyles()
     const {loginUser, fetchPostsOf} = useContext(AppContext)
+    const classes = useStyles()
+
+    const history = useHistory()
+    if(!loginUser) {
+        history.replace("/")
+    }
+
     const user = {...loginUser}
     //TODO for testing
     delete user.myPosts
@@ -66,16 +72,13 @@ export default function UserPage() {
     const [openEdit, setOpenEdit] = useState(false)
 
     function openEditDialog() {
-        //if no user logged in, redirect to home page
-        history.push(`${history.location.pathname}/edit`)
+        history.push(`MyPage/edit`)
         setOpenEdit(true)
     }
 
-    const history = useHistory()
-
     function closeEdit() {
         setOpenEdit(false)
-        history.goBack()
+        history.push('/MyPage')
     }
 
 

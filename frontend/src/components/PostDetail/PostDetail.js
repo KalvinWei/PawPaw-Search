@@ -198,7 +198,7 @@ export default function PostDetail() {
                 </Grid>
                 <Grid item container className={classes.actionBox} justify='center' alignItems='center'>
                     <Grid item className={classes.watchButtonBox}>
-                        {(loginUser !== null && loginUser._id === post.poster) ||
+                        {(loginUser && loginUser._id !== post.poster) &&
                         <FormControlLabel
                             control={<Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} name="checkedH"/>}
                             label="WATCH"

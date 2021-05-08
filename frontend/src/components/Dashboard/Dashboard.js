@@ -19,7 +19,7 @@ export default function Dashboard() {
 
     return (
         <div className={classes.root}>
-            <Grid container justify='space-evenly' spacing={3} alignContent='center' wrap='nowrap' style={{overflow:"scroll"}}>
+            <Grid container justify='space-evenly' spacing={3} alignContent='center' wrap='nowrap'>
                 <StatPaper figure={dashboard.userTotal} item='TOTAL USER'/>
                 <StatPaper figure={dashboard.foundTotal} item='TOTAL FOUND'/>
                 <StatPaper figure={dashboard.lostTotal} item='TOTAL LOST'/>
