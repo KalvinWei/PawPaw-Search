@@ -105,7 +105,6 @@ async function addTrace(spot,postId){
     post.trace.push(spot)
     await post.save()
     const savedPost = await Post.findOne({_id:postId}).populate('petType').populate('matches')
-    console.log(savedPost)
     return savedPost
 }
 

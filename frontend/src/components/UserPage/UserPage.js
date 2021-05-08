@@ -18,8 +18,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function UserPage() {
-    const classes = useStyles()
     const {loginUser, fetchPostsOf} = useContext(AppContext)
+    const classes = useStyles()
+
+    const history = useHistory()
+    if(!loginUser) {
+        history.replace("/")
+    }
+
     const user = {...loginUser}
     //TODO for testing
     delete user.myPosts
@@ -70,8 +76,6 @@ export default function UserPage() {
         history.push(`${history.location.pathname}/edit`)
         setOpenEdit(true)
     }
-
-    const history = useHistory()
 
     function closeEdit() {
         setOpenEdit(false)

@@ -19,8 +19,8 @@ export default async function getDashboard(){
 
     const today = new Date()
     today.setHours(0,0,0,0)
-    dashboard.foundToday = await Post.countDocuments({status:'Found',createAt:{$gte:today}})
-    dashboard.lostToday = await Post.countDocuments({status:'Lost',createAt:{$gte:today}})
-    dashboard.reunionToday = await Post.countDocuments({status:'Reunited',createAt:{$gte:today}})
+    dashboard.foundToday = await Post.countDocuments({status:'Found',createdAt:{$gte:today}})
+    dashboard.lostToday = await Post.countDocuments({status:'Lost',createdAt:{$gte:today}})
+    dashboard.reunionToday = await Post.countDocuments({status:'Reunited',createdAt:{$gte:today}})
     return dashboard
 }
