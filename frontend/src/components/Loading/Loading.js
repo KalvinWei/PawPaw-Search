@@ -4,8 +4,8 @@ import {Typography} from "@material-ui/core";
 
 export default function Loading() {
     return (
-        <Grid container justify='space-around' style={{flexGrow:1}}>
-            <Typography variant='subtitle2' color='textSecondary'>
+        <Grid container justify='space-around' >
+            <Typography variant='h6' color='textSecondary' style={{position:'relative', top:'200px'}}>
                 LOADING...
             </Typography>
         </Grid>

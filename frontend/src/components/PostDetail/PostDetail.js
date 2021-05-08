@@ -209,7 +209,7 @@ export default function PostDetail() {
                         }
                     </Grid>
                     <Grid item>
-                        <TraceReporter post={post}/>
+                        <TraceReporter post={post} onReport={setPost}/>
                     </Grid>
                 </Grid>
                 <Grid item>
