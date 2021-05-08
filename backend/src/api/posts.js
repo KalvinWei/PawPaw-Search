@@ -1,5 +1,13 @@
 import express from 'express'
-import {getPostsFor, getPostsSince, getMatchedPostsFor, getPostById, savePost, addTrace} from "../DAO/postDAO";
+import {
+    getPostsFor,
+    getPostsSince,
+    getMatchedPostsFor,
+    getPostById,
+    savePost,
+    addTrace,
+    setStatus
+} from "../DAO/postDAO";
 import fs from "fs";
 import {v4 as uuidv4} from 'uuid'
 
@@ -62,6 +70,12 @@ posts.patch('/:postId/trace', async (req,res) =>{
     const {postId} = req.params
     const spot = req.body
     const result = await addTrace(spot,postId)
+    res.send(result)
+})
+
+posts.patch('/:postId', async (req,res) =>{
+    const {postId} = req.params
+    const result = await setStatus(postId)
     res.send(result)
 })
 

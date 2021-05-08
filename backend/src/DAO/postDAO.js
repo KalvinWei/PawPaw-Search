@@ -108,4 +108,9 @@ async function addTrace(spot,postId){
     return savedPost
 }
 
-export {getPostsOf, getPostsFor, getPostsSince, getMatchedPostsFor, getPostById, savePost, addTrace}
+async function setStatus(postId){
+    const result = await Post.updateOne({_id:postId},{$set:{status:"Reunited"}})
+    return result.nModified === 1
+}
+
+export {getPostsOf, getPostsFor, getPostsSince, getMatchedPostsFor, getPostById, savePost, addTrace, setStatus}
