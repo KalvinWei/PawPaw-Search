@@ -55,7 +55,7 @@ export default function Banner() {
     };
     const closeLogin = () => {
         setLoginOpen(false);
-        history.goBack()
+        history.push('/')
     };
 
     //for signup dialog
@@ -65,7 +65,7 @@ export default function Banner() {
     };
     const closeSignup = () => {
         setSignupOpen(false);
-        history.goBack()
+        history.push('/')
     };
 
     return (
