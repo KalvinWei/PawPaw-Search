@@ -41,7 +41,7 @@ const PostSchema = new Schema({
     petImages:[{ type: String}], //should have multiple images
     petColor: { 
         type: String, 
-        required: true ,
+        required: true,
         enum : Object.values(PetColor)
     },
     petSize: { 

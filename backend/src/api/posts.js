@@ -49,8 +49,10 @@ posts.post('/', async (req,res) => {
             }
             dir.closeSync()
         }
+        post.petImages = petImgNames
+    } else {
+        post.petImages = [`${PATH_ROOT}/petImages/default.png`]
     }
-    post.petImages = petImgNames
 
     const result = await savePost(post)
     res.send(result)

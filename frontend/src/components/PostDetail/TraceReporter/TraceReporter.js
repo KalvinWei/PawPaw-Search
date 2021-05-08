@@ -24,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function TraceReporter({post}) {
+export default function TraceReporter({post, onReport}) {
     const classes = useStyles();
     const {reportTrace} = useContext(AppContext)
     const history = useHistory()
@@ -64,7 +64,9 @@ export default function TraceReporter({post}) {
             const updatedPost = await reportTrace(spot, post._id)
             if(updatedPost){
                 alert('Trace extended! Thank you for your help!')
-                history.push({path:history.location.pathname,state:updatedPost})
+                onReport(updatedPost)
+            } else {
+                alert('It seems something wrong happened to fail the report, try again?')
             }
         }
     }
@@ -112,7 +114,6 @@ export default function TraceReporter({post}) {
                         color='secondary'
                         disabled={!spot.latitude}
                         style={{color:'ivory'}}
-
                 >
                     Report witness
                 </Button>

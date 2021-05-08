@@ -136,12 +136,18 @@ export default function useGet() {
             .catch(e => console.log(e))
     }
 
+    async function fetchPostById(postId){
+        return await axios.get(`${postId}`)
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+    }
+
     return {
         //states
         loginUser, dashboard, setLoginUser,
         //functions
         clearSession: clearLocalStorage, fetchPostsBy, fetchNewestPosts, fetchPostsOf,
         signUpUser, authenticateUser, fetchMatchedPosts, updateUserProfile, createPost,
-        reportTrace, checkWatching, updateWatchStatus
+        reportTrace, checkWatching, updateWatchStatus,  fetchPostById
     };
 }

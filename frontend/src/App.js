@@ -26,7 +26,7 @@ function App() {
                         <UserPage/>
                     </Route>
                     <Route path='/posts/:id'>
-                        <PostDetail/>
+                        <PostDetail />
                     </Route>
                     <Route path='/create-new-post'>
                         <NewPost/>
