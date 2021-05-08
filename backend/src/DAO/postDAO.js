@@ -33,7 +33,19 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
         }
         delete criteria.keywords
 
-
+        if(criteria.rangeRadius!="0") 
+        {
+            let tracePoint= {
+                latitude: "$trace.latitude",
+                longitude:"$trace.longitude"
+            } 
+            let calculatedDistance= sphericalCosines(criteria.originLatLng,tracePoint)     
+            criteria = {...criteria,  
+                $expr: { $lte:[ calculatedDistance, criteria.rangeRadius] }
+            }
+        }
+        delete criteria.originLatLng
+        delete criteria.rangeRadius
     }
     else    //No search criteria provided
     {
