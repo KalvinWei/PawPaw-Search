@@ -64,7 +64,8 @@ export default function TraceReporter({post}) {
             const updatedPost = await reportTrace(spot, post._id)
             if(updatedPost){
                 alert('Trace extended! Thank you for your help!')
-                history.push({path:history.location.pathname,state:updatedPost})
+                alert(history.location.pathname)
+                history.replace({path:history.location.pathname,state:updatedPost})
             }
         }
     }
@@ -112,7 +113,6 @@ export default function TraceReporter({post}) {
                         color='secondary'
                         disabled={!spot.latitude}
                         style={{color:'ivory'}}
-
                 >
                     Report witness
                 </Button>

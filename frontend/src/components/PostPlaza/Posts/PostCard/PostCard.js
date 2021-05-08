@@ -81,7 +81,7 @@ function PostCard({post}) {
     }, [])
 
     function showDetail() {
-        history.push({pathname: `/posts/${post._id}`, state: post})
+        history.push(`/posts/${post._id}`)
     }
 
     const statusColor = post.status === 'Reunited' ? 'grey' : (post.status === 'Lost' ? 'coral' : 'green')

@@ -68,7 +68,7 @@ export default function NewPost() {
 
     return (
         <Paper variant='outlined'
-               style={{margin: '20px auto', width: 500, padding: 20}}
+               style={{margin: '20px auto', width: 600, padding: 20}}
         >
             <Grid container direction='column' spacing={2} >
                 <Grid item container direction='column' spacing={2}>
@@ -79,7 +79,6 @@ export default function NewPost() {
                                 defaultValue='Lost'
                                 exclusive
                                 size='small'
-                                aria-required={true}
                                 onChange={(e,newVal) => {
                                     setPost({...post, status: newVal})
                                 }}
@@ -102,8 +101,8 @@ export default function NewPost() {
                             margin="dense"
                             label="Pet Name"
                             type="text"
-                            fullWidth
                             required={true}
+                            fullWidth
                             value={post.petName}
                             onChange={e => {
                                 setPost({...post, petName: e.target.value})
@@ -145,7 +144,6 @@ export default function NewPost() {
                             <InputLabel>Fur Color</InputLabel>
                             <Select native
                                     value={post.petColor}
-                                    required={true}
                                     onChange={e => setPost({...post, petColor: e.target.value})}
                             >
                                 <option value='Black'>Black</option>
@@ -164,7 +162,6 @@ export default function NewPost() {
                         <FormControl size='small' fullWidth>
                             <InputLabel>Size</InputLabel>
                             <Select native
-                                    required={true}
                                     value={post.petSize}
                                     onChange={e => setPost({...post, petSize: e.target.value})}
                             >
@@ -179,7 +176,6 @@ export default function NewPost() {
                             <InputLabel>Gender</InputLabel>
                             <Select native
                                     value={post.petGender}
-                                    required={true}
                                     onChange={e => setPost({...post, petGender: e.target.value})}
                             >
                                 <option value='Male'>Male</option>
@@ -193,7 +189,6 @@ export default function NewPost() {
                             <InputLabel>Desexing Status</InputLabel>
                             <Select native
                                     value={post.desexed}
-                                    required={true}
                                     onChange={e => setPost({...post, desexed: e.target.value})}
                             >
                                 <option value='Yes'>Yes</option>
@@ -207,7 +202,6 @@ export default function NewPost() {
                             <InputLabel>Microchip Status</InputLabel>
                             <Select native
                                     value={post.isMicrochipped}
-                                    required={true}
                                     onChange={e => {
                                         const mStatus = e.target.value
                                         const number = mStatus !== 'Yes' ? "" : post.microchipNumber
@@ -268,13 +262,21 @@ export default function NewPost() {
                     </Grid>
                 </Grid>
             </Grid>
+            <Grid item>
+                <FormHelperText style={{textAlign:'right'}}>
+                    REMINDER: pet name, comment, and address are required to submit
+                </FormHelperText>
+            </Grid>
             <Grid item container justify='flex-end' spacing={2}>
                 <Grid item>
-                    <Button color='primary' style={{width: 100}} size='small' variant='contained'
-                            onClick={handleSubmit}>Submit</Button>
+                    <Button color='primary' size='small' variant='contained'
+                            onClick={handleSubmit}
+                            style={{color:'white'}}
+                            disabled={!post.petName || !post.comment ||  post.trace.length === 0}
+                    >Submit</Button>
                 </Grid>
                 <Grid item>
-                    <Button color='default' style={{width: 100}} size='small' variant='contained'
+                    <Button color='default'  size='small' variant='contained'
                             onClick={handleCancel}>Cancel</Button>
                 </Grid>
             </Grid>

@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react'
-import {useHistory} from 'react-router-dom'
+import {useHistory, useParams} from 'react-router-dom'
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
@@ -51,24 +51,36 @@ const useStyle = makeStyles(theme => ({
 
 export default function PostDetail() {
     const classes = useStyle()
+    const {fetchMatchedPosts, loginUser, checkWatching, updateWatchStatus, fetchPostById} = useContext(AppContext)
 
-    const location = useHistory().location
-    const post = location.state
+    const {id} = useParams()
 
-    const {fetchMatchedPosts, loginUser, checkWatching, updateWatchStatus} = useContext(AppContext)
+    const [post, setPost] = useState(null)
+    useEffect(()=>{
+        async function fetchPost(id){
+            const result = await fetchPostById(id)
+            if(result) {
+                console.log("here")
+                console.log(result)
+                setPost(result)
+            }
+            console.log("else")
+        }
+        fetchPost(id)
+    },[])
+
     const [matches, setMatches] = useState(null)
     const [pageTotal, setTotal] = useState(0)
     const [offset, setOffset] = useState(0)
     useEffect(() => {
         async function fetchMatches() {
+            if(!post) return
             const res = await fetchMatchedPosts(post._id, 5, offset)
             if(res){
                 setMatches(res.posts)
                 setTotal(res.pageTotal)
             }
-
         }
-
         fetchMatches()
     }, [offset])
 
@@ -79,6 +91,7 @@ export default function PostDetail() {
     const [watched, setWatched] = useState(false)
     useEffect(() => {
         async function check() {
+            if(!post) return
             const watchStatus = await checkWatching(post._id, loginUser._id)
             setWatched(watchStatus)
         }
@@ -103,9 +116,10 @@ export default function PostDetail() {
         }
     }
 
-    const statusBgColor = post.status === 'Lost' ? 'coral' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey')
+    const statusBgColor = post && (post.status === 'Lost' ? 'coral' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey'))
 
     return (
+        post ?
         <Grid container direction='row' justify='center'>
             <Grid item md={9} direction='column' container>
                 <Grid item container direction='row' alignItems='center' justify='space-between'>
@@ -213,7 +227,8 @@ export default function PostDetail() {
                     <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
                 </Grid>
             </Grid>
-        </Grid>
+        </Grid>:
+            <div>loading...</div>
 
     )
 }
