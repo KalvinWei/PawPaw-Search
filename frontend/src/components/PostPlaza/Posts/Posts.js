@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import {Pagination} from "@material-ui/lab";
 import {Typography} from "@material-ui/core";
+import React from "react";
 
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +22,19 @@ export default function Posts({posts, pageTotal, page, onPageChange}){
     const classes = useStyles();
 
     return (
-        (!posts || posts.length ===0) ? <Typography variant='subtitle2' color='textSecondary'>Sometimes, empty means good...</Typography> :
+        (!posts || posts.length ===0) ?
+            <Typography align={"center"} variant='h6'
+                        style={{
+                            boxShadow:'-5 -5 3 grey',
+                            height:300,
+                            marginTop:5,
+                            marginBottom:20
+                        }}
+                        color='textSecondary'
+            >
+                <span style={{position: 'relative', top:'50%'}}>Sometimes, empty means nothing bad...</span>
+            </Typography>
+            :
             <div className={classes.root}>
                 <Grid container spacing={2}>
                         {posts.map(post =>

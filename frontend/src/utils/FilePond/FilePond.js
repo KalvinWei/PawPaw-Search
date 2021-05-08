@@ -19,30 +19,20 @@ registerPlugin(FilePondPluginImageExifOrientation, FilePondPluginImagePreview)
 // Our app
 export default function App({onChangeImages}) {
 
-    const [files, setFiles] = useState([])
-
     return (
         <div className="App">
             <FilePond
-                files={files}
-                onprocessfiles={()=>{
-                    console.log()
-                }}
-                onupdatefiles={fs => {
-                    console.log("onupdatefiles")
-                    setFiles(fs.map(fi => {
-                        console.log(fi.file)
-                        return fi.file
-                    }))
-                }}
                 allowMultiple={true}
                 maxFiles={5}
                 server={{
                     url: `http://localhost:3001/images/`,
-                    process: '/',
-                    revert: {
-                        url: '/'
-                    }
+                    process: {
+                        url:'',
+                        onload:res=>{
+                            onChangeImages(res)
+                        }
+                    },
+                    revert: ''
                 }}
                 acceptedFileTypes={['image/jpg', 'image/png']}
                 name='petImage'

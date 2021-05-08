@@ -2,22 +2,38 @@ import express from "express";
 import cors from 'cors'
 import multer from 'multer'
 import fs from 'fs'
+import {v4 as uuidv4} from "uuid";
 
-const TEMP_FOLDER = 'assets/images/temp'
-const upload = multer({dest:TEMP_FOLDER})
+const TEMP_FOLDER = '../frontend/public/assets/temp/'
+const storage = multer.diskStorage({
+    destination:(req,file,cb)=>{
+        const path = TEMP_FOLDER + uuidv4()
+        try {
+            if (!fs.existsSync(path)) {
+                fs.mkdirSync(path, { recursive: true })
+            }
+        } catch (err) {
+            console.error(err)
+        }
+        cb(null,path)
+    },
+    filename:(req,file,cb)=>{
+        cb(null, file.originalname)
+    }
+})
+
+const upload = multer({storage:storage})
 
 const images = express()
 images.use(cors())
 
 images.post('/', upload.single('petImage'),(req,res)=>{
-    req.file.path =
-    res.contentType('text/plaintext').send(req.file.filename)
+    const serverId = req.file.destination.substring(req.file.destination.lastIndexOf('/')+1)
+    res.contentType('text/plaintext').send(serverId)
 })
 
 images.delete('/', (req,res)=>{
-    const {id} = req.params
-    if(fs.existsSync(`TEMP_FOLDER/${id}`)) fs.unlinkSync(`TEMP_FOLDER/${id}`)
-    res.send()
+
 })
 
 export default images

@@ -51,8 +51,6 @@ export default function UserPage() {
     useEffect(() => {
         async function fetchData() {
             const {posts, pageTotal: pageCount} = await fetchPostsOf(20, offSetWatching, 'watching')
-            console.log('-------')
-            console.log(posts)
             setWatchings(posts)
             setPageTotalWatching(pageCount)
         }
