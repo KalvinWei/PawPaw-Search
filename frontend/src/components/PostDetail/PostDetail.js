@@ -8,6 +8,7 @@ import {makeStyles} from "@material-ui/core";
 import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
 import {Favorite, FavoriteBorder} from "@material-ui/icons";
+import Loading from "../Loading/Loading";
 
 
 const useStyle = makeStyles(theme => ({
@@ -227,8 +228,9 @@ export default function PostDetail() {
                     <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
                 </Grid>
             </Grid>
-        </Grid>:
-            <div>loading...</div>
+        </Grid>
+            :
+            <Loading />
 
     )
 }
