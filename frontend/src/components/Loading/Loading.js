@@ -5,9 +5,9 @@ import {Typography} from "@material-ui/core";
 export default function Loading() {
     return (
         <Grid container justify='space-around' >
-            <Typography variant='h6' color='textSecondary' style={{position:'relative', top:'200px'}}>
-                LOADING...
-            </Typography>
+            <div style={{position:'relative', top:'200px'}}>
+                <img src={`${process.env.PUBLIC_URL}/assets/loading.gif`} width={100}/>
+            </div>
         </Grid>
     )
 }
