@@ -84,7 +84,7 @@ function PostCard({post}) {
         history.push({pathname: `/posts/${post._id}`, state: post})
     }
 
-    const statusColor = post.status === 'Reunited' ? 'grey' : (post.status === 'Lost' ? 'coral' : 'darkgreen')
+    const statusColor = post.status === 'Reunited' ? 'grey' : (post.status === 'Lost' ? 'coral' : 'green')
     const GRADIENT_LOST = {background:`linear-gradient(25deg, rgba(255,127,80,0.2) 0%, rgba(254,226,215,0) 21%, rgba(255,255,255,1) 100%)`}
     const GRADIENT_FOUND = {background:'linear-gradient(25deg, rgba(59,167,48,0.2) 0%, rgba(239,255,234,0) 21%, rgba(255,255,255,1) 100%)'}
     const GRADIENT_REUNITED = {background: 'linear-gradient(25deg, rgba(191,191,191,0.09707633053221287) 0%, rgba(236,236,236,0) 21%, rgba(255,255,255,1) 100%)'}
@@ -122,13 +122,8 @@ function PostCard({post}) {
                     <tr>
                         <td className={classes.dt}>LAST SEEN</td>
                         <td className={classes.dd}>
-                            {(new Date(getLast(post).timestamp)).toLocaleString().replace(',','  ')}
-                        </td>
-                    </tr>
-                    <tr>
-                        <td className={classes.dt}></td>
-                        <td className={classes.dd}>
-                            {address}
+                            {address} &nbsp;
+                            <span style={{color:'darkgrey'}}>{(new Date(getLast(post).timestamp)).toLocaleString().replace(',','  ')}</span>
                         </td>
                     </tr>
                     </tbody>

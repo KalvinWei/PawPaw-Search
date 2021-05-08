@@ -27,7 +27,8 @@ const useStyle = makeStyles(theme => ({
             color: '#555',
         },
         margin: 30,
-        fontFamily: 'helvetica'
+        fontFamily: 'helvetica',
+        maxWidth: 400
     },
     reporter: {
         position: 'absolute',
@@ -197,16 +198,6 @@ export default function PostDetail() {
                     </Grid>
                 </Grid>
                 <Grid item>
-                    <Typography variant='h5' color={"textSecondary"}>
-                        Trace
-                        <Typography variant='subtitle2'
-                                    color={"textSecondary"}
-                                    style={{marginBottom:10}}
-                        >
-                            In witness time order
-                        </Typography>
-                    </Typography>
-
                     <PostDetailOnMap post={post}
                                      dimension={{width: '100%', height: 400}}
                     />

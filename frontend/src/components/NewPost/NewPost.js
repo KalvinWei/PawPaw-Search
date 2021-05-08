@@ -24,12 +24,12 @@ export default function NewPost() {
             petName: "",
             petImages: [],
             //backend needs to translate breed to petType{species, breed}
-            petBreed: "Husky",
+            petBreed: "Other",
             petColor: "Mixed",
-            petSize: "Medium",
+            petSize: "Small",
             isMicrochipped: "Unknown",
             microchipNumber: "",
-            petGender: "Male",
+            petGender: "Unknown",
             desexed: "Unknown",
             collarTagDescription: '',
             comment: '',
@@ -79,6 +79,7 @@ export default function NewPost() {
                                 defaultValue='Lost'
                                 exclusive
                                 size='small'
+                                aria-required={true}
                                 onChange={(e,newVal) => {
                                     setPost({...post, status: newVal})
                                 }}
@@ -102,6 +103,7 @@ export default function NewPost() {
                             label="Pet Name"
                             type="text"
                             fullWidth
+                            required={true}
                             value={post.petName}
                             onChange={e => {
                                 setPost({...post, petName: e.target.value})
@@ -112,6 +114,7 @@ export default function NewPost() {
                         <FormControl size='small' fullWidth>
                             <InputLabel>Type</InputLabel>
                             <Select native
+                                    required={true}
                                     value={post.petBreed}
                                     onChange={e => setPost({...post, petBreed: e.target.value})}
                             >
@@ -120,10 +123,19 @@ export default function NewPost() {
                                     <option value='Poodle'>Poodle</option>
                                     <option value='Akita'>Akita</option>
                                     <option value='Golden Retriever'>Golden Retriever</option>
+                                    <option value='Australian Shepherd'>Australian Shepherd</option>
+                                    <option value='Boxer'>Boxer</option>
+                                    <option value='Bulldog'>Bulldog</option>
+                                    <option value='Other'>Other</option>
                                 </optgroup>
                                 <optgroup label="Cat">
                                     <option value='Cheetoh'>Cheetoh</option>
                                     <option value='Birman'>Birman</option>
+                                    <option value='Bengal'>Bengal</option>
+                                    <option value='Siamese'>Siamese</option>
+                                    <option value='Persian'>Persian</option>
+                                    <option value='Maine Coon'>Maine Coon</option>
+                                    <option value='Other'>Other</option>
                                 </optgroup>
                             </Select>
                         </FormControl>
@@ -133,6 +145,7 @@ export default function NewPost() {
                             <InputLabel>Fur Color</InputLabel>
                             <Select native
                                     value={post.petColor}
+                                    required={true}
                                     onChange={e => setPost({...post, petColor: e.target.value})}
                             >
                                 <option value='Black'>Black</option>
@@ -151,6 +164,7 @@ export default function NewPost() {
                         <FormControl size='small' fullWidth>
                             <InputLabel>Size</InputLabel>
                             <Select native
+                                    required={true}
                                     value={post.petSize}
                                     onChange={e => setPost({...post, petSize: e.target.value})}
                             >
@@ -165,6 +179,7 @@ export default function NewPost() {
                             <InputLabel>Gender</InputLabel>
                             <Select native
                                     value={post.petGender}
+                                    required={true}
                                     onChange={e => setPost({...post, petGender: e.target.value})}
                             >
                                 <option value='Male'>Male</option>
@@ -178,6 +193,7 @@ export default function NewPost() {
                             <InputLabel>Desexing Status</InputLabel>
                             <Select native
                                     value={post.desexed}
+                                    required={true}
                                     onChange={e => setPost({...post, desexed: e.target.value})}
                             >
                                 <option value='Yes'>Yes</option>
@@ -191,6 +207,7 @@ export default function NewPost() {
                             <InputLabel>Microchip Status</InputLabel>
                             <Select native
                                     value={post.isMicrochipped}
+                                    required={true}
                                     onChange={e => {
                                         const mStatus = e.target.value
                                         const number = mStatus !== 'Yes' ? "" : post.microchipNumber
@@ -237,6 +254,7 @@ export default function NewPost() {
                             autoFocus
                             margin="dense"
                             label="Comment"
+                            required={true}
                             type="text"
                             fullWidth
                             value={post.comment}
