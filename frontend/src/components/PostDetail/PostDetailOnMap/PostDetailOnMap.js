@@ -93,9 +93,7 @@ export default function PostDetailOnMap({post, dimension}) {
                 const res = await fromLatLng(selectedPetPoint.latitude, selectedPetPoint.longitude)
                 setPlaceName(res.features[0].place_name)
             }
-
         }
-
         fetchPlace()
     }, [selectedPetPoint])
 

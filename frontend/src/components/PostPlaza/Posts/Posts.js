@@ -25,7 +25,7 @@ export default function Posts({posts, pageTotal, page, onPageChange}){
         (!posts || posts.length ===0) ?
             <Typography align={"center"} variant='h6'
                         style={{
-                            boxShadow:'-5 -5 3 grey',
+                            background:'rgba(250,250,250,.8)',
                             height:300,
                             marginTop:5,
                             marginBottom:20

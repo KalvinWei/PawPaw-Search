@@ -24,12 +24,12 @@ export default function NewPost() {
             petName: "",
             petImages: [],
             //backend needs to translate breed to petType{species, breed}
-            petBreed: "Husky",
+            petBreed: "Other",
             petColor: "Mixed",
-            petSize: "Medium",
+            petSize: "Small",
             isMicrochipped: "Unknown",
             microchipNumber: "",
-            petGender: "Male",
+            petGender: "Unknown",
             desexed: "Unknown",
             collarTagDescription: '',
             comment: '',
@@ -68,7 +68,7 @@ export default function NewPost() {
 
     return (
         <Paper variant='outlined'
-               style={{margin: '20px auto', width: 500, padding: 20}}
+               style={{margin: '20px auto', width: 600, padding: 20}}
         >
             <Grid container direction='column' spacing={2} >
                 <Grid item container direction='column' spacing={2}>
@@ -101,6 +101,7 @@ export default function NewPost() {
                             margin="dense"
                             label="Pet Name"
                             type="text"
+                            required={true}
                             fullWidth
                             value={post.petName}
                             onChange={e => {
@@ -112,6 +113,7 @@ export default function NewPost() {
                         <FormControl size='small' fullWidth>
                             <InputLabel>Type</InputLabel>
                             <Select native
+                                    required={true}
                                     value={post.petBreed}
                                     onChange={e => setPost({...post, petBreed: e.target.value})}
                             >
@@ -120,10 +122,19 @@ export default function NewPost() {
                                     <option value='Poodle'>Poodle</option>
                                     <option value='Akita'>Akita</option>
                                     <option value='Golden Retriever'>Golden Retriever</option>
+                                    <option value='Australian Shepherd'>Australian Shepherd</option>
+                                    <option value='Boxer'>Boxer</option>
+                                    <option value='Bulldog'>Bulldog</option>
+                                    <option value='Other'>Other</option>
                                 </optgroup>
                                 <optgroup label="Cat">
                                     <option value='Cheetoh'>Cheetoh</option>
                                     <option value='Birman'>Birman</option>
+                                    <option value='Bengal'>Bengal</option>
+                                    <option value='Siamese'>Siamese</option>
+                                    <option value='Persian'>Persian</option>
+                                    <option value='Maine Coon'>Maine Coon</option>
+                                    <option value='Other'>Other</option>
                                 </optgroup>
                             </Select>
                         </FormControl>
@@ -237,6 +248,7 @@ export default function NewPost() {
                             autoFocus
                             margin="dense"
                             label="Comment"
+                            required={true}
                             type="text"
                             fullWidth
                             value={post.comment}
@@ -250,13 +262,21 @@ export default function NewPost() {
                     </Grid>
                 </Grid>
             </Grid>
+            <Grid item>
+                <FormHelperText style={{textAlign:'right'}}>
+                    REMINDER: pet name, comment, and address are required to submit
+                </FormHelperText>
+            </Grid>
             <Grid item container justify='flex-end' spacing={2}>
                 <Grid item>
-                    <Button color='primary' style={{width: 100}} size='small' variant='contained'
-                            onClick={handleSubmit}>Submit</Button>
+                    <Button color='primary' size='small' variant='contained'
+                            onClick={handleSubmit}
+                            style={{color:'white'}}
+                            disabled={!post.petName || !post.comment ||  post.trace.length === 0}
+                    >Submit</Button>
                 </Grid>
                 <Grid item>
-                    <Button color='default' style={{width: 100}} size='small' variant='contained'
+                    <Button color='default'  size='small' variant='contained'
                             onClick={handleCancel}>Cancel</Button>
                 </Grid>
             </Grid>
