@@ -53,7 +53,7 @@ const useStyle = makeStyles(theme => ({
 
 export default function PostDetail() {
     const classes = useStyle()
-    const {fetchMatchedPosts, loginUser, checkWatching, updateWatchStatus, fetchPostById} = useContext(AppContext)
+    const {fetchMatchedPosts, loginUser, checkWatching, updateWatchStatus, fetchPostById, setReunited} = useContext(AppContext)
 
     const {id} = useParams()
 
@@ -119,7 +119,12 @@ export default function PostDetail() {
     }
 
     async function reportReunited(){
-
+        const result = await setReunited(post._id)
+        if(result){
+            setPost({...post, status:"Reunited"})
+        }else{
+            alert("Action failed due to some reason!")
+        }
     }
 
     const statusBgColor = post && (post.status === 'Lost' ? 'coral' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey'))
@@ -214,7 +219,7 @@ export default function PostDetail() {
                         }
                         {(loginUser && loginUser._id === post.poster && post.status !== "Reunited") &&
                         <div>
-                            <IconButton onclick={reportReunited}>
+                            <IconButton onClick={reportReunited}>
                                 <InsertEmoticonIcon size={'medium'} />
                             </IconButton>
                             <span>REUNITED</span>
