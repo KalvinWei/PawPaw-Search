@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TraceReporter({post, onReport}) {
     const classes = useStyles();
-    const {reportTrace} = useContext(AppContext)
+    const {reportTrace, loginUser} = useContext(AppContext)
     const history = useHistory()
     const [spot, setSpot] = useState({
         latitude: undefined,
@@ -60,6 +60,11 @@ export default function TraceReporter({post, onReport}) {
     }
 
     async function report(){
+        if(!loginUser){
+            alert('Please log in to report witness.')
+            history.push('/login')
+            return
+        }
         if(spot.latitude){
             const updatedPost = await reportTrace(spot, post._id)
             if(updatedPost){
