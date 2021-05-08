@@ -1,31 +1,66 @@
 import User from "../db/schemas/UserSchema";
 import Post from "../db/schemas/PostSchema";
-// import {sphericalCosines} from "earth-distance-js"
+import {sphericalCosines} from "earth-distance-js"
 import PetType from "../db/schemas/PetTypeSchema";
 
 async function getPostsFor(criteria, countPerPage,pageOffset){
-    //TODO: process criteria(searchSetting) to proper query object for mongoDB
-    // if(criteria.petBreed === "All") delete criteria.petBreed
-    // else {
-    //
-    // }
-    criteria = {}
-    delete criteria.status
-    // status: "All",
-    //     petBreed: "All",
-    //     petSize: "All",
-    //     petGender: "All",
-    //     petColor: "All",
-    //     //use Geolocation API to fetch current user's location,
-    //     // and search in an area of the given radius
-    //     originLatLng: [],
-    //     rangeRadius: 0,
-    //     //use keyword to search in petName, collarTagDescription, comment
-    //     keywords: ""
+    if(criteria.status)
+    {
+        if(criteria.status=="All") delete criteria.status
+        if(criteria.petColor=="All") delete criteria.petColor
+        if(criteria.petSize=="All") delete criteria.petSize
+        if(criteria.petGender=="All") delete criteria.petGender
+
+        if(criteria.petBreed!="All") {
+            const petTypeId=await getPetTypeId(criteria.petBreed)
+            criteria = {...criteria, 
+                "petType": petTypeId
+            }
+        }
+        delete criteria.petBreed
+        
+        if(criteria.keywords){
+            const keywords= criteria.keywords.split(',')
+            
+            //Below line not working, at the moment only exact phrase search can be done
+            //const keywordList=keywords.map(x => '/.*' + x + '.*/')           
+
+            criteria = {...criteria, $or:[
+                {"petName":{$in:keywords}},
+                {"collarTagDescription":{$in:keywords}},
+                {"comment":{$in:keywords}}
+            ]};
+        }
+        delete criteria.keywords
+
+        if(criteria.rangeRadius!="0") 
+        {
+            let tracePoint= {
+                latitude: "$trace.latitude",
+                longitude:"$trace.longitude"
+            } 
+            let calculatedDistance= sphericalCosines(criteria.originLatLng,tracePoint)     
+            criteria = {...criteria,  
+                $expr: { $lte:[ calculatedDistance, criteria.rangeRadius] }
+            }
+        }
+        delete criteria.originLatLng
+        delete criteria.rangeRadius
+    }
+    else    //No search criteria provided
+    {
+        criteria = {}
+    }
 
     const onePagePosts =  await getOnePage(criteria,countPerPage,pageOffset)
     const pageTotal = await getPageTotal(criteria,countPerPage)
     return {posts:onePagePosts, pageTotal}
+}
+
+async function getPetTypeId(breedname){
+    const petType=
+        await PetType.findOne({breed:breedname})
+    return petType._id   
 }
 
 async function getPostsOf(username, countperpage, pageoffset, field) {
