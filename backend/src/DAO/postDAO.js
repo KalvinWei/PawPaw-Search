@@ -18,6 +18,21 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
             }
         }
         delete criteria.petBreed
+        
+        if(criteria.keywords){
+            const keywords= criteria.keywords.split(',')
+            
+            //Below line not working, at the moment only exact phrase search can be done
+            //const keywordList=keywords.map(x => '/.*' + x + '.*/')           
+
+            criteria = {...criteria, $or:[
+                {"petName":{$in:keywords}},
+                {"collarTagDescription":{$in:keywords}},
+                {"comment":{$in:keywords}}
+            ]};
+        }
+        delete criteria.keywords
+
 
     }
     else    //No search criteria provided
