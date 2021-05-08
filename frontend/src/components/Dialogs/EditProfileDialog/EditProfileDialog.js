@@ -49,7 +49,6 @@ export default function EditProfileDialog({open, onClose}) {
         if(updatedUser) {
             setLoginUser(updatedUser)
             onClose()
-            history.goBack()
         }
     }
 
