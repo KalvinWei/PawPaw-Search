@@ -14,7 +14,7 @@ import api from './api';
 app.use('/', api);
 
 // Make the "public" folder available statically
-app.use(express.static(path.join(__dirname, '../assets')));
+// app.use(express.static(path.join(__dirname, '../assets')));
 
 // Serve up the frontend's "build" directory, if we're running in production mode.
 if (process.env.NODE_ENV === 'production') {

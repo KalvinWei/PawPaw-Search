@@ -60,7 +60,6 @@ export default function PostDetail() {
     const [offset, setOffset] = useState(0)
     useEffect(() => {
         async function fetchMatches() {
-            alert(location.pathname)
             const res = await fetchMatchedPosts(post._id, 5, offset)
             if(res){
                 setMatches(res.posts)
@@ -203,7 +202,6 @@ export default function PostDetail() {
                         <Typography variant='subtitle2'
                                     color={"textSecondary"}
                                     style={{marginBottom:10}}
-                                    variantMapping='span'
                         >
                             In witness time order
                         </Typography>

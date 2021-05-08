@@ -38,13 +38,14 @@ export default function NewPost() {
         }
     })
 
-    // useEffect(()=>{
-    //     console.log('post changed')
-    //     console.log(post)
-    // },[post])
+    useEffect(()=>{
+        console.log('post changed')
+        console.log(post)
+    },[post])
 
-    function setImages(fileNames) {
-        setPost({...post, petImages: fileNames})
+    function setImages(filename) {
+        if(!post.petImages.includes(filename))
+            setPost({...post, petImages: [...post.petImages,filename]})
     }
 
     const history = useHistory()
@@ -69,7 +70,7 @@ export default function NewPost() {
         <Paper variant='outlined'
                style={{margin: '20px auto', width: 500, padding: 20}}
         >
-            <Grid container direction='column' spacing={2} gutterBottom>
+            <Grid container direction='column' spacing={2} >
                 <Grid item container direction='column' spacing={2}>
                     <Grid item container justify='center'>
                         <Grid item>
@@ -94,7 +95,7 @@ export default function NewPost() {
                     <Grid item>
                             <LocalSearch post={post} setPost={setPost}/>
                     </Grid>
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <TextField
                             autoFocus
                             margin="dense"
@@ -107,7 +108,7 @@ export default function NewPost() {
                             }}
                         />
                     </Grid>
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <FormControl size='small' fullWidth>
                             <InputLabel>Type</InputLabel>
                             <Select native
@@ -127,7 +128,7 @@ export default function NewPost() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <FormControl size='small' fullWidth>
                             <InputLabel>Fur Color</InputLabel>
                             <Select native
@@ -146,7 +147,7 @@ export default function NewPost() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <FormControl size='small' fullWidth>
                             <InputLabel>Size</InputLabel>
                             <Select native
@@ -159,7 +160,7 @@ export default function NewPost() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <FormControl size='small' fullWidth>
                             <InputLabel>Gender</InputLabel>
                             <Select native
@@ -172,7 +173,7 @@ export default function NewPost() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <FormControl size='small' fullWidth>
                             <InputLabel>Desexing Status</InputLabel>
                             <Select native
@@ -185,7 +186,7 @@ export default function NewPost() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <FormControl size='small' fullWidth>
                             <InputLabel>Microchip Status</InputLabel>
                             <Select native
@@ -204,7 +205,7 @@ export default function NewPost() {
                         </FormControl>
                     </Grid>
                     {post.isMicrochipped === 'Yes' &&
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <TextField
                             autoFocus
                             margin="dense"
@@ -218,7 +219,7 @@ export default function NewPost() {
                         />
                     </Grid>
                     }
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <TextField
                             autoFocus
                             margin="dense"
@@ -231,7 +232,7 @@ export default function NewPost() {
                             }}
                         />
                     </Grid>
-                    <Grid item gutterBottom>
+                    <Grid item >
                         <TextField
                             autoFocus
                             margin="dense"
