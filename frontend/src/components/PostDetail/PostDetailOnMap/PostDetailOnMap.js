@@ -63,14 +63,14 @@ const useStyles = makeStyles((theme) => ({
         }
     },
     showVetBox:{
-        background: 'rgba(255,255,255,0.4)',
+        background: 'rgba(200,200,200,0.4)',
         backdropFilter:'blur(5px)',
         margin:8,
         padding:5,
         paddingRight:15,
         borderRadius:10,
         fontFamily:'Helvetica',
-        color:'#444'
+        color:'#333'
     }
 }))
 

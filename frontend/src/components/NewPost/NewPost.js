@@ -51,7 +51,7 @@ export default function NewPost() {
     const history = useHistory()
 
     function handleCancel() {
-        history.goBack()
+        history.push('/')
     }
 
     async function handleSubmit() {
