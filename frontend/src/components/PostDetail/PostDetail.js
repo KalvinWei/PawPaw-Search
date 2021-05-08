@@ -3,7 +3,7 @@ import {useHistory, useParams} from 'react-router-dom'
 import PostDetailOnMap from "./PostDetailOnMap/PostDetailOnMap";
 import Posts from "../PostPlaza/Posts/Posts";
 import {AppContext} from "../../ContextProvider";
-import {Checkbox, FormControlLabel, Grid, Typography} from "@material-ui/core";
+import {Button, Checkbox, FormControlLabel, Grid, Typography} from "@material-ui/core";
 import {makeStyles} from "@material-ui/core";
 import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
@@ -47,7 +47,11 @@ const useStyle = makeStyles(theme => ({
     },
     watchButtonBox: {
         borderRight: '2px solid #ddd',
-        marginRight: 15
+        marginRight: 15,
+        color:'#444',
+        paddingRight:15,
+        position:'relative',
+        top:3
     }
 }))
 
@@ -208,22 +212,23 @@ export default function PostDetail() {
                 </Grid>
                 <Grid item container className={classes.actionBox} justify='center' alignItems='center'>
                     <Grid item className={classes.watchButtonBox}>
+                        {(loginUser && loginUser._id === post.poster && post.status !== "Reunited") &&
+                        <Button onClick={reportReunited}
+                                variant='contained'
+                                size='medium'
+                                color='primary'
+                                style={{color:'ivory'}}
+                        >
+                            Mark Reunited
+                        </Button>
+                        }
                         {(loginUser && loginUser._id !== post.poster) &&
                         <FormControlLabel
                             control={<Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} name="checkedH"/>}
                             label="WATCH"
                             onChange={handleWatch}
                             checked={watched}
-                            style={{color: '#444'}}
                         />
-                        }
-                        {(loginUser && loginUser._id === post.poster && post.status !== "Reunited") &&
-                        <div>
-                            <IconButton onClick={reportReunited}>
-                                <InsertEmoticonIcon size={'medium'} />
-                            </IconButton>
-                            <span>REUNITED</span>
-                        </div>
                         }
                     </Grid>
                     <Grid item>
