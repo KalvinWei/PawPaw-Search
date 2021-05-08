@@ -72,14 +72,13 @@ export default function UserPage() {
     const [openEdit, setOpenEdit] = useState(false)
 
     function openEditDialog() {
-        //if no user logged in, redirect to home page
-        history.push(`${history.location.pathname}/edit`)
+        history.push(`MyPage/edit`)
         setOpenEdit(true)
     }
 
     function closeEdit() {
         setOpenEdit(false)
-        history.goBack()
+        history.push('/MyPage')
     }
 
 
