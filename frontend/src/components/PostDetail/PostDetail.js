@@ -9,7 +9,8 @@ import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
 import {Favorite, FavoriteBorder} from "@material-ui/icons";
 import Loading from "../Loading/Loading";
-
+import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
+import IconButton from "@material-ui/core/IconButton";
 
 const useStyle = makeStyles(theme => ({
     detailTable: {
@@ -117,6 +118,10 @@ export default function PostDetail() {
         }
     }
 
+    async function reportReunited(){
+
+    }
+
     const statusBgColor = post && (post.status === 'Lost' ? 'coral' : (post.status === 'Found' ? 'darkgreen' : 'darkgrey'))
 
     return (
@@ -206,6 +211,14 @@ export default function PostDetail() {
                             checked={watched}
                             style={{color: '#444'}}
                         />
+                        }
+                        {(loginUser && loginUser._id === post.poster && post.status !== "Reunited") &&
+                        <div>
+                            <IconButton onclick={reportReunited}>
+                                <InsertEmoticonIcon size={'medium'} />
+                            </IconButton>
+                            <span>REUNITED</span>
+                        </div>
                         }
                     </Grid>
                     <Grid item>

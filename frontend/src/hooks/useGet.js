@@ -142,12 +142,18 @@ export default function useGet() {
             .catch(e=>console.log(e))
     }
 
+    async function setReunited(postId){
+        return await axios.patch(`/posts/${postId}`)
+            .then(res=>res.data)
+            .catch(e=>console.log(e))
+    }
+
     return {
         //states
         loginUser, dashboard, setLoginUser,
         //functions
         clearSession: clearLocalStorage, fetchPostsBy, fetchNewestPosts, fetchPostsOf,
         signUpUser, authenticateUser, fetchMatchedPosts, updateUserProfile, createPost,
-        reportTrace, checkWatching, updateWatchStatus,  fetchPostById
+        reportTrace, checkWatching, updateWatchStatus,  fetchPostById, setReunited
     };
 }
