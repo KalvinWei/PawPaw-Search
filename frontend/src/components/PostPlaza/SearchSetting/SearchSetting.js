@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Button from "@material-ui/core/Button";
-import {FormControl, FormHelperText, InputLabel, Paper, Select, Slider, TextField} from "@material-ui/core";
+import {FormControl, FormHelperText, InputLabel, Paper, Select, TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {ToggleButton, ToggleButtonGroup} from "@material-ui/lab";
 import {
@@ -178,7 +178,12 @@ export default function SearchSetting({onSubmitSearch}) {
                             <option value={5}>5KM</option>
                             <option value={10}>10KM</option>
                         </Select>
-                        <FormHelperText>This feature asks for your current location</FormHelperText>
+                        { settings.originLatLng.length===0 ?
+                            <FormHelperText style={{color:'red'}}>Fail to get your location, search on GL won't work. </FormHelperText>
+                            :
+                            <FormHelperText>Current coords: {settings.originLatLng[0].toFixed(3)},{settings.originLatLng[1].toFixed(3)}</FormHelperText>
+                        }
+
                     </FormControl>
                 </Grid>
                 <Grid item>

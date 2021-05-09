@@ -9,8 +9,6 @@ import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
 import {Favorite, FavoriteBorder} from "@material-ui/icons";
 import Loading from "../Loading/Loading";
-import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
-import IconButton from "@material-ui/core/IconButton";
 
 const useStyle = makeStyles(theme => ({
     detailTable: {

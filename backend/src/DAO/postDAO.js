@@ -63,13 +63,13 @@ async function getPetTypeId(breedname){
     return petType._id
 }
 
+//fetching posts for "myPosts" and "myWatchings", field is either of the options
 async function getPostsOf(username, countperpage, pageoffset, field) {
     countperpage = parseInt(countperpage)
     pageoffset = parseInt(pageoffset)
     const user =
         await User.findOne({username:username})
-            .populate(field)
-            .populate('petType')
+            .populate([{path:field,populate:'petType'}])
     const all = user[field]
     const pageTotal = Math.ceil(all.length / countperpage)
     const posts = all.slice(pageoffset * countperpage, pageoffset * countperpage + countperpage)

@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 
 // Import React FilePond
 import {FilePond, registerPlugin} from 'react-filepond'
