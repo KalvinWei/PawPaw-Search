@@ -1,31 +1,53 @@
 # Group-26-Cerise-Crab
 ## Group members
 Kalvin Wei  
-Roy Li (zli786)  
+Roy Li  
 Zhi Cui  
 Riffat Nourin
 
-## Project Kanban
-[on Trello](https://trello.com/b/Z21kdnrB/pawpaw-search)  
-[on Github Project](https://github.com/csdoris/Group-26-Cerise-Crab/projects/1)
-## Project features
-Paws App, a web service dedicated to lost pet searching.
+## Quick Start
+After running the follwing lines in terminal, the project will be hosted on **http://localhost:3000** in dev mode.
+```shell
+# install the dependencies for frontend
+cd frontend
+npm install
 
-**Must-have features:**
-- Account Management.
-- App Page. A dashboard shows the general operational data of this website. Newest Posts exhibits the newly added lost and found posts.
-- Post Plaza. All posts are displayed here. Users can search by keywords or some criteria.
-- My Post. Here, users manage the post related to themselves.
-- Matching Engine. This invisible component performs matching upon lost and found posts and produces hooks between them. Thus, users can see ordered matching posts under their posts.
-- Witness report. A missing pet witness can contribute a witness report with a coordinate on Google Maps. The Matching Engine will use the reports to depict a trace and refine the matching as per the newly marked spots.
+# install the dependencies for backend
+cd backend
+npm install
 
-**Should-have features:**
+# under both '/backend' and '/frontend' to start hosting in dev mode
+npm start
+```
 
-- Heat Map. Users can observe the missing reports near themselves by granting us access to their current location. The heat map shows plots of all posts as marks on Google Maps.
+## Features
+PawPaw Search is an online platform dedicated to helping people find their lost pet.
 
-**Could-have features:**
+- Account Management. 
+  - Users can sign up and log in.
+- Home Page. 
+  - A dashboard shows the general operational data of this website.  
+  - Newest Posts exhibits the newly added posts. 
+- Post Plaza. 
+  - All posts are displayed here.  
+  - Users can use multiple mean to search posts.  
+  - Result and displayed on map and in the form of post cards.
+- Personal Page.
+  - Users can inspect the posts created and watched by themselves.
+  - Users can edit their profile.
+- Post Detail.
+  - An informative view shows all information of a post.  
+  - All users can inspect the post. They can contact the poster if they wish.  
+  - Witnesses can append a witness record consisting address and time to the trace of the pet.
+- Map Views.  
+  - Posts are exhibited on map so that users can easily check their geolocation and make correlations.  
+  - A pet's trace is displayed on map chronologically. 
+  - Users can check nearby vets to send pets for medical care.
+    
 
-- Nearby vets. When the found pet is injured, handy information about the vets nearby could help them get timely medical aid.
+## Documentations
+see [documentation](docs/documentation.md) and  [development journal](docs/journal.md)
 
-## Docs
-see files under /docs
+## Project Management
+[Trello Kanban board](https://trello.com/b/Z21kdnrB/pawpaw-search)
+
