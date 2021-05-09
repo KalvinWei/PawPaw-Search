@@ -1,7 +1,7 @@
 # Documentation  
 Documentation is a collection of specs needed in the development.
 
-## Rules
+## Commit code
 We follow these rules in  this project:
 1. commit message convention: `Add / Rework / Fix / Update / Polish` **+**  sth. **+** `to / for/ in` **+** `fileName / moduleName`. NO period at the end.
 2. one commit to one small task.

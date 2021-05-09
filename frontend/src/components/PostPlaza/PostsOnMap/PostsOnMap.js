@@ -93,6 +93,9 @@ export default function PostsOnMap({posts, dimension}) {
             onViewportChange={viewport => {
                 setViewport(viewport);
             }}
+            onResize={()=>{
+                console.log("map resized")
+            }}
         >
             {hasPosts ? posts.map(post => {
 
