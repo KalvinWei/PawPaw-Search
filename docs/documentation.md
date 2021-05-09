@@ -49,31 +49,47 @@ use the following details to connect to access **pawshomeDB** on Atlas( a mongoD
   - password: MITCS732  
 - Application connection string: mongodb+srv://group26:MITCS732@cs732.pgo4d.mongodb.net/App?retryWrites=true&w=majority
 ### Schemas
-- users (...)
-- posts (...)
+- users (**_id**, username, email, password, firstName, lastName, phone, address, myPosts, myWatchings)
+- posts (**_id**, *poster*, petName, petImage, petColor, petSize, isMicrochipped, microchipNumber, petGender, desexed, collarTagDescription, comment, status, trace, matches)
+- petType (**_id**, *species*, *breed*)
 
 ***
 ## API - backend  
 APIs, in server-side, defines (1) to which router a request goes  (2) how a router responds to client-side requests.  
 [More frequently modified version on Google Docs](https://docs.google.com/document/d/1NIykaM0rt8LgUMsJjzYl1RrtKgz9JzDZKKAjppfOePk/edit?usp=sharing)
 
-\#|availability|fetch url|receive|send|description
----|---|---|---|---|---
-B1|Yes|POST /|**body:** username, password|{isValidUser, user}| validate username and password.
-B2|Yes|POST /users/new|**body:** user|{isSuccessful, user}|if username occupied, isSuccessful=false, user=null
-B3|Yes|GET /users/:username|**params:** username|user|get user information without posts of a user
-B4|No|PUT /users/:username|user|isFailed, user|update user profile
-B5|No|GET /posts/newest| |newestPosts|return a list of past 24 hours posts
-B6|No|GET /dashboard| |dashboard|the returned "dashboard" is a collection of statistics of this website
-B7|Yes|GET /posts/ |**headers:** searchCriteria,countPerPage, pageOffset|posts, pageTotal|return perNum posts from given offset, and the page count
-B8|Yes|GET /:username/posts/mine |**params:** username|posts|posts created by the specified user
-B9|Yes|GET /:username/posts/watching |**params:** username|posts|posts watched by the specified user
+\#|fetch url|receive|send|description
+---|---|---|---|---
+1|POST /session/|**body:** username, password|{isValidUser, user}|Validate username and password.
+2|POST /users/new|**body:** user|{isSuccessful, user}|If username occupied, isSuccessful=false, user=null
+3|GET /users/:username|**params:** username|user|Get user information without posts of a user
+4|PUT /users/:username|user|null, user|Populate a specified user(username), return a user object, otherwise null
+5|PUT /users/:username/edit |**body:** user|updateUser|Update user profile
+6|GET /users/:username/posts/mine |**params:** username|posts|Posts created by the specified user
+7|GET /users/:username/posts/watching |**params:** username|posts|Posts watched by the specified user
+8|GET /users/:userId/posts/watchings/:postId|**params:** userId,postId|userId,postId|Check the post is watching by the current login user
+9|PUT /users/:userId/posts/watchings/:postId|**params:** userId,postId|userId, postId, body.actionType|Update the post, if the user click "WATCH" of this post
+10|GET /posts/newest| |newestPosts|Return a list of past 24 hours posts
+11|GET /posts/ |**headers:** searchCriteria,countPerPage, pageOffset|posts, pageTotal|Return perNum posts from given offset, and the page count
+12|GET /posts/:id|**params:** id|postId|return the post detail of the selected post id
+13|GET /posts/:id/matches|**headers:** postId, countperpage, pageoffset|postId, countperpage, pageoffset|Control the number of matched posts per page
+14|POST /posts|**body:** post|post|Create a new post, handle passing the image.
+15|PATCH /posts/:postId/trace|**params:** postId, **body:** spot|postId, spot|To report a new trace on the map
+16|PATCH /posts/:postId|**params:** postId|postId|Update the pet status, when the posts' user click "REUNITED"
+17|GET /dashboard| |dashboard|the returned "dashboard" is a collection of statistics of this website
+18|POST /image/|serverId|serverId|Upload image
 
 ***
 ## Pages & Modules - frontend  
 Static Pages and dynamic modules, in the client-side, defines (1) the structure of web pages (2) where to route requests in client-side (3) request data from servers.   
 [More frequently modified version on Google Docs](https://docs.google.com/document/d/1NIykaM0rt8LgUMsJjzYl1RrtKgz9JzDZKKAjppfOePk/edit?usp=sharing)
 
-\#|http request url|module|receive|send|description
+\#|http request url|module|send|receive|description
 ---|---|---|---|---|---
-F1|/, /index|index.js| | |
+1|/|HomePage.js| |dashboard, newestPosts|The home page of this app, contains banner(Banner.js), dashboard(Dashboard.js), a list of post cards(PostCards.js)
+2|/PostPlaza|PostPlaza.js|searchCriteria, countPerPage, pageOffset, postType|posts, pageTotal|Contains a search setting area(SearchSetting.js) sort by creating order, every posts' spot on the map(PostsOnMap.js), a list of post cards(PostCard.js) 
+3|/login|LoginDialog.js|username,password |loginUser |The login dialog for the user
+4|/sign-up|SignUpDialog.js|user|user|The sign up dialog for a new user
+5|/MyPage|UserPage.js|username,userId |userId, username, updateUser|After the user is logged in, they can update their profile(EditProfileDialog.js), see their posts sort from the newest post(NewestPosts.js), see their watching list(sort by creating order)
+6|/create-new-post|NewPosts.js|post, postId, spot|postId|The user (logged in) can fill in the details on the form to create a new posts (lost, found, or reunited pet)
+7|/posts/postId|PostDetail.js|postId, countperpage, pageoffset|postId, pageTotal|Contains the pet details of a specific post, the trace spots on the map(PostDetailOnMap.js), every user are able to report a new trace(TraceReporter.js). On this page, able to show the nearby vets(Name & Address), add the current post to their watching list. Set their own post to reunited.
