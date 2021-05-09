@@ -47,7 +47,7 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
         delete criteria.originLatLng
         delete criteria.rangeRadius
     }
-    else    //No search criteria provided
+    else if(!criteria.createdAt)  //No search criteria provided
     {
         criteria = {}
     }
@@ -60,7 +60,7 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
 async function getPetTypeId(breedname){
     const petType=
         await PetType.findOne({breed:breedname})
-    return petType._id   
+    return petType._id
 }
 
 async function getPostsOf(username, countperpage, pageoffset, field) {
@@ -81,7 +81,7 @@ async function getPostsSince(days, countPerPage, pageOffset){
     pageOffset = parseInt(pageOffset)
     let now = new Date()
     const lastTime = new Date(now.setDate(now.getDate() - days))
-    const criteria = {"createdAt":{$gt: lastTime.toISOString()}}
+    const criteria = {"createdAt":{$gte: lastTime}}
     return await getPostsFor(criteria,countPerPage,pageOffset)
 }
 

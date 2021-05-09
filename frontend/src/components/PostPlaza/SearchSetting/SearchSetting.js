@@ -92,11 +92,19 @@ export default function SearchSetting({onSubmitSearch}) {
                                 <option value='Poodle'>Poodle</option>
                                 <option value='Akita'>Akita</option>
                                 <option value='Golden Retriever'>Golden Retriever</option>
+                                <option value='Australian Shepherd'>Australian Shepherd</option>
+                                <option value='Boxer'>Boxer</option>
+                                <option value='Bulldog'>Bulldog</option>
+                                <option value='Other'>Other</option>
                             </optgroup>
                             <optgroup label="Cat">
                                 <option value='Cheetoh'>Cheetoh</option>
                                 <option value='Birman'>Birman</option>
                                 <option value='Bengal'>Bengal</option>
+                                <option value='Siamese'>Siamese</option>
+                                <option value='Persian'>Persian</option>
+                                <option value='Maine Coon'>Maine Coon</option>
+                                <option value='Other'>Other</option>
                             </optgroup>
                         </Select>
                     </FormControl>
