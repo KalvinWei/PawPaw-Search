@@ -63,7 +63,7 @@ APIs, in server-side, defines (1) to which router a request goes  (2) how a rout
 1|POST /session/|**body:** username, password|{isValidUser, user}|Validate username and password.
 2|POST /users/new|**body:** user|{isSuccessful, user}|If username occupied, isSuccessful=false, user=null
 3|GET /users/:username|**params:** username|user|Get user information without posts of a user
-4|PUT /users/:username|user|isFailed, user|Update user profile
+4|PUT /users/:username|user|null, user|Populate a specified user(username), return a user object, otherwise null
 5|PUT /users/:username/edit |**body:** user|updateUser|Update user profile
 6|GET /users/:username/posts/mine |**params:** username|posts|Posts created by the specified user
 7|GET /users/:username/posts/watching |**params:** username|posts|Posts watched by the specified user
@@ -84,6 +84,12 @@ APIs, in server-side, defines (1) to which router a request goes  (2) how a rout
 Static Pages and dynamic modules, in the client-side, defines (1) the structure of web pages (2) where to route requests in client-side (3) request data from servers.   
 [More frequently modified version on Google Docs](https://docs.google.com/document/d/1NIykaM0rt8LgUMsJjzYl1RrtKgz9JzDZKKAjppfOePk/edit?usp=sharing)
 
-\#|http request url|module|receive|send|description
+\#|http request url|module|send|receive|description
 ---|---|---|---|---|---
-F1|/, /index|index.js| | |
+1|/|HomePage.js| |dashboard, newestPosts|The home page of this app, contains banner(Banner.js), dashboard(Dashboard.js), a list of post cards(PostCards.js)
+2|/PostPlaza|PostPlaza.js|searchCriteria, countPerPage, pageOffset, postType|posts, pageTotal|Contains a search setting area(SearchSetting.js) sort by creating order, every posts' spot on the map(PostsOnMap.js), a list of post cards(PostCard.js) 
+3|/login|LoginDialog.js|username,password |loginUser |The login dialog for the user
+4|/sign-up|SignUpDialog.js|user|user|The sign up dialog for a new user
+5|/MyPage|UserPage.js|username,userId |userId, username, updateUser|After the user is logged in, they can update their profile(EditProfileDialog.js), see their posts sort from the newest post(NewestPosts.js), see their watching list(sort by creating order)
+6|/create-new-post|NewPosts.js|post, postId, spot|postId|The user (logged in) can fill in the details on the form to create a new posts (lost, found, or reunited pet)
+7|/posts/postId|PostDetail.js|postId, countperpage, pageoffset|postId, pageTotal|Contains the pet details of a specific post, the trace spots on the map(PostDetailOnMap.js), every user are able to report a new trace(TraceReporter.js). On this page, able to show the nearby vets(Name & Address), add the current post to their watching list. Set their own post to reunited.
