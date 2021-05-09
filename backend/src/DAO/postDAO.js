@@ -47,7 +47,7 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
         delete criteria.originLatLng
         delete criteria.rangeRadius
     }
-    else    //No search criteria provided
+    else if(!criteria.createdAt)  //No search criteria provided
     {
         criteria = {}
     }
@@ -60,16 +60,16 @@ async function getPostsFor(criteria, countPerPage,pageOffset){
 async function getPetTypeId(breedname){
     const petType=
         await PetType.findOne({breed:breedname})
-    return petType._id   
+    return petType._id
 }
 
+//fetching posts for "myPosts" and "myWatchings", field is either of the options
 async function getPostsOf(username, countperpage, pageoffset, field) {
     countperpage = parseInt(countperpage)
     pageoffset = parseInt(pageoffset)
     const user =
         await User.findOne({username:username})
-            .populate(field)
-            .populate('petType')
+            .populate([{path:field,populate:'petType'}])
     const all = user[field]
     const pageTotal = Math.ceil(all.length / countperpage)
     const posts = all.slice(pageoffset * countperpage, pageoffset * countperpage + countperpage)
@@ -81,7 +81,7 @@ async function getPostsSince(days, countPerPage, pageOffset){
     pageOffset = parseInt(pageOffset)
     let now = new Date()
     const lastTime = new Date(now.setDate(now.getDate() - days))
-    const criteria = {"createdAt":{$gt: lastTime.toISOString()}}
+    const criteria = {"createdAt":{$gte: lastTime}}
     return await getPostsFor(criteria,countPerPage,pageOffset)
 }
 
@@ -90,7 +90,7 @@ async function getMatchedPostsFor(postId, countPerPage, pageOffset){
     pageOffset = parseInt(pageOffset)
     const post =
         await Post.findOne({_id:postId})
-            .populate('matches')
+            .populate({path:'matches',populate:'petType'})
     if(!post) return null
 
     const allWatches = post.matches
@@ -103,7 +103,9 @@ async function getMatchedPostsFor(postId, countPerPage, pageOffset){
 async function getPostById(id){
     const post =
         await Post.findOne({_id:id})
+            .populate('poster')
             .populate('petType')
+    post.poster = {email:post.poster.email, phone:post.poster.phone}
     return post
 }
 

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {AppContext} from "../../ContextProvider";
-import {NavLink, Route, Switch, useHistory} from 'react-router-dom'
+import {NavLink, useHistory} from 'react-router-dom'
 import LoginDialog from "../Dialogs/LoginDialog/LoginDialog";
 import SignUpDialog from "../Dialogs/SignUpDialog/SignUpDialog";
 import {makeStyles} from '@material-ui/core/styles';
@@ -8,8 +8,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
-import PetsIcon from '@material-ui/icons/Pets'
 import Grid from "@material-ui/core/Grid";
 import {Person} from "@material-ui/icons";
 

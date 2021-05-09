@@ -9,8 +9,6 @@ import Carousel from "./Carousel/Carousel";
 import TraceReporter from "./TraceReporter/TraceReporter";
 import {Favorite, FavoriteBorder} from "@material-ui/icons";
 import Loading from "../Loading/Loading";
-import InsertEmoticonIcon from '@material-ui/icons/InsertEmoticon';
-import IconButton from "@material-ui/core/IconButton";
 
 const useStyle = makeStyles(theme => ({
     detailTable: {
@@ -23,14 +21,16 @@ const useStyle = makeStyles(theme => ({
             textAlign: 'right',
             paddingRight: 10,
             color: '#999',
+            width:150
         },
         '& tr > td:nth-child(2)': {
-            fontSize: 20,
-            color: '#555',
+            fontSize: 18,
+            color: '#666',
         },
         margin: 30,
         fontFamily: 'helvetica',
-        maxWidth: 400
+        maxWidth: 500,
+        verticalAlign:'top'
     },
     reporter: {
         position: 'absolute',
@@ -66,11 +66,8 @@ export default function PostDetail() {
         async function fetchPost(id){
             const result = await fetchPostById(id)
             if(result) {
-                console.log("here")
-                console.log(result)
                 setPost(result)
             }
-            console.log("else")
         }
         fetchPost(id)
     },[])
@@ -88,7 +85,7 @@ export default function PostDetail() {
             }
         }
         fetchMatches()
-    }, [offset])
+    }, [offset, post])
 
     function handlePageChange(e, pageIndex) {
         setOffset(pageIndex - 1)
@@ -162,6 +159,13 @@ export default function PostDetail() {
                             <tr>
                                 <td>Post ID</td>
                                 <td>{post._id}</td>
+                            </tr>
+                            <tr>
+                                <td>Poster Contact</td>
+                                <td>
+                                    {post.poster.phone}<br/>
+                                    {post.poster.email}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Post Time</td>
@@ -244,11 +248,11 @@ export default function PostDetail() {
                     <Typography variant='h5' color={"textSecondary"}>
                         Matched Posts
                     </Typography>
-                    <Typography variant='subtitle2' color={"textSecondary"}>
+                    <Typography variant='subtitle2' color={"textSecondary"} style={{marginBottom:10}}>
                         We operate a cross-site analysis to couple relevant posts every hour<br/>
                         Posts are listed by relevance in descending order
                     </Typography>
-                    <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
+                    <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange} />
                 </Grid>
             </Grid>
         </Grid>

@@ -17,7 +17,7 @@ async function main() {
     });
     console.log('Connected to database!');
 
-    const user = await User.findOne({_id:'60892f753fdbd06344901984'}).populate('myPosts').populate('petType').execPopulate()
+    const user = await User.findOne({username:'pkgal'}).populate([{path:'myPosts',populate:'petType'}])
     console.log(user)
 
     // await clearDatabase();
