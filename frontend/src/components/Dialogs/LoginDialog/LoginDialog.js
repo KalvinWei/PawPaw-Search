@@ -37,6 +37,11 @@ export default function LoginDialog({open, onClose}) {
         }
     }
 
+    const handleClose = ()=> {
+            setFlag(true)
+            onClose()
+    }
+
     return (
         <div>
             <Dialog open={open} onClose={onClose} aria-labelledby="form-dialog-title">
@@ -63,10 +68,10 @@ export default function LoginDialog({open, onClose}) {
                         onChange={e=>setPassword(e.target.value)}
                     />
                     {flag ||
-                    <FormHelperText style={{color:'red', fontSize:'large'}}>validation failed: an existing username or a wrong password.</FormHelperText>}
+                    <FormHelperText style={{color:'red', fontSize:'large'}}>Invalid username or password.</FormHelperText>}
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={onClose} color="primary">
+                    <Button onClick={handleClose} color="primary">
                         Cancel
                     </Button>
                     <Button onClick={handleLogin} color="primary">
