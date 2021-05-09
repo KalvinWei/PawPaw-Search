@@ -87,7 +87,7 @@ function PostCard({post}) {
     const statusColor = post.status === 'Reunited' ? 'grey' : (post.status === 'Lost' ? 'coral' : 'green')
     const GRADIENT_LOST = {background:`linear-gradient(25deg, rgba(255,127,80,0.2) 0%, rgba(254,226,215,0) 21%, rgba(255,255,255,1) 100%)`}
     const GRADIENT_FOUND = {background:'linear-gradient(25deg, rgba(59,167,48,0.2) 0%, rgba(239,255,234,0) 21%, rgba(255,255,255,1) 100%)'}
-    const GRADIENT_REUNITED = {background: 'linear-gradient(25deg, rgba(191,191,191,0.09707633053221287) 0%, rgba(236,236,236,0) 21%, rgba(255,255,255,1) 100%)'}
+    const GRADIENT_REUNITED = {background: 'linear-gradient(25deg, rgba(191,191,191,0.5) 0%, rgba(236,236,236,0) 21%, rgba(255,255,255,1) 100%)'}
     const background = post.status === 'Reunited' ? GRADIENT_REUNITED : (post.status === 'Lost' ? GRADIENT_LOST : GRADIENT_FOUND)
 
     return (

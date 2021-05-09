@@ -81,7 +81,7 @@ export default function PostDetailOnMap({post, dimension}) {
         longitude: parseFloat(getLast(post).longitude),
         width: dimension.width,
         height: dimension.height,
-        zoom: 13
+        zoom: 11
     });
     const [selectedPetPoint, setSelectedPetPoint] = useState(null);
     const classes = useStyles()
