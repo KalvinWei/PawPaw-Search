@@ -13,10 +13,11 @@ async function main(){
         });
         console.log('Connected to database!');
 
+        //TODO iterate the posts and generate a matrix to indicate the relevance
+        // between each other and populate top 5 relevant poss in 'matches'
         await Post.find().map(doc=>{
             console.log(doc._id)
         })
-
 
         await mongoose.disconnect();
         console.log('Disconnected from database!');

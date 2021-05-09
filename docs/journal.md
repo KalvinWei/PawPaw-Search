@@ -32,7 +32,7 @@ Main tasks: (1) key logics
 ## Week 4
 Main task: (1) Key logics (2) styling 
 
-- Dashboard API, logic - Kalvin, Charlie
+- Dashboard API, logic and styling - Kalvin, Charlie
 - Search API - Riffat 
 - Edit user profile - Kalvin 
 - Sort Posts by newest - Kalvin
@@ -41,12 +41,13 @@ Main task: (1) Key logics (2) styling
 - Carousel - Kalvin
 - Error Page - Kalvin
 - MapBox GeoCoding - Kalvin, Roy
+- Sign up styling, Login styling - Kalvin, Charlie
 ***
 
 ## Week 5
 Main task: (1) logics (2) refine styling
 
-- Complete DAO, API - Kalvin, Roy
+- Complete "watching", "TraceReporting", "Reunited" DAO, API - Kalvin, Roy
 - Watching posts - Kalvin, Roy
 - Change pet status to "Reunited" - Roy, Kalvin
 - Post Card UI - Kalvin
@@ -55,6 +56,7 @@ Main task: (1) logics (2) refine styling
 - Search Setting logic and UI - Riffat
 - Loading Page - Kalvin 
 - Show Vets on Map - Roy, Kalvin
+- Test and troubleshooting bugs - Charlie, Roy, Kalvin, Riffat
 ***
 
 ## Week 6
@@ -63,5 +65,5 @@ Main task: (1)fix bugs (2) finish off docs (3) testing (4) deployment
 - Troubleshooting - Kalvin, Roy, Charlie, Riffat
 - Fix bugs (details on Trello) - Kalvin, Roy
 - Complete Search Setting - Riffat 
-- Documentation - Roy
+- Documentation - Roy, Kalvin, Charlie
 ***
