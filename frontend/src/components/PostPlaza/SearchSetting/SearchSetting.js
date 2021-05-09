@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import Button from "@material-ui/core/Button";
-import {FormControl, FormHelperText, InputLabel, Paper, Select, Slider, TextField} from "@material-ui/core";
+import {FormControl, FormHelperText, InputLabel, Paper, Select, TextField} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 import {ToggleButton, ToggleButtonGroup} from "@material-ui/lab";
 import {
@@ -43,9 +43,6 @@ export default function SearchSetting({onSubmitSearch}) {
     },[])
 
     function submitSearch() {
-        if(settings.originLatLng.length === 0){
-            alert('Geolocation search will not run according to the radius due to a failure to get your current location.')
-        }
         onSubmitSearch(settings)
     }
 
@@ -92,11 +89,19 @@ export default function SearchSetting({onSubmitSearch}) {
                                 <option value='Poodle'>Poodle</option>
                                 <option value='Akita'>Akita</option>
                                 <option value='Golden Retriever'>Golden Retriever</option>
+                                <option value='Australian Shepherd'>Australian Shepherd</option>
+                                <option value='Boxer'>Boxer</option>
+                                <option value='Bulldog'>Bulldog</option>
+                                <option value='Other'>Other</option>
                             </optgroup>
                             <optgroup label="Cat">
                                 <option value='Cheetoh'>Cheetoh</option>
                                 <option value='Birman'>Birman</option>
                                 <option value='Bengal'>Bengal</option>
+                                <option value='Siamese'>Siamese</option>
+                                <option value='Persian'>Persian</option>
+                                <option value='Maine Coon'>Maine Coon</option>
+                                <option value='Other'>Other</option>
                             </optgroup>
                         </Select>
                     </FormControl>
@@ -170,7 +175,12 @@ export default function SearchSetting({onSubmitSearch}) {
                             <option value={5}>5KM</option>
                             <option value={10}>10KM</option>
                         </Select>
-                        <FormHelperText>This feature asks for your current location</FormHelperText>
+                        { settings.originLatLng.length===0 ?
+                            <FormHelperText style={{color:'red'}}>Please allow positioning on your browser, otherwise search on GL won't work. </FormHelperText>
+                            :
+                            <FormHelperText>Current coords: {settings.originLatLng[0].toFixed(3)},{settings.originLatLng[1].toFixed(3)}</FormHelperText>
+                        }
+
                     </FormControl>
                 </Grid>
                 <Grid item>
