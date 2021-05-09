@@ -32,8 +32,4 @@ images.post('/', upload.single('petImage'),(req,res)=>{
     res.contentType('text/plaintext').send(serverId)
 })
 
-images.delete('/', (req,res)=>{
-
-})
-
 export default images
