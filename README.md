@@ -8,7 +8,10 @@ Riffat Nourin
 ## Quick Start  
 We use MongoDB Atlas cloud database, so database setup is unnecessary.
 After running the following commands in terminal, the project will be hosted on **http://localhost:3000** in dev mode.  
-**Test account: username: roy, password: qqq** 
+**Test account:***  
+username: roy  
+password: qqq
+
 ```shell
 # install the dependencies for frontend
 cd frontend
