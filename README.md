@@ -6,7 +6,7 @@ Zhi Cui
 Riffat Nourin
 
 ## Quick Start
-After running the follwing lines in terminal, the project will be hosted on **http://localhost:3000** in dev mode.
+After running the following commands in terminal, the project will be hosted on **http://localhost:3000** in dev mode.
 ```shell
 # install the dependencies for frontend
 cd frontend
