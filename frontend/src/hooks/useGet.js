@@ -61,7 +61,7 @@ export default function useGet() {
 
     async function fetchMatchedPosts(postID, countPerPage, pageOffset) {
 
-        return await axios.get(`posts/${postID}/matches`, {
+        return await axios.get(`/posts/${postID}/matches`, {
             headers: {
                 postID: postID,
                 countPerPage: countPerPage,
@@ -137,7 +137,7 @@ export default function useGet() {
     }
 
     async function fetchPostById(postId){
-        return await axios.get(`${postId}`)
+        return await axios.get(`/posts/${postId}`)
             .then(res=>res.data)
             .catch(e=>console.log(e))
     }

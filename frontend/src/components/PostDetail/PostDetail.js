@@ -64,11 +64,8 @@ export default function PostDetail() {
         async function fetchPost(id){
             const result = await fetchPostById(id)
             if(result) {
-                console.log("here")
-                console.log(result)
                 setPost(result)
             }
-            console.log("else")
         }
         fetchPost(id)
     },[])
@@ -86,7 +83,7 @@ export default function PostDetail() {
             }
         }
         fetchMatches()
-    }, [offset])
+    }, [offset, post])
 
     function handlePageChange(e, pageIndex) {
         setOffset(pageIndex - 1)
@@ -242,11 +239,11 @@ export default function PostDetail() {
                     <Typography variant='h5' color={"textSecondary"}>
                         Matched Posts
                     </Typography>
-                    <Typography variant='subtitle2' color={"textSecondary"}>
+                    <Typography variant='subtitle2' color={"textSecondary"} style={{marginBottom:10}}>
                         We operate a cross-site analysis to couple relevant posts every hour<br/>
                         Posts are listed by relevance in descending order
                     </Typography>
-                    <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange}/>
+                    <Posts posts={matches} pageTotal={pageTotal} page={offset + 1} onPageChange={handlePageChange} />
                 </Grid>
             </Grid>
         </Grid>

@@ -90,7 +90,7 @@ async function getMatchedPostsFor(postId, countPerPage, pageOffset){
     pageOffset = parseInt(pageOffset)
     const post =
         await Post.findOne({_id:postId})
-            .populate('matches')
+            .populate({path:'matches',populate:'petType'})
     if(!post) return null
 
     const allWatches = post.matches

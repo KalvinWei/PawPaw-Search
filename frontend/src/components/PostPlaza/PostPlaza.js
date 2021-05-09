@@ -41,7 +41,9 @@ export default function PostPlaza() {
                         <PostsOnMap posts={posts} dimension={{width: '100%', height: '300px'}}/>
                     </Grid>
                     <Grid item style={{marginTop:20}}>
-                        <Typography variant='h5' gutterBottom color='textSecondary'>Posts On Search</Typography>
+                        {posts &&
+                            <Typography variant='h6' gutterBottom color='textSecondary'>{posts.length} MATCH {posts.length === 1 ? 'POST' : 'POSTS'}</Typography>
+                        }
                         <Posts posts={posts} page={pageOffset + 1} onPageChange={handlePageChange}
                                pageTotal={pageTotal}/>
                     </Grid>

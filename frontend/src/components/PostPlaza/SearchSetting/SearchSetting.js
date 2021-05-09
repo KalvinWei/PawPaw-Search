@@ -43,9 +43,6 @@ export default function SearchSetting({onSubmitSearch}) {
     },[])
 
     function submitSearch() {
-        if(settings.originLatLng.length === 0){
-            alert('Geolocation search will not run according to the radius due to a failure to get your current location.')
-        }
         onSubmitSearch(settings)
     }
 
@@ -179,7 +176,7 @@ export default function SearchSetting({onSubmitSearch}) {
                             <option value={10}>10KM</option>
                         </Select>
                         { settings.originLatLng.length===0 ?
-                            <FormHelperText style={{color:'red'}}>Fail to get your location, search on GL won't work. </FormHelperText>
+                            <FormHelperText style={{color:'red'}}>Please allow positioning on your browser, otherwise search on GL won't work. </FormHelperText>
                             :
                             <FormHelperText>Current coords: {settings.originLatLng[0].toFixed(3)},{settings.originLatLng[1].toFixed(3)}</FormHelperText>
                         }
