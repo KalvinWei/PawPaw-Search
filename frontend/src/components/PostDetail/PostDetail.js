@@ -21,14 +21,16 @@ const useStyle = makeStyles(theme => ({
             textAlign: 'right',
             paddingRight: 10,
             color: '#999',
+            width:150
         },
         '& tr > td:nth-child(2)': {
-            fontSize: 20,
-            color: '#555',
+            fontSize: 18,
+            color: '#666',
         },
         margin: 30,
         fontFamily: 'helvetica',
-        maxWidth: 400
+        maxWidth: 500,
+        verticalAlign:'top'
     },
     reporter: {
         position: 'absolute',
@@ -157,6 +159,13 @@ export default function PostDetail() {
                             <tr>
                                 <td>Post ID</td>
                                 <td>{post._id}</td>
+                            </tr>
+                            <tr>
+                                <td>Poster Contact</td>
+                                <td>
+                                    {post.poster.phone}<br/>
+                                    {post.poster.email}
+                                </td>
                             </tr>
                             <tr>
                                 <td>Post Time</td>

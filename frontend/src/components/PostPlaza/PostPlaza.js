@@ -38,7 +38,7 @@ export default function PostPlaza() {
                 </Grid>
                 <Grid item xs={12} sm  container direction='column' style={{flexGrow:1}}>
                     <Grid item >
-                        <PostsOnMap posts={posts} dimension={{width: '100%', height: '300px'}}/>
+                        <PostsOnMap posts={posts} dimension={{width: '96%', height: '300px'}}/>
                     </Grid>
                     <Grid item style={{marginTop:20}}>
                         {posts &&

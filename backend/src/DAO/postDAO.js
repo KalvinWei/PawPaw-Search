@@ -103,7 +103,9 @@ async function getMatchedPostsFor(postId, countPerPage, pageOffset){
 async function getPostById(id){
     const post =
         await Post.findOne({_id:id})
+            .populate('poster')
             .populate('petType')
+    post.poster = {email:post.poster.email, phone:post.poster.phone}
     return post
 }
 
