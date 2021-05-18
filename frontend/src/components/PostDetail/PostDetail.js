@@ -216,7 +216,7 @@ export default function PostDetail() {
                 </Grid>
                 <Grid item container className={classes.actionBox} justify='center' alignItems='center'>
                     <Grid item className={classes.watchButtonBox}>
-                        {(loginUser && loginUser._id === post.poster && post.status !== "Reunited") &&
+                        {(loginUser && loginUser._id === post.poster._id && post.status !== "Reunited") &&
                         <Button onClick={reportReunited}
                                 variant='contained'
                                 size='medium'
@@ -226,7 +226,7 @@ export default function PostDetail() {
                             Mark Reunited
                         </Button>
                         }
-                        {(loginUser && loginUser._id !== post.poster) &&
+                        {(loginUser && loginUser._id !== post.poster._id) &&
                         <FormControlLabel
                             control={<Checkbox icon={<FavoriteBorder/>} checkedIcon={<Favorite/>} name="checkedH"/>}
                             label="WATCH"
