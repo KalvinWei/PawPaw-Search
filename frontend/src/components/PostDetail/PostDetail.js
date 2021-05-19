@@ -120,11 +120,14 @@ export default function PostDetail() {
     }
 
     async function reportReunited(){
-        const result = await setReunited(post._id)
-        if(result){
-            setPost({...post, status:"Reunited"})
-        }else{
-            alert("Action failed due to some reason!")
+        const yes_no = window.confirm('WARNING! This action can NOT be reverted.\nAre you sure this animal has been back home?')
+        if(yes_no){
+            const result = await setReunited(post._id)
+            if(result){
+                setPost({...post, status:"Reunited"})
+            }else{
+                alert("Action failed due to some reason!")
+            }
         }
     }
 
